@@ -71,10 +71,10 @@ class DATABASE_CONFIG {
 	public $default = array(
 		'datasource' => 'Database/Postgres',
 		'persistent' => false,
-		'host' => '192.168.10.185',
+		'host' => 'localhost',
 		'login' => 'postgres',
-		'password' => 'post123',
-		'database' => 'postgres',
+		'password' => 'password',
+		'database' => 'global_sourcing',
 		'schema' => 'public',
 		'prefix' => '',
 		//'encoding' => 'utf8',

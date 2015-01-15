@@ -1,0 +1,9 @@
+2015-01-15 12:30:04 Error: [MissingControllerException] Controller class UsersController could not be found.
+Exception Attributes: array (
+  'class' => 'UsersController',
+  'plugin' => NULL,
+)
+Request URL: /users/login
+Stack Trace:
+#0 /home/mid/Documents/jobs/Pakgon/global_sourcing/app/webroot/index.php(118): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
