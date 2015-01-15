@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Application level Controller
  *
@@ -18,7 +19,6 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 App::uses('Controller', 'Controller');
 
 /**
@@ -33,9 +33,9 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 
 	public $components = array(
-	    'Session',
+		'Session',
 		'Paginator',
-	    'Auth' => array(
+		'Auth' => array(
 			'loginRedirect' => '/Users/index',
 			'logoutRedirect' => '/Users/login',
 			'authenticate' => array(
@@ -48,5 +48,9 @@ class AppController extends Controller {
 	);
 	
 	public $helpers = array('Form' => array('className' => 'Bs3Helpers.Bs3Form'));
-	
+
+	public function isAuthorized($user) {
+		return true;
+	}
+
 }
