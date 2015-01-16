@@ -1,27 +1,33 @@
-<div class="users index">
-
-	<div class="row">
+<div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header"><?php echo __('Search Users'); ?></h1>
+		<div class = 'users search'>
+     <?php echo $this->Form->create('User');?>
+   <?php  echo $this->Form->input('user_group_id',array('options'=>$drop,'empty'=>'All'));?>
+			<!--<?php  echo $this->Form->select('id',$drop,array('style'=>'color:#00f;', 'empty'=> false,));?>-->
+    <?php echo $this->Form->input('name');?>
+    <?php echo $this->Form->input('username');?>
+    <?php echo $this->Form->button('search',array('class'=>'btn btn-default'));?>
+	<?php echo $this->Form->button('reset',array('type'=>'reset','class'=>'btn btn-default'));?>
+		</div>
 	</div>
-	</div>
+</div>
+
+<div class="users index">
+<?php echo $this->Form->create('User',array('action'=>'multiSelect'))?>
 
     <h2><?php echo __('Users'); ?></h2>
-	
-	<?php echo $this->Form->create('User',array('action'=>'multiSelect'))?>
+
+
 	<div class="btn-group pull-right" role="group" aria-label="...">
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', array('escape'=>false, 'title'=>__('Add'), 'class'=>'btn btn-default')); ?>
+		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>',array('onclick'=>"window.location.href='../users/add'",'type'=>'button','escape'=>false, 'title'=>__('Add'), 'class'=>'btn btn-default')); ?>
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'class'=>'btn btn-default')); ?>   
 	</div>
 
     <table class="table table-hover">
-        <thead>
-			
-			
-
-			      
+        <thead>      
             <tr>
-               <th width="50"><?php echo $this->Form->checkbox('check_all',array('id'=> 'chkCheckAll')); ?></th>
+				<th width="50"><?php echo $this->Form->checkbox('check_all',array('id'=> 'chkCheckAll')); ?></th>
                 <th width="50"><?php echo $this->Paginator->sort('id'); ?></th>
                 <th><?php echo $this->Paginator->sort('user_group_id'); ?></th>
                 <th><?php echo $this->Paginator->sort('user_name'); ?></th>
@@ -31,8 +37,6 @@
         </thead>
         <tbody>
 	<?php foreach ($users as $user): ?>
-
-            
             <tr>
                 <td><?php echo $this->Form->checkbox('User.id.'. $user['User']['id'],array('value'=> $user['User']['id'])); ?></td>
                 <td><?php echo h($user['User']['id']); ?>&nbsp;</td>
@@ -52,7 +56,7 @@
         </tbody>
     </table>
 	<?php echo $this->Form->end(); ?>
-	
+
     <p>
 	<?php
 	echo $this->Paginator->counter(array(
@@ -69,7 +73,7 @@
 </div>
 
 <script type="text/javascript">
-    $("#chkCheckAll").click(function () {
-        $('input:checkbox').not(this).prop('checked', this.checked);
-    });
+	$("#chkCheckAll").click(function () {
+		$('input:checkbox').not(this).prop('checked', this.checked);
+	});
 </script>    

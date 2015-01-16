@@ -17,14 +17,39 @@ class UsersController extends AppController {
      *
      * @return void
      */
+	public $uses = array('User', 'UserGroup');
+
     public function beforeFilter() {
-        $this->Auth->allow('login', 'logout', 'index', 'add', 'edit');
+        $this->Auth->allow('login', 'logout');
         parent::beforeFilter();
     }
 
     public function index() {
 
         $this->User->recursive = 0;
+		$drop = $this->UserGroup->find('list', array('fields' => array('id', 'user_group_name')));
+        $this->set('drop', $drop);
+        
+         
+        
+            $data = $this->request->data;
+
+            $settings = array('User' => array(
+                'conditions' => array(),
+                'order' => array('User.id'=>'asc')
+            ));
+
+                $settings['User']['conditions'][] = array('and' => array());
+				if (!empty($data['User']['user_group_id'])) {
+					$settings['User']['conditions']['and']['lower(User.user_group_id) like'] = '%'. strtolower($data['User']['user_group_id']).'%';
+				}
+				if (!empty($data['User']['user_name'])) {
+                $settings['User']['conditions']['and']['lower(User.user_name) like'] = '%'.strtolower($data['User']['user_name']).'%';
+				}
+				if (!empty($data['User']['username'])) {
+				$settings['User']['conditions']['and']['lower(User.username) like'] = '%'.strtolower($data['User']['username']).'%';
+				}
+        $this->Paginator->settings = $settings;
         $this->set('users', $this->Paginator->paginate());
 //                $userGroups = $this->User->UserGroup->find('list',array(
 //                    'fields'=>array(
@@ -171,4 +196,93 @@ class UsersController extends AppController {
             return $this->redirect(array('action' => 'index'));
         }
     }
+	
+	public function search() {
+		$this->User->recursive = 0;
+		$drop = $this->UserGroup->find('list', array('fields' => array('id', 'user_group_name')));
+		$this->set('drop', $drop);
+
+
+
+		$data = $this->request->data;
+
+		$settings = array('User' => array(
+				'conditions' => array(),
+				'order' => array('User.id' => 'asc')
+		));
+
+		$settings['User']['conditions'][] = array('and' => array());
+		$settings['User']['conditions']['and']['lower(User.user_group_id) like'] = '%' . strtolower($data['User']['User_Group_id']) . '%';
+		$settings['User']['conditions']['and']['lower(User.user_name) like'] = '%' . strtolower($data['User']['Name']) . '%';
+		$settings['User']['conditions']['and']['lower(User.username) like'] = '%' . strtolower($data['User']['UserName']) . '%';
+
+		$this->Paginator->settings = $settings;
+		$this->set('users', $this->Paginator->paginate());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  if ($this->request->is('post')) {
+//            $users = $this->request->data['User']['User_Group_id'];
+//        } else {
+//            $users = '';
+//        }
+//        $settings = array(
+//            'User' => array(
+//                'conditions' => array(
+//                    'user_group_id like ' => '%' . $users . '%'
+//                ),
+//        ));
+//        $this->Paginator->settings = $settings;
+//        $this->set('users', $this->Paginator->paginate());
+//
+//        if ($this->request->is('post')) {
+//            $users = $this->request->data['User']['Name'];
+//        } else {
+//            $users = '';
+//        }
+//        $settings = array(
+//            'User' => array(
+//                'conditions' => array(
+//                    'user_name like' => '%' . $users . '%'
+//                ),
+//        ));
+//        $this->Paginator->settings = $settings;
+//        $this->set('users', $this->Paginator->paginate());
+//         
+//             if ($this->request->is('post')) {
+//            $users= $this->request->data['User']['UserName'];
+//        } else {
+//            $users = '';
+//        }
+//
+//        $settings = array(
+//            'User' => array(
+//                'conditions' => array(
+//                    'username like' => '%' . $users . '%'
+//                ),
+//        ));
+//        
+//         $this->Paginator->settings = $settings;
+//         $this->set('users', $this->Paginator->paginate());
+	}
+	
 }

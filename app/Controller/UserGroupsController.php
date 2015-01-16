@@ -27,6 +27,15 @@ class UserGroupsController extends AppController {
  */
 	public function index() {
 		$this->UserGroup->recursive = 0;
+		$data = $this->request->data;
+		$settings = array('UserGroup' => array(
+				'conditions' => array(),
+				'order' => array('UserGroup.id' => 'asc')
+		));
+		if (!empty($data['UserGroup']['user_group_name'])) {
+			$settings['UserGroup']['conditions']['lower(UserGroup.user_group_name) like'] = '%'. strtolower($data['UserGroup']['user_group_name']).'%';
+		}
+		$this->Paginator->settings = $settings;
 		$this->set('userGroups', $this->Paginator->paginate());
 	}
 
@@ -53,9 +62,9 @@ class UserGroupsController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 
-                        $currentUser = $this->Session->read('Auth.User');
+			$currentUser = $this->Session->read('Auth.User');
 			$this->UserGroup->create();
-                        $this->request->data['UserGroup']['created_by'] = $currentUser['username'];
+			$this->request->data['UserGroup']['created_by'] = $currentUser['username'];
 			if ($this->UserGroup->save($this->request->data)) {
 				$this->Session->setFlash(__('The user group has been saved.'));
 				return $this->redirect(array('action' => 'index'));
@@ -63,14 +72,12 @@ class UserGroupsController extends AppController {
 				$this->Session->setFlash(__('The user group could not be saved. Please, try again.'));
 			}
 		}
-                
-                $countUserGroup = $this->UserGroup->find('first',array('order' => array ('UserGroup.id' => 'DESC'), 'fields' => array('id')));
-                $idgroup = (int) $countUserGroup['UserGroup']['id'];
-                $idgroup += 1;
-                $idgroup = substr('00' . $idgroup, -2, 2);
-                $this->request->data['UserGroup']['id'] = $idgroup;
-         
-                
+
+		$countUserGroup = $this->UserGroup->find('first', array('order' => array('UserGroup.id' => 'DESC'), 'fields' => array('id')));
+		$idgroup = (int) $countUserGroup['UserGroup']['id'];
+		$idgroup += 1;
+		$idgroup = substr('00' . $idgroup, -2, 2);
+		$this->request->data['UserGroup']['id'] = $idgroup;
 	}
 
 /**
@@ -85,8 +92,8 @@ class UserGroupsController extends AppController {
 			throw new NotFoundException(__('Invalid user group'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-                     $currentUser = $this->Session->read('Auth.User');
-                        $this->request->data['UserGroup']['modified_by'] = $currentUser['username'];
+			$currentUser = $this->Session->read('Auth.User');
+			$this->request->data['UserGroup']['modified_by'] = $currentUser['username'];
 			if ($this->UserGroup->save($this->request->data)) {
 				$this->Session->setFlash(__('The user group has been saved.'));
 				return $this->redirect(array('action' => 'index'));
@@ -119,29 +126,27 @@ class UserGroupsController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
-        
-    public function isAuthorized($user)
-    {
-       $currentUser = $this->Session->read('Auth.User');
-       if ($currentUser['UserGroup']['m003'] == 'Y') {
-        return true;
-       } else {
-           return false;
-       }
-   }
-   
-   public function multiSelect() {
-        if ($this->request->is(array('post', 'put'))) {
-            $productIds = array();
 
-            foreach ($this->request->data['Product']['id'] as $id) {
-                $productIds[] = $id;
+	public function isAuthorized($user) {
+		$currentUser = $this->Session->read('Auth.User');
+		if ($currentUser['UserGroup']['m003'] == 'Y') {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	  public function multiSelect() {
+        if ($this->request->is(array('post', 'put'))) {
+            $usergroupIds = array();
+
+            foreach ($this->request->data['UserGroup']['id'] as $id) {
+                $usergroupIds[] = $id;
             }
-            $this->Product->deleteAll(array('id' => $productIds), false);
-            $this->Session->setFlash(__('The product has been deleted.'));
+            $this->User->deleteAll(array('id' => $usergroupIds), false);
+            $this->Session->setFlash(__('The UserGroup has been deleted.'));
             return $this->redirect(array('action' => 'index'));
         }
     }
-
 
 }

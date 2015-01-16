@@ -37,22 +37,25 @@
 							<a href="#"><i class="fa fa-wrench fa-fw"></i> Data Management<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li>
-									<a href="panels-wells.html">Panels and Wells</a>
+									<a href="/Divisions/index">Division</a>
 								</li>
 								<li>
-									<a href="buttons.html">Buttons</a>
+									<a href="/Departments/index">Department</a>
 								</li>
 								<li>
-									<a href="notifications.html">Notifications</a>
+									<a href="/Klasses/index">Class</a>
 								</li>
 								<li>
-									<a href="typography.html">Typography</a>
+									<a href="/SubKlasses/index">Sub Class</a>
 								</li>
 								<li>
-									<a href="icons.html"> Icons</a>
+									<a href="/Currencies/index">Currency</a>
 								</li>
 								<li>
-									<a href="grid.html">Grid</a>
+									<a href="/Units/index">Unit</a>
+								</li>
+                                                                <li>
+									<a href="/SupplierTypes/index">Supplier Type</a>
 								</li>
 							</ul>
 							<!-- /.nav-second-level -->
