@@ -5,10 +5,10 @@
      <?php echo $this->Form->create('User');?>
    <?php  echo $this->Form->input('user_group_id',array('options'=>$drop,'empty'=>'All'));?>
 			<!--<?php  echo $this->Form->select('id',$drop,array('style'=>'color:#00f;', 'empty'=> false,));?>-->
-    <?php echo $this->Form->input('name');?>
+    <?php echo $this->Form->input('user_name');?>
     <?php echo $this->Form->input('username');?>
-    <?php echo $this->Form->button('search',array('class'=>'btn btn-default'));?>
-	<?php echo $this->Form->button('reset',array('type'=>'reset','class'=>'btn btn-default'));?>
+    <?php echo $this->Form->button(__('Search'),array('class'=>'btn btn-primary btn-form'));?>
+	<?php echo $this->Form->button(__('Reset'),array('type'=>'reset','class'=>'btn btn-default btn-form'));?>
 		</div>
 	</div>
 </div>

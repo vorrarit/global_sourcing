@@ -14,7 +14,7 @@
 		echo $this->Form->input('password');
 	?>
 	</fieldset>
-<?php echo $this->Form->button(__('Submit'), array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+<?php echo $this->Form->button(__('Submit'), array('type'=>'submit', 'class'=>'btn btn-primary btn-block')); ?>
 <?php echo $this->Form->end(); ?>
 </div>
 						

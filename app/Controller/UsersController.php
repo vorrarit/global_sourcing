@@ -116,10 +116,10 @@ class UsersController extends AppController {
             if ($this->User->save($this->request->data)) {
                 $currentUser = $this->Session->read('Auth.User');
                 $this->request->data['Users']['created_by'] = $currentUser['username'];
-                $this->Session->setFlash(__('The user has been saved.'));
+                $this->Session->setFlash(__('The user has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         }
 

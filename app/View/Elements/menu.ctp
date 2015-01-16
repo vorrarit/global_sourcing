@@ -16,7 +16,7 @@
 						if ($currentUser['UserGroup']['m001'] == 'Y') {
 						?>
 						<li>
-							<a href="index.html"><i class="fa fa-dashboard fa-fw"></i>Search Products</a>
+							<a href="/Products/index"><i class="fa fa-dashboard fa-fw"></i>Search Products</a>
 						</li>
 						<?php
 						}
@@ -25,10 +25,7 @@
 							<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Product Register<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li>
-									<a href="flot.html">Flot Charts</a>
-								</li>
-								<li>
-									<a href="morris.html">Morris.js Charts</a>
+									<a href="/Products/xedni">Products</a>
 								</li>
 							</ul>
 							<!-- /.nav-second-level -->
@@ -63,51 +60,16 @@
                                 <li>
 									<a href="/Manufacturers/index">Manufacturer</a>
 								</li>
-							</ul>
-							<!-- /.nav-second-level -->
-						</li>
-						<li>
-							<a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li>
-									<a href="#">Second Level Item</a>
+                                <li>
+									<a href="/Users/index">User</a>
 								</li>
-								<li>
-									<a href="#">Second Level Item</a>
-								</li>
-								<li>
-									<a href="#">Third Level <span class="fa arrow"></span></a>
-									<ul class="nav nav-third-level">
-										<li>
-											<a href="#">Third Level Item</a>
-										</li>
-										<li>
-											<a href="#">Third Level Item</a>
-										</li>
-										<li>
-											<a href="#">Third Level Item</a>
-										</li>
-										<li>
-											<a href="#">Third Level Item</a>
-										</li>
-									</ul>
-									<!-- /.nav-third-level -->
+                                <li>
+									<a href="/UserGroups/index">User Group</a>
 								</li>
 							</ul>
 							<!-- /.nav-second-level -->
 						</li>
-						<li>
-							<a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li>
-									<a href="blank.html">Blank Page</a>
-								</li>
-								<li>
-									<a href="login.html">Login Page</a>
-								</li>
-							</ul>
-							<!-- /.nav-second-level -->
-						</li>
+
 					</ul>
 				</div>
 				<!-- /.sidebar-collapse -->
