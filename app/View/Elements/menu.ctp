@@ -54,8 +54,14 @@
 								<li>
 									<a href="/Units/index">Unit</a>
 								</li>
-                                                                <li>
+                                <li>
 									<a href="/SupplierTypes/index">Supplier Type</a>
+								</li>
+                                <li>
+									<a href="/Suppliers/index">Supplier</a>
+								</li>
+                                <li>
+									<a href="/Manufacturers/index">Manufacturer</a>
 								</li>
 							</ul>
 							<!-- /.nav-second-level -->
