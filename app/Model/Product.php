@@ -122,5 +122,67 @@ class Product extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+	
+	public $validate = array(
+		'division_id' => array(
+			'on' => 'create',
+			'rule' => 'notEmpty',
+			'required' => true,
+			'allowEmpty' => false
+		),
+		'department_id' => array(
+			'on' => 'create',
+			'rule' => 'notEmpty',
+			'required' => true,
+			'allowEmpty' => false
+		),
+		'klass_id' => array(
+			'on' => 'create',
+			'rule' => 'notEmpty',
+			'required' => true,
+			'allowEmpty' => false
+		),
+		'sub_klass_id' => array(
+			'on' => 'create',
+			'rule' => 'notEmpty',
+			'required' => true,
+			'allowEmpty' => false
+		),
+		'product_name' => array(
+			'rule' => 'notEmpty',
+			'required' => true,
+			'allowEmpty' => false
+		),
+		'product_sku_no' => array(
+			'rule' => 'notEmpty',
+			'required' => true,
+			'allowEmpty' => false
+		),
+		'product_description_th' => array(
+			'rule' => 'notEmpty',
+			'required' => true,
+			'allowEmpty' => false
+		),
+		'product_description_eng' => array(
+			'rule' => 'notEmpty',
+			'required' => true,
+			'allowEmpty' => false
+		),
+		'product_short_description_th' => array(
+			'rule' => 'notEmpty',
+			'required' => true,
+			'allowEmpty' => false
+		),
+		'product_short_description_eng' => array(
+			'rule' => 'notEmpty',
+			'required' => true,
+			'allowEmpty' => false
+		),
+		'retail_price' => array(
+			'rule' => 'numeric',
+			'required' => true,
+			'allowEmpty' => false
+		)
+	);
 
 }

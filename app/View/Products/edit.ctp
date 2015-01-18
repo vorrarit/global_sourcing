@@ -106,11 +106,11 @@
     function saveDraftClick()
     {
         $('#prst').val('DRAFT');
-        $('.ProductAddForm').submit();
+        $('#ProductEditForm').submit();
     }
 	
 	function saveCompleteClick() {
         $('#prst').val('SAVE');
-        $('.ProductAddForm').submit();		
+        $('#ProductEditForm').submit();		
 	}
 </script>
