@@ -77,12 +77,15 @@ class UnitsController extends AppController {
         $this->request->data['Unit']['id'] = $int;
 
         if ($this->request->is('post')) {
+            $currentUser = $this->Session->read('Auth.User');
             $this->Unit->create();
+            $this->request->data['Unit']['created_by'] = $currentUser['username'];
+            $this->request->data['Unit']['modified_by'] = $currentUser['username'];
             if ($this->Unit->save($this->request->data)) {
-                $this->Session->setFlash(__('The unit has been saved.'));
+                $this->Session->setFlash(__('The unit has been saved.','default',array('class'=>'alert alert-success')));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The unit could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The unit could not be saved. Please, try again.','default',array('class'=>'alert alert-danger')));
             }
         }
     }
@@ -99,11 +102,13 @@ class UnitsController extends AppController {
             throw new NotFoundException(__('Invalid unit'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            $currentUser = $this->Session->read('Auth.User');
+            $this->request->data['Unit']['modified_by'] = $currentUser['username'];
             if ($this->Unit->save($this->request->data)) {
-                $this->Session->setFlash(__('The unit has been saved.'));
+                $this->Session->setFlash(__('The unit has been saved.','default',array('class'=>'alert alert-success')));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The unit could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The unit could not be saved. Please, try again.','default',array('class'=>'alert alert-danger')));
             }
         } else {
             $options = array('conditions' => array('Unit.' . $this->Unit->primaryKey => $id));
@@ -125,9 +130,9 @@ class UnitsController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->Unit->delete()) {
-            $this->Session->setFlash(__('The unit has been deleted.'));
+            $this->Session->setFlash(__('The unit has been deleted.','default',array('class'=>'alert alert-success')));
         } else {
-            $this->Session->setFlash(__('The unit could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The unit could not be deleted. Please, try again.','default',array('class'=>'alert alert-danger')));
         }
         return $this->redirect(array('action' => 'index'));
     }

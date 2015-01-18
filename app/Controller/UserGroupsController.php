@@ -66,7 +66,7 @@ class UserGroupsController extends AppController {
 			$this->UserGroup->create();
 			$this->request->data['UserGroup']['created_by'] = $currentUser['username'];
 			if ($this->UserGroup->save($this->request->data)) {
-				$this->Session->setFlash(__('The user group has been saved.'));
+				$this->Session->setFlash(__('The user group has been saved.'), 'default', array('class' => 'alert alert-success'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The user group could not be saved. Please, try again.'));
@@ -89,7 +89,7 @@ class UserGroupsController extends AppController {
  */
 	public function edit($id = null) {
 		if (!$this->UserGroup->exists($id)) {
-			throw new NotFoundException(__('Invalid user group'));
+			throw new NotFoundException(__('Invalid user group'), 'default', array('class' => 'alert alert-danger'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			$currentUser = $this->Session->read('Auth.User');

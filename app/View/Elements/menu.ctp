@@ -3,9 +3,9 @@
 					<ul class="nav" id="side-menu">
 						<li class="sidebar-search">
 							<div class="input-group custom-search-form">
-								<input type="text" class="form-control" placeholder="Search...">
+								<input type="text" class="form-control" placeholder="Search..." id="txtSidebarSearch">
 								<span class="input-group-btn">
-									<button class="btn btn-default" type="button">
+									<button class="btn btn-default" type="button" id="btnSidebarSearch">
 										<i class="fa fa-search"></i>
 									</button>
 								</span>
@@ -21,6 +21,9 @@
 						<?php
 						}
 						?>
+						<?php $currentUser = $this->Session->read('Auth.User');
+						if ($currentUser['UserGroup']['m002'] == 'Y') {
+						?>
 						<li>
 							<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Product Register<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
@@ -30,6 +33,12 @@
 							</ul>
 							<!-- /.nav-second-level -->
 						</li>
+						<?php
+						}
+						?>
+						<?php
+						if ($currentUser['UserGroup']['m003'] == 'Y') {
+						?>
 						<li>
 							<a href="#"><i class="fa fa-wrench fa-fw"></i> Data Management<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
@@ -69,8 +78,20 @@
 							</ul>
 							<!-- /.nav-second-level -->
 						</li>
-
+						<?php
+						}
+						?>
 					</ul>
 				</div>
 				<!-- /.sidebar-collapse -->
 			</div>
+
+
+
+<script type="text/javascript">
+$("#btnSidebarSearch").click(function() {
+	document.frmProductSearch.elements["data[Product][text_search]"].value = $("#txtSidebarSearch").val();
+	document.frmProductSearch.action = "/Products/index";
+	document.frmProductSearch.submit();
+});
+</script>

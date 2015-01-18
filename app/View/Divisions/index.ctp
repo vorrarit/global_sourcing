@@ -8,8 +8,8 @@
     <fieldset>
 	<?php echo $this->Form->input('text_search'); ?>
     </fieldset>
-    <?php echo $this->Form->button(__('Search'),array('type'=>'submit')); ?>
-    <?php echo $this->Form->button(__('Clear'),array('type'=>'reset')); ?>
+    <?php echo $this->Form->button(__('Search'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>
+    <?php echo $this->Form->button(__('Cancel'),array('type'=>'reset','class'=>'btn btn-primary btn-form')); ?>
     <?php echo $this->Form->end(); ?>
 </div>
 
@@ -17,18 +17,19 @@
 
      <?php echo $this->Form->create('Division',array('action'=>'multiSelect'))?>
 
-    <h2><?php echo __('Divisions'); ?></h2>
-
     <div class="btn-group pull-right" role="group" aria-label="...">
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', array('escape'=>false, 'title'=>__('Add'),'onclick'=>'doSomething()','class'=>'btn btn-default')); ?>
+		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', array('onclick'=>"window.location.href='../Divisions/add'",'type'=>'button','escape'=>false, 'title'=>__('Add'),'class'=>'btn btn-default')); ?>
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit','escape'=>false, 'class'=>'btn btn-default')); ?>   
     </div>
-    
+
+    <h2><?php echo __('Divisions'); ?></h2>
+
+
     <table class="table table-hover">
         <thead>
             <tr>
                 <th width="70"><?php echo $this->Form->checkbox('check_all',array('id'=> 'chkCheckAll')); ?></th>
-                <th width="100"><?php echo $this->Paginator->sort('id'); ?></th>
+                <th><?php echo $this->Paginator->sort('id','Division ID'); ?></th>
                 <th><?php echo $this->Paginator->sort('division_name'); ?></th>
                 <th class="actions" width="100"><?php echo __('Actions'); ?></th>
             </tr>
@@ -60,12 +61,9 @@
 		echo $this->Paginator->numbers(array('tag'=>'li', 'separator' => '', 'currentTag'=>'a', 'currentClass'=>'active'));
 		echo $this->Paginator->next(__('next') . ' >', array('tag' => 'li'), null, array('tag' => 'li', 'disabledTag' => 'a', 'class' => 'next disabled'));
 	?>
-	</div>
-<script type="text/javascript">
-    function doSomething() {
-        window.open("/Divisions/add");
-    }
-    $("#chkCheckAll").click(function () {
-        $('input:checkbox').not(this).prop('checked', this.checked);
-    });
-</script>
+    </div>
+    <script type="text/javascript">
+         $("#chkCheckAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+    </script>

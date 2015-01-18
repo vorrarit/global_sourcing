@@ -27,6 +27,20 @@ class SubKlassesController extends AppController {
      */
     public function index() {
         $this->SubKlass->recursive = 0;
+        $divisions = $this->Division->find('list', array(
+            'fields' => array
+                (
+                'Division.id',
+                'Division.division_name',
+            )
+        ));
+        $departments = $this->Department->find('list', array(
+            'fields' => array
+                (
+                'Department.id',
+                'Department.department_name',
+            )
+        ));
         $klasses = $this->Klass->find('list', array(
             'fields' => array
                 (
@@ -35,7 +49,7 @@ class SubKlassesController extends AppController {
             )
         ));
         //pr($klasses); die();
-        $this->set(compact('klasses'));
+        $this->set(compact('divisions', 'departments', 'klasses'));
         //pr($klasses); die();
         $condition = array();
         if (!empty($this->request->data)) {
@@ -85,20 +99,16 @@ class SubKlassesController extends AppController {
      * @return void
      */
     public function add() {
-//        $sksId = $this->SubKlass->find('first', array('order' => array('SubKlass.id' => 'DESC'), 'fields' => array('id')));
-//        $int = empty($sksId['SubKlass']['id']) ? null : (int) $sksId['SubKlass']['id'];
-//
-//        $int+=1;
-//        $int = substr('0000000000' . $int, -10, 10);
-//        $this->request->data['SubKlass']['id'] = $int;
-
         if ($this->request->is('post')) {
+            $currentUser = $this->Session->read('Auth.User');
             $this->SubKlass->create();
+            $this->request->data['SubKlass']['created_by'] = $currentUser['username'];
+            $this->request->data['SubKlass']['modified_by'] = $currentUser['username'];
             if ($this->SubKlass->save($this->request->data)) {
-                $this->Session->setFlash(__('The sub klass has been saved.'));
+                $this->Session->setFlash(__('The sub klass has been saved.', 'default', array('class' => 'alert alert-success')));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The sub klass could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The sub klass could not be saved. Please, try again.', 'default', array('class' => 'alert alert-danger')));
             }
         }
         $divisions = $this->Division->find('list', array(
@@ -166,19 +176,40 @@ class SubKlassesController extends AppController {
             throw new NotFoundException(__('Invalid sub klass'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            $currentUser = $this->Session->read('Auth.User');
+            $this->request->data['SubKlass']['modified_by'] = $currentUser['username'];
             if ($this->SubKlass->save($this->request->data)) {
-                $this->Session->setFlash(__('The sub klass has been saved.'));
+                $this->Session->setFlash(__('The sub klass has been saved.', 'default', array('class' => 'alert alert-success')));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The sub klass could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The sub klass could not be saved. Please, try again.', 'default', array('class' => 'alert alert-danger')));
             }
         } else {
             $options = array('conditions' => array('SubKlass.' . $this->SubKlass->primaryKey => $id));
             $this->request->data = $this->SubKlass->find('first', $options);
         }
-        $divisions = $this->SubKlass->Division->find('list');
-        $departments = $this->SubKlass->Department->find('list');
-        $klasses = $this->SubKlass->Klass->find('list');
+        $divisions = $this->Division->find('list', array(
+            'fields' => array
+                (
+                'Division.id',
+                'Division.division_name',
+            )
+        ));
+        $departments = $this->Department->find('list', array(
+            'fields' => array
+                (
+                'Department.id',
+                'Department.department_name',
+            )
+        ));
+        $klasses = $this->Klass->find('list', array(
+            'fields' => array
+                (
+                'Klass.id',
+                'Klass.klass_name',
+            )
+        ));
+        //pr($klasses); die();
         $this->set(compact('divisions', 'departments', 'klasses'));
     }
 
@@ -196,9 +227,9 @@ class SubKlassesController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->SubKlass->delete()) {
-            $this->Session->setFlash(__('The sub klass has been deleted.'));
+            $this->Session->setFlash(__('The sub klass has been deleted.', 'default', array('class' => 'alert alert-success')));
         } else {
-            $this->Session->setFlash(__('The sub klass could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The sub klass could not be deleted. Please, try again.', 'default', array('class' => 'alert alert-danger')));
         }
         return $this->redirect(array('action' => 'index'));
     }

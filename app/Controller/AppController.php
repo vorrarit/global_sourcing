@@ -36,7 +36,7 @@ class AppController extends Controller {
 		'Session',
 		'Paginator',
 		'Auth' => array(
-			'loginRedirect' => '/Users/index',
+			'loginRedirect' => '/Products/index',
 			'logoutRedirect' => '/Users/login',
 			'authenticate' => array(
 				'Form' => array(

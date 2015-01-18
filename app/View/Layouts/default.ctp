@@ -13,7 +13,7 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
+$cakeDescription = __d('cake_dev', 'HP Data Collector : Global Sourcing Module');
 $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 ?>
 <!DOCTYPE html>
@@ -32,6 +32,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	echo $this->Html->css('metisMenu.min');
 	echo $this->Html->css('sb-admin-2');
 	echo $this->Html->css('font-awesome.min');
+	echo $this->Html->css('bootstrap-fileupload');
 
 	echo $this->Html->script('jquery-2.1.1.min');
 	echo $this->Html->script('bootstrap.min');
@@ -56,11 +57,12 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+				<a class="navbar-brand" href="index.html">HP Data Collector : Global Sourcing Module</a>
 			</div>
 			<!-- /.navbar-header -->
 
 			<ul class="nav navbar-top-links navbar-right">
+				<!--
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						<i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -109,9 +111,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 							</a>
 						</li>
 					</ul>
-					<!-- /.dropdown-messages -->
 				</li>
+				-->
+				
 				<!-- /.dropdown -->
+				<!--
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						<i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -188,9 +192,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 							</a>
 						</li>
 					</ul>
-					<!-- /.dropdown-tasks -->
 				</li>
+				-->
+				
 				<!-- /.dropdown -->
+				<!--
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						<i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -248,11 +254,18 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 							</a>
 						</li>
 					</ul>
-					<!-- /.dropdown-alerts -->
 				</li>
+				-->
+				
 				<!-- /.dropdown -->
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						<?php
+							$currentUser = $this->Session->read('Auth.User');
+							if (!empty($currentUser)) {
+								echo $currentUser['user_name'];
+							}
+						?>
 						<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
 					</a>
 					<ul class="dropdown-menu dropdown-user">
@@ -276,14 +289,22 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		</nav>
 
 		<div id='page-wrapper'>
+			<div class="container-fluid">
 
 				<?php echo $this->Session->flash(); ?>
 				<?php echo $this->fetch('content'); ?>
-				<?php echo $this->element('sql_dump'); ?>
-
+				
+				<div class="row">
+					<a href="javascript:void(null)" onclick="$('.cake-sql-log').toggle()">...</a>
+					<?php echo $this->element('sql_dump'); ?>
+				</div>
+				
+			</div>
 		</div>
 	</div>
 
-
+	<form name="frmProductSearch" method="post">
+		<input type="hidden" name="data[Product][text_search]" value="">
+	</form>
 </body>
 </html>

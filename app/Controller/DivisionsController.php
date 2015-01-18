@@ -79,12 +79,16 @@ class DivisionsController extends AppController {
 
         if (!empty($this->request->data['Division']['division_name'])) {
             if ($this->request->is('post')) {
+                $currentUser = $this->Session->read('Auth.User');
                 $this->Division->create();
+                $this->request->data['Division']['created_by'] = $currentUser['username'];
+                $this->request->data['Division']['modified_by'] = $currentUser['username'];
+
                 if ($this->Division->save($this->request->data)) {
-                    $this->Session->setFlash(__('The division has been saved.'));
+                    $this->Session->setFlash(__('The division has been saved.'), 'default', array('class' => 'alert alert-success'));
                     return $this->redirect(array('action' => 'index'));
                 } else {
-                    $this->Session->setFlash(__('The division could not be saved. Please, try again.'));
+                    $this->Session->setFlash(__('The division could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
                 }
             }
         }
@@ -102,11 +106,13 @@ class DivisionsController extends AppController {
             throw new NotFoundException(__('Invalid division'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            $currentUser = $this->Session->read('Auth.User');
+            $this->request->data['Division']['modified_by'] = $currentUser['username'];
             if ($this->Division->save($this->request->data)) {
-                $this->Session->setFlash(__('The division has been saved.'));
+                $this->Session->setFlash(__('The division has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The division could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The division could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         } else {
             $options = array('conditions' => array('Division.' . $this->Division->primaryKey => $id));
@@ -128,9 +134,9 @@ class DivisionsController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->Division->delete()) {
-            $this->Session->setFlash(__('The division has been deleted.'));
+            $this->Session->setFlash(__('The division has been deleted.'), 'default', array('class' => 'alert alert-success'));
         } else {
-            $this->Session->setFlash(__('The division could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The division could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
         }
         return $this->redirect(array('action' => 'index'));
     }
@@ -143,7 +149,7 @@ class DivisionsController extends AppController {
                 $divisionIds[] = $id;
             }
             $this->Division->deleteAll(array('id' => $divisionIds), false);
-            $this->Session->setFlash(__('The product has been deleted.'));
+            $this->Session->setFlash(__('The division(s) has been deleted.'), 'default', array('class' => 'alert alert-success'));
             return $this->redirect(array('action' => 'index'));
         }
     }

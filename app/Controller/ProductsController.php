@@ -38,10 +38,10 @@ class ProductsController extends AppController {
 //        $this->Product->find->('all',array('conditions'=>array($photo_id=>$paginator)));
       
         
-        pr($this->Paginator->paginate());
+
         if (!empty($this->request->data)) {
             $data = $this->request->data;
-            pr($data);
+
             $settings = array('Product' => array(
                     'conditions' => array(),
                     'order' => array('Product.id' => 'asc')
@@ -94,7 +94,7 @@ class ProductsController extends AppController {
                 $settings['Product']['conditions']['and']['Product.retail_price <='] = $data['Product']['max_price'];
             } elseif (!empty($data['Product']['min_price'])) {
                 $settings['Product']['conditions']['Product.retail_price >='] = $data['Product']['min_price'];
-            } elseif ($data['Product']['max_price']) {
+            } elseif (!empty($data['Product']['max_price'])) {
                 $settings['Product']['conditions']['Product.retail_price <='] = $data['Product']['max_price'];
             }
 
@@ -207,10 +207,11 @@ class ProductsController extends AppController {
             }
             $this->Product->create();
             if ($this->Product->save($this->request->data)) {
-                $this->Session->setFlash(__('The product has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                $this->Session->setFlash(__('Save Draft Finished.'),'default',array('class'=>'alert alert-success'));
+//                return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'edit', $this->Product->id));
             } else {
-                $this->Session->setFlash(__('The product could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The product could not be saved. Please, try again.'),'default',array('class'=>'alert alert-danger'));
             }
         }
 
@@ -267,30 +268,6 @@ class ProductsController extends AppController {
         return $newID;
     }
 
-    function loadDepartments($dvID) {
-        $departments = $this->Department->find('all', array('conditions' => array('division_id' => $dvID), 'fields' => array('id', 'department_name')));
-
-        $result['Departments'] = $departments;
-        $this->set('result', $result);
-        $this->set('_serialize', array('result'));
-    }
-
-    function loadKlasses($deptID) {
-        $klasses = $this->Klass->find('all', array('conditions' => array('department_id' => $deptID), 'fields' => array('id', 'klass_name')));
-
-        $result['Klasses'] = $klasses;
-        $this->set('result', $result);
-        $this->set('_serialize', array('result'));
-    }
-
-    function loadSubKlass($klsID) {
-        $subklass = $this->SubKlass->find('all', array('conditions' => array('klass_id' => $klsID), 'fields' => array('id', 'sub_klass_name')));
-
-        $result['SubKlasses'] = $subklass;
-        $this->set('result', $result);
-        $this->set('_serialize', array('result'));
-    }
-
     public function edit($id = null) {
         if (!$this->Product->exists($id)) {
             throw new NotFoundException(__('Invalid product'));
@@ -298,10 +275,10 @@ class ProductsController extends AppController {
 
         if ($this->request->is(array('post', 'put'))) {
             if ($this->Product->save($this->request->data)) {
-                $this->Session->setFlash(__('The product has been saved.'));
+                $this->Session->setFlash(__('The product has been saved.'),'default',array('class'=>'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The product could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The product could not be saved. Please, try again.'),'default',array('class'=>'alert alert-danger'));
             }
         } else {
             $options = array('conditions' => array('Product.' . $this->Product->primaryKey => $id));
@@ -347,18 +324,17 @@ class ProductsController extends AppController {
      * @param string $id
      * @return void
      */
-    public function delete($id = null) {
+    public function eteled($id = null) {
         $this->Product->id = $id;
         if (!$this->Product->exists()) {
             throw new NotFoundException(__('Invalid product'));
         }
-        $this->request->allowMethod('post', 'delete');
         if ($this->Product->delete()) {
-            $this->Session->setFlash(__('The product has been deleted.'));
+            $this->Session->setFlash(__('The product has been deleted.'),'default',array('class'=>'alert alert-success'));
         } else {
-            $this->Session->setFlash(__('The product could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The product could not be deleted. Please, try again.'),'default',array('class'=>'alert alert-danger'));
         }
-        return $this->redirect(array('action' => 'index'));
+        return $this->redirect(array('action' => 'xedni'));
     }
 
      public function multiSelect() {
@@ -371,12 +347,12 @@ class ProductsController extends AppController {
             if($this->Product->deleteAll(array('id' => $productIds), false)){
                 
                $this->Product->deleteAll(array('id' => $productIds), false);
-               $this->Session->setFlash(__('The product has been deleted.'));
+               $this->Session->setFlash(__('The product(s) has been deleted.'), 'default',array('class'=>'alert alert-success'));
             }
             else{
-                return $this->Session->setFlash(__('can not deleted'));
+                return $this->Session->setFlash(__('The product(s) can not be deleted'),'default',array('class'=>'alert alert-danger'));
             }
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirect(array('action' => 'xedni'));
         }
     }
 
@@ -403,4 +379,29 @@ class ProductsController extends AppController {
             $this->layout = 'csv';
         }
     }
+	
+    function loadDepartments($dvID) {
+        $departments = $this->Department->find('all', array('conditions' => array('division_id' => $dvID), 'fields' => array('id', 'department_name')));
+
+        $result['Departments'] = $departments;
+        $this->set('result', $result);
+        $this->set('_serialize', array('result'));
+    }
+
+    function loadKlasses($deptID) {
+        $klasses = $this->Klass->find('all', array('conditions' => array('department_id' => $deptID), 'fields' => array('id', 'klass_name')));
+
+        $result['Klasses'] = $klasses;
+        $this->set('result', $result);
+        $this->set('_serialize', array('result'));
+    }
+
+    function loadSubKlass($klsID) {
+        $subklass = $this->SubKlass->find('all', array('conditions' => array('klass_id' => $klsID), 'fields' => array('id', 'sub_klass_name')));
+
+        $result['SubKlasses'] = $subklass;
+        $this->set('result', $result);
+        $this->set('_serialize', array('result'));
+    }
+
 }

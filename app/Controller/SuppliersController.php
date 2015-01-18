@@ -34,7 +34,38 @@ class SuppliersController extends AppController {
             $settings = array(
                 'Supplier' => array(
                     'order' => array(
-                        'id' => 'ASC'
+                        'id' => 'asc'
+                    )
+                )
+            );
+            $this->Paginator->settings = $settings;
+            return $this->set('suppliers', $this->Paginator->paginate());
+        }
+        $settings = array(
+            'Supplier' => array(
+                'conditions' => array(
+                    'supplier_name_eng like' => '%' . $supplierName . '%',
+                )
+            )
+        );
+
+        $this->Paginator->settings = $settings;
+        $this->set('suppliers', $this->Paginator->paginate());
+    }
+
+    public function popup() {
+		$this->layout = 'popup_layout';
+
+		$this->Supplier->recursive = 0;
+        if ($this->request->is('post')) {
+
+            $supplierName = $this->request->data['Supplier']['supplier_name_eng'];
+        } else {
+            $supplierName = '';
+            $settings = array(
+                'Supplier' => array(
+                    'order' => array(
+                        'id' => 'asc'
                     )
                 )
             );
@@ -91,6 +122,17 @@ class SuppliersController extends AppController {
         }
         $options = array('conditions' => array('Supplier.' . $this->Supplier->primaryKey => $id));
         $this->set('supplier', $this->Supplier->find('first', $options));
+        
+        
+        
+        $supplierContacts = $this->SupplierContact->find('all', array('conditions' => array('SupplierContact.supplier_id' => $id)));
+        $this->set('supplierContacts', $supplierContacts);
+
+        if (!empty($supplierContactId)) {
+            $supplierContact = $this->SupplierContact->findById($supplierContactId);
+            $this->request->data['SupplierContact'] = $supplierContact['SupplierContact'];
+        }
+        
     }
 
     /**
@@ -99,13 +141,14 @@ class SuppliersController extends AppController {
      * @return void
      */
     public function add() {
-//        pr($this->Supplier->find('all')); die();
         $find_id = $this->Supplier->find('first', array('order' => array('Supplier.id' => 'desc')));
 
         $supplier_id = $find_id['Supplier']['id'];
         $supplier_id +=1;
         $supplier_id = substr('0000' . $supplier_id, -4, 4);
+
         $this->request->data['Supplier']['id'] = $supplier_id;
+
 
 
 
@@ -121,18 +164,8 @@ class SuppliersController extends AppController {
 
             $this->Supplier->create();
 
-
-
-
-
-//            $map = $this->request->data['Supplier']['map'];
-//            $kok['Supplier']['supplier_map_name'] = 'supplier_map_' . $supplier_id . '.' . $ext;
-            pr($this->request->data);
-            die();
-
-
             if ($this->Supplier->save($this->request->data)) {
-                $this->Session->setFlash(__('The supplier has been saved.'));
+                $this->Session->setFlash(__('The supplier has been saved.'), 'default', array('class' => 'alert alert-danger'));
                 return $this->redirect(array('action' => 'edit', $supplier_id));
             } else {
                 $this->Session->setFlash(__('The supplier could not be saved. Please, try again.'));
@@ -153,7 +186,7 @@ class SuppliersController extends AppController {
         }
         if ($this->request->is(array('post', 'put'))) {
             if ($this->Supplier->save($this->request->data)) {
-                $this->Session->setFlash(__('The supplier has been saved.'));
+                $this->Session->setFlash(__('The supplier has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
                 $this->Session->setFlash(__('The supplier could not be saved. Please, try again.'));
@@ -181,8 +214,6 @@ class SuppliersController extends AppController {
      * @return void
      */
     public function delete($id = null) {
-        pr($id);
-        die();
         $this->Supplier->id = $id;
         if (!$this->Supplier->exists()) {
             throw new NotFoundException(__('Invalid supplier'));
@@ -207,27 +238,6 @@ class SuppliersController extends AppController {
             $this->Session->setFlash(__('The supplier has been deleted.'));
             return $this->redirect(array('action' => 'index'));
         }
-    }
-
-    public function popup() {
-        $this->Supplier->recursive = 0;
-        if ($this->request->is('post')) {
-
-            $supplierName = $this->request->data['Supplier']['supplier_name_eng'];
-        } else {
-            $supplierName = '';
-            return $this->set('suppliers', $this->Paginator->paginate());
-        }
-        $settings = array(
-            'Supplier' => array(
-                'conditions' => array(
-                    'supplier_name_eng like' => '%' . $supplierName . '%',
-                )
-            )
-        );
-
-        $this->Paginator->settings = $settings;
-        $this->set('suppliers', $this->Paginator->paginate());
     }
 
 }

@@ -1,131 +1,55 @@
 <div class="suppliers view">
-    <h2><?php echo __('Supplier'); ?></h2>
-    <dl>
-        <dt><?php echo __('Id'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['id']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Supplier Name Th'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['supplier_name_th']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Supplier Name Eng'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['supplier_name_eng']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Supplier Tax Id'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['supplier_tax_id']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Supplier Contact Address'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['supplier_contact_address']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Supplier Phone Number'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['supplier_phone_number']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Supplier Map Name'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['supplier_map_name']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Supplier Map Path'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['supplier_map_path']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Supplier Map Flie Type'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['supplier_map_flie_type']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Created By'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['created_by']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Created'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['created']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Modified By'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['modified_by']); ?>
-            &nbsp;
-        </dd>
-        <dt><?php echo __('Modified'); ?></dt>
-        <dd>
-            <?php echo h($supplier['Supplier']['modified']); ?>
-            &nbsp;
-        </dd>
-    </dl>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <?php echo __('Supplier'); ?>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="alert alert-success">
+                    <h3><?php echo __('Id'); ?></h3><?php echo h($supplier['Supplier']['id']);?><br>
+                    <h3><?php echo __('Supplier Name Th'); ?>&nbsp;<?php echo h($supplier['Supplier']['supplier_name_th']); ?><br>
+                    <?php echo __('Supplier Name Eng'); ?>&nbsp;<?php echo h($supplier['Supplier']['supplier_name_eng']); ?><br>
+                    <?php echo __('Supplier Tax Id'); ?>&nbsp;<?php echo h($supplier['Supplier']['supplier_tax_id']); ?><br>
+                    <?php echo __('Supplier Contact Address'); ?>&nbsp;<?php echo h($supplier['Supplier']['supplier_contact_address']); ?><br>
+                    <?php echo __('Supplier Phone Number'); ?>&nbsp;<?php echo h($supplier['Supplier']['supplier_phone_number']); ?><br>
+                </div>
 
-    <div class="related">
-        <br>
-        <h3><?php echo __('Related Supplier Contacts'); ?></h3>
-        <?php if (!empty($supplier['SupplierContact'])): ?>
-            <table cellpadding = "0" cellspacing = "0">
+            </div>
+            <!-- .panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    
+        
+    <div class="supplierContacts index">
+        <h2><?php echo __('Supplier Contacts'); ?></h2>
+        <table class="table table-hover" cellpadding="0" cellspacing="0">
+            <thead>
                 <tr>
-                    <th><?php echo __('Id'); ?></th>
-                    <th><?php echo __('Supplier Id'); ?></th>
-                    <th><?php echo __('Supplier Contact Name'); ?></th>
-                    <th><?php echo __('Supplier Contact Position'); ?></th>
-                    <th><?php echo __('Supplier Contact Email'); ?></th>
-                    <th><?php echo __('Supplier Contact Number'); ?></th>
-                    <th><?php echo __('Created By'); ?></th>
-                    <th><?php echo __('Created'); ?></th>
-                    <th><?php echo __('Modified By'); ?></th>
-                    <th><?php echo __('Modified'); ?></th>
+                    <th><?php echo 'supplier_contact_name'; ?></th>
+                    <th><?php echo 'supplier_contact_position'; ?></th>
+                    <th><?php echo 'supplier_contact_email'; ?></th>
+                    <th><?php echo 'supplier_contact_number'; ?></th>
                     <th class="actions"><?php echo __('Actions'); ?></th>
                 </tr>
-                <?php foreach ($supplier['SupplierContact'] as $supplierContact): ?>
+            </thead>
+            <tbody>
+                <?php foreach ($supplierContacts as $supplierContact): ?>
                     <tr>
-                        <td><?php echo $supplierContact['id']; ?></td>
-                        <td><?php echo $supplierContact['supplier_id']; ?></td>
-                        <td><?php echo $supplierContact['supplier_contact_name']; ?></td>
-                        <td><?php echo $supplierContact['supplier_contact_position']; ?></td>
-                        <td><?php echo $supplierContact['supplier_contact_email']; ?></td>
-                        <td><?php echo $supplierContact['supplier_contact_number']; ?></td>
-                        <td><?php echo $supplierContact['created_by']; ?></td>
-                        <td><?php echo $supplierContact['created']; ?></td>
-                        <td><?php echo $supplierContact['modified_by']; ?></td>
-                        <td><?php echo $supplierContact['modified']; ?></td>
+                        <td><?php echo h($supplierContact['SupplierContact']['supplier_contact_name']); ?>&nbsp;</td>
+                        <td><?php echo h($supplierContact['SupplierContact']['supplier_contact_position']); ?>&nbsp;</td>
+                        <td><?php echo h($supplierContact['SupplierContact']['supplier_contact_email']); ?>&nbsp;</td>
+                        <td><?php echo h($supplierContact['SupplierContact']['supplier_contact_number']); ?>&nbsp;</td>
                         <td class="actions">
-                            <?php echo $this->Html->link(__('View'), array('controller' => 'supplier_contacts', 'action' => 'view', $supplierContact['id'])); ?>
-                            <?php echo $this->Html->link(__('Edit'), array('controller' => 'supplier_contacts', 'action' => 'edit', $supplierContact['id'])); ?>
-                            <?php echo $this->Form->postLink(__('Delete'), array('controller' => 'supplier_contacts', 'action' => 'delete', $supplierContact['id']), array(), __('Are you sure you want to delete # %s?', $supplierContact['id'])); ?>
+                            <?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $supplier['Supplier']['id']), array('escape' => false, 'title' => __('Add'))); ?>	
+                            <?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $supplierContact['SupplierContact']['supplier_id'], $supplierContact['SupplierContact']['id']), array('escape' => false, 'title' => __('Edit'))); ?>
+                            <?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('controller' => 'SupplierContacts', 'action' => 'delete', $supplierContact['SupplierContact']['id']), array('escape' => false, 'title' => __('Edit')), __('Are you sure you want to delete # %s?', $supplierContact['SupplierContact']['id'])); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
-            </table>
-        <?php endif; ?>
-
-        <div class="actions">
-            <ul>
-                <li><?php echo $this->Html->link(__('New Supplier Contact'), array('controller' => 'suppliers', 'action' => 'edit', $supplierContact['supplier_id'])); ?></li>
-            </ul>
-        </div>
+            </tbody>
+        </table>
     </div>
 
 </div>
-<div class="actions">
-        <h3><?php echo __('Actions'); ?></h3>
-        <ul>
-            <li><?php echo $this->Html->link(__('Edit Supplier'), array('action' => 'edit', $supplier['Supplier']['id'])); ?> </li>
-            <li><?php echo $this->Form->postLink(__('Delete Supplier'), array('action' => 'delete', $supplier['Supplier']['id']), array(), __('Are you sure you want to delete # %s?', $supplier['Supplier']['id'])); ?> </li>
-            <li><?php echo $this->Html->link(__('List Suppliers'), array('action' => 'index')); ?> </li>
-            <li><?php echo $this->Html->link(__('New Supplier'), array('action' => 'add')); ?> </li>
-            <li><?php echo $this->Html->link(__('List Supplier Contacts'), array('controller' => 'supplier_contacts', 'action' => 'index')); ?> </li>
-            <li><?php echo $this->Html->link(__('New Supplier Contact'), array('controller' => 'supplier_contacts', 'action' => 'add')); ?> </li>
-            <li><?php echo $this->Html->link(__('List Supplier Products'), array('controller' => 'supplier_products', 'action' => 'index')); ?> </li>
-            <li><?php echo $this->Html->link(__('New Supplier Product'), array('controller' => 'supplier_products', 'action' => 'add')); ?> </li>
-        </ul>
-    </div>

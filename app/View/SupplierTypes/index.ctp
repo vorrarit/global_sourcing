@@ -10,8 +10,8 @@
 	<?php echo $this->Form->input('text_search'); ?>
 
     </fieldset>
-    <?php echo $this->Form->button(__('Search'),array('type'=>'submit')); ?>
-    <?php echo $this->Form->button(__('Clear'),array('type'=>'reset')); ?>
+    <?php echo $this->Form->button(__('Search'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>
+    <?php echo $this->Form->button(__('Clear'),array('type'=>'reset','class'=>'btn btn-primary btn-form')); ?>
     <?php echo $this->Form->end(); ?>
 </div>
 <div class="supplierTypes index">
@@ -20,8 +20,8 @@
 
     <h2><?php echo __('Supplier Types'); ?></h2>
 
-   <div class="btn-group pull-right" role="group" aria-label="...">
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', array('escape'=>false, 'title'=>__('Add'),'onclick'=>'doSomething()','class'=>'btn btn-default')); ?>
+    <div class="btn-group pull-right" role="group" aria-label="...">
+		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', array('onclick'=>"window.location.href='../SupplierTypes/add'",'type'=>'button','escape'=>false, 'title'=>__('Add'),'class'=>'btn btn-default')); ?>
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit','escape'=>false, 'class'=>'btn btn-default')); ?>   
     </div>
 
@@ -29,8 +29,8 @@
         <thead>
             <tr>
                 <th width="70"><?php echo $this->Form->checkbox('check_all',array('id'=> 'chkCheckAll')); ?></th>
-                <th width="150"><?php echo $this->Paginator->sort('id'); ?></th>
-                <th><?php echo $this->Paginator->sort('supplier_type_name'); ?></th>
+                <th width="300"><?php echo $this->Paginator->sort('id','Supplier Type ID'); ?></th>
+                <th width="300"><?php echo $this->Paginator->sort('supplier_type_name'); ?></th>
                 <th class="actions" width="100"><?php echo __('Actions'); ?></th>
             </tr>
         </thead>
@@ -63,9 +63,6 @@
 	?>
     </div>
     <script type="text/javascript">
-        function doSomething() {
-            window.open("/SupplierTypes/add");
-        }
         $("#chkCheckAll").click(function () {
             $('input:checkbox').not(this).prop('checked', this.checked);
         });

@@ -1,7 +1,7 @@
 <div class="suppliers form">
 <?php echo $this->Form->create('Supplier'); ?>
 	<fieldset>
-		<legend><?php echo __('Edit Supplier'); ?></legend>
+		<legend><?php echo __('Supplier'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('supplier_name_th');
@@ -11,8 +11,11 @@
 		echo $this->Form->input('supplier_phone_number');
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->Form->submit(__('Edit'), array('class' => 'btn btn-primary')); ?>
+<?php echo $this->Form->end(); ?>
 </div>
+
+<br>
 
 <div class="supplierContacts form">
 <?php echo $this->Form->create('SupplierContact', array('controller'=>'SupplierContact', 'action'=>'add')); ?>
@@ -27,12 +30,13 @@
 		echo $this->Form->input('supplier_contact_number');
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<?php echo $this->Form->submit(__('Add'), array('class' => 'btn btn-primary')); ?>
+<?php echo $this->Form->end(); ?>
 </div>
 
 <div class="supplierContacts index">
 	<h2><?php echo __('Supplier Contacts'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table class="table table-hover" cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
 			<th><?php echo 'supplier_contact_name'; ?></th>
@@ -50,8 +54,8 @@
 		<td><?php echo h($supplierContact['SupplierContact']['supplier_contact_email']); ?>&nbsp;</td>
 		<td><?php echo h($supplierContact['SupplierContact']['supplier_contact_number']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $supplierContact['SupplierContact']['supplier_id'], $supplierContact['SupplierContact']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('controller' => 'SupplierContacts', 'action' => 'delete', $supplierContact['SupplierContact']['id']), array(), __('Are you sure you want to delete # %s?', $supplierContact['SupplierContact']['id'])); ?>
+			<?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $supplierContact['SupplierContact']['supplier_id'], $supplierContact['SupplierContact']['id']),array('escape'=>false, 'title'=>__('Edit'))); ?>
+			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('controller' => 'SupplierContacts', 'action' => 'delete', $supplierContact['SupplierContact']['id']), array('escape'=>false, 'title'=>__('Edit')), __('Are you sure you want to delete # %s?', $supplierContact['SupplierContact']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -59,16 +63,3 @@
 	</table>
 </div>
 
-
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Supplier.id')), array(), __('Are you sure you want to delete # %s?', $this->Form->value('Supplier.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Suppliers'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Supplier Contacts'), array('controller' => 'supplier_contacts', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Supplier Contact'), array('controller' => 'supplier_contacts', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Supplier Products'), array('controller' => 'supplier_products', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Supplier Product'), array('controller' => 'supplier_products', 'action' => 'add')); ?> </li>
-	</ul>
-</div>

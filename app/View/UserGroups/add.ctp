@@ -10,7 +10,8 @@
                 echo $this->Form->input('m003', array('type'=>'checkbox', 'value' => 'Y', 'label'=>'Data Management'));
 	?>
 	</fieldset> 
-<?php echo $this->Form->submit(__('Save')); ?>
-<?php echo $this->Form->button('Reset the Form', array('type' => 'reset'));?>
+<?php echo $this->Form->button(__('Save'), array('class'=>'btn btn-primary btn-form')); ?>&nbsp;
+<?php echo $this->Form->button(__('Reset'), array('type'=>'reset', 'class'=>'btn btn-default btn-form')); ?>
+
 <?php echo $this->Form->end(); ?>
 </div>

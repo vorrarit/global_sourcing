@@ -28,8 +28,8 @@ class ManufacturersController extends AppController {
         $this->Manufacturer->recursive = 0;
 //        pr($this->Paginator->paginate());
 //        die();
-         if ($this->request->is('post')) {
-            $manufacturer = $this->request->data['search']['manufac_name'];
+        if ($this->request->is('post')) {
+            $manufacturer = $this->request->data['search']['manufacturer_name'];
         } else {
             $manufacturer = '';
         }
@@ -43,9 +43,6 @@ class ManufacturersController extends AppController {
         $this->Paginator->settings = $settings;
         $this->set('manufacturers', $this->Paginator->paginate());
         //$this->set('manufacturer', $this->Paginator->paginate());
-        
-        
-       
     }
 
     /**
@@ -69,47 +66,37 @@ class ManufacturersController extends AppController {
      * @return void
      */
     public function add() {
-//        pr($this->Manufacturer->find('first',array('order'=>array('M'))));
-//        die();
-
 
         $count = $this->Manufacturer->find('first', array('order' => array('Manufacturer.id' => 'desc')));
-//        pr($count); die();
         $Manufac = ($count['Manufacturer']['id'] * 1);
-//        pr($Manufac); die();
         $Manufac += 1;
         $Manufac = substr('000000' . $Manufac, -6, 6);
         $this->request->data['Manufacturer']['id'] = $Manufac;
 
-//        $divisions = $this->Manufacturer->find('list', array('fields' => array
-//                (
-//                'Division.id',
-//                'Division.division_name',
-//            )
-//        ));
 
 
         if ($this->request->is('post')) {
             $id = $this->Manufacturer->find('first', array('fields'=>array('Manufacturer.id'),'order' => array('Manufacturer.id'=>'desc')));
             $picID = $id['Manufacturer']['id'];
             $picID +=1;
-            $picID = substr('000000'.$picID,-6,6);
-            $map = $this->request->data['Manufac']['map'];
+            $picID = substr('000000' . $picID, -6, 6);
+
+            $map = $this->request->data['Manufacturer']['map'];
             $ext = pathinfo($map['name'], PATHINFO_EXTENSION);
-            $map['Manufacturer']['manufac_map_name'] = 'manufac_photo_'.'00000'.$picID.'.'. $ext;
-            $map['Manufacturer']['manufac_map_path'] = '/img/pic';
-            $map['Manufacturer']['manufac_map_file_type'] = $map['type'];
- //           $this->save->data($map);
-            
             if ($this->isUploadedFile($map)) {
-                $this->saveUploadFile($map, '/img/pic', 'manufac_photo_'.'00000'.$picID.'.'. $ext);
+                $this->request->data['Manufacturer']['manufac_map_name'] = $this->request->data['Manufacturer']['map']['name'];
+                $this->request->data['Manufacturer']['manufac_map_path'] = '/img/pic';
+                $this->request->data['Manufacturer']['manufac_map_file_type'] = $this->request->data['Manufacturer']['map']['type'];
+
+
+                $this->saveUploadFile($map, '/img/pic', 'manufac_photo_' . '00000' . $picID . '.' . $ext);
             }
             $this->Manufacturer->create();
             if ($this->Manufacturer->save($this->request->data)) {
-                $this->Session->setFlash(__('The manufacturer has been saved.'));
+                $this->Session->setFlash(__('The manufacturer has been saved.'), 'default', array('class' => 'alert alert-sucess'));
                 return $this->redirect(array('action' => 'edit', $Manufac));
             } else {
-                $this->Session->setFlash(__('The manufacturer could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The manufacturer could not be saved. Please, try again.'), 'defualt', array('class' => 'alert alert-danger'));
             }
         }
     }
@@ -197,15 +184,20 @@ class ManufacturersController extends AppController {
         if ($this->request->is(array('post', 'put'))) {
             $manufacturerIds = array();
 //            pr($this->request->data); die();
+
             foreach ($this->request->data['Manufacturer']['id'] as $id) {
-       
+
                 $manufacturerIds[] = $id;
             }
-            $this->Manufacturer->deleteAll(array('id' => $manufacturerIds), false);
-            $this->Session->setFlash(__('The manufacturer has been deleted.'));
+
+            if ($this->Manufacturer->deleteAll(array('id' => $manufacturerIds), false)) {
+                $this->Manufacturer->deleteAll(array('id' => $manufacturerIds), false);
+                $this->Session->setFlash(__('The manufacturer has been deleted'));
+            } else {
+                $this->Session->setFlash(__('can not delete'));
+            }
             return $this->redirect(array('action' => 'index'));
         }
     }
-
 
 }

@@ -27,13 +27,13 @@ class KlassesController extends AppController {
      */
     public function index() {
         $this->Klass->recursive = 0;
-//        $divisions = $this->Division->find('list', array(
-//            'fields' => array
-//                (
-//                'Division.id',
-//                'Division.division_name',
-//            )
-//        ));
+        $divisions = $this->Division->find('list', array(
+            'fields' => array
+                (
+                'Division.id',
+                'Division.division_name',
+            )
+        ));
         $departments = $this->Department->find('list', array(
             'fields' => array
                 (
@@ -41,7 +41,7 @@ class KlassesController extends AppController {
                 'Department.department_name',
             )
         ));
-        $this->set(compact('departments'));
+        $this->set(compact('divisions', 'departments'));
 //       //pr($divisions); die();
         $condition = array();
         if (!empty($this->request->data)) {
@@ -96,19 +96,16 @@ class KlassesController extends AppController {
      * @return void
      */
     public function add() {
-//        $klsId = $this->Klass->find('first', array('order' => array('Klass.id' => 'DESC'), 'fields' => array('id')));
-//        $int = empty($klsId['Klass']['id']) ? null : (int) $klsId['Klass']['id'];
-//
-//        $int+=1;
-//        $int = substr('00000000' . $int, -8, 8);
-//        $this->request->data['Klass']['id'] = $int;
         if ($this->request->is('post')) {
+            $currentUser = $this->Session->read('Auth.User');
             $this->Klass->create();
+            $this->request->data['Klass']['created_by'] = $currentUser['username'];
+            $this->request->data['Klass']['modified_by'] = $currentUser['username'];
             if ($this->Klass->save($this->request->data)) {
-                $this->Session->setFlash(__('The klass has been saved.'));
+                $this->Session->setFlash(__('The klass has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The klass could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The klass could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         }
         $divisions = $this->Division->find('list', array(
@@ -169,18 +166,32 @@ class KlassesController extends AppController {
             throw new NotFoundException(__('Invalid klass'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            $currentUser = $this->Session->read('Auth.User');
+            $this->request->data['Klass']['modified_by'] = $currentUser['username'];
             if ($this->Klass->save($this->request->data)) {
-                $this->Session->setFlash(__('The klass has been saved.'));
+                $this->Session->setFlash(__('The klass has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The klass could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The klass could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         } else {
             $options = array('conditions' => array('Klass.' . $this->Klass->primaryKey => $id));
             $this->request->data = $this->Klass->find('first', $options);
         }
-        $divisions = $this->Klass->Division->find('list');
-        $departments = $this->Klass->Department->find('list');
+        $divisions = $this->Division->find('list', array(
+            'fields' => array
+                (
+                'Division.id',
+                'Division.division_name',
+            )
+        ));
+        $departments = $this->Department->find('list', array(
+            'fields' => array
+                (
+                'Department.id',
+                'Department.department_name',
+            )
+        ));
         $this->set(compact('divisions', 'departments'));
     }
 
@@ -198,9 +209,9 @@ class KlassesController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->Klass->delete()) {
-            $this->Session->setFlash(__('The klass has been deleted.'));
+            $this->Session->setFlash(__('The klass has been deleted.'), 'default', array('class' => 'alert alert-success'));
         } else {
-            $this->Session->setFlash(__('The klass could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The klass could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
         }
         return $this->redirect(array('action' => 'index'));
     }
@@ -213,7 +224,7 @@ class KlassesController extends AppController {
                 $klassIds[] = $id;
             }
             $this->Klass->deleteAll(array('id' => $klassIds), false);
-            $this->Session->setFlash(__('The product has been deleted.'));
+            $this->Session->setFlash(__('The product has been deleted.'), 'default', array('class' => 'alert alert-success'));
             return $this->redirect(array('action' => 'index'));
         }
     }

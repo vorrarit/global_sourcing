@@ -12,7 +12,7 @@
 </div>
 
 <div class="suppliers index">
-    <table cellpadding="0" cellspacing="0">
+    <table cellpadding="0" cellspacing="0" class="table table-hover">
         <thead>
 
             <tr>
@@ -28,7 +28,7 @@
             <?php foreach ($suppliers as $supplier): ?>
                 <tr>
                     <td><?php echo h($supplier['Supplier']['id']); ?>&nbsp;</td>
-                    <td><?php echo h($supplier['Supplier']['supplier_name_eng']); ?>&nbsp;</td>
+                    <td><a href="javascript:void(null)" onclick="supplierName_Clicked('<?php echo h($supplier['Supplier']['id']); ?>', '<?php echo h($supplier['Supplier']['supplier_name_eng']); ?>')"><?php echo h($supplier['Supplier']['supplier_name_eng']); ?></a>&nbsp;</td>
 
                 </tr>
             <?php endforeach; ?>
@@ -49,3 +49,11 @@
     </div>
 </div>
 
+<script type="text/javascript">
+function supplierName_Clicked(supplierId, supplierName) {
+	var form = window.opener.document.forms[0];
+	form.elements['data[SupplierProduct][supplier_id]'].value = supplierId;
+	form.elements['data[SupplierProduct][supplier_name]'].value = supplierName;
+	window.close();
+}
+</script>

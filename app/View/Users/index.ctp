@@ -8,7 +8,9 @@
     <?php echo $this->Form->input('user_name');?>
     <?php echo $this->Form->input('username');?>
     <?php echo $this->Form->button(__('Search'),array('class'=>'btn btn-primary btn-form'));?>
-	<?php echo $this->Form->button(__('Reset'),array('type'=>'reset','class'=>'btn btn-default btn-form'));?>
+	<?php echo $this->Form->button(__('Reset'),array('id'=>'btn_reset','class'=>'btn btn-default btn-form'));?>
+			
+			
 		</div>
 	</div>
 </div>
@@ -21,7 +23,7 @@
 
 	<div class="btn-group pull-right" role="group" aria-label="...">
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>',array('onclick'=>"window.location.href='../users/add'",'type'=>'button','escape'=>false, 'title'=>__('Add'), 'class'=>'btn btn-default')); ?>
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'class'=>'btn btn-default')); ?>   
+		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'title'=>__('Delete All'), 'class'=>'btn btn-default')); ?>   
 	</div>
 
     <table class="table table-hover">
@@ -42,7 +44,7 @@
                 <td><?php echo h($user['User']['id']); ?>&nbsp;</td>
 
                 <td>
-			<?php echo $this->Html->link($user['UserGroup']['user_group_name'], array('controller' => 'user_groups', 'action' => 'view', $user['UserGroup']['id'])); ?>
+			<?php echo h($user['UserGroup']['user_group_name']); ?>
                 </td>
                 <td><?php echo h($user['User']['user_name']); ?>&nbsp;</td>
                 <td><?php echo h($user['User']['username']); ?>&nbsp;</td>
@@ -75,5 +77,10 @@
 <script type="text/javascript">
 	$("#chkCheckAll").click(function () {
 		$('input:checkbox').not(this).prop('checked', this.checked);
+	});
+	$("#btn_reset").click(function () {		
+
+		$("#UserUsername").val('');
+		$("#UserUserName").val('');
 	});
 </script>    

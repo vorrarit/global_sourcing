@@ -8,18 +8,10 @@
 		echo $this->Form->input('manufac_contact_position');
 		echo $this->Form->input('manufac_contact_email');
 		echo $this->Form->input('manufac_contact_number');
-		echo $this->Form->input('created_by');
-		echo $this->Form->input('modified_by');
+		echo $this->Form->input('created_by',array('type' => 'hidden'));
+		echo $this->Form->input('modified_by',array('type' => 'hidden'));
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('List Manufacturer Contacts'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Manufacturers'), array('controller' => 'manufacturers', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Manufacturer'), array('controller' => 'manufacturers', 'action' => 'add')); ?> </li>
-	</ul>
+    <?php echo $this->Form->button('Submit', array ('class' => 'btn btn-primary btn-form')); ?>
+    <?php echo $this->Form->end (); ?>
 </div>

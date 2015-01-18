@@ -150,16 +150,24 @@ class UsersController extends AppController {
             $currentUser = $this->Session->read('Auth.User');
             $this->request->data['User']['modified_by'] = $currentUser['username'];
             if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved.'));
+                $this->Session->setFlash(__('The user has been saved.'),'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         } else {
             $options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
             $this->request->data = $this->User->find('first', $options);
         }
-        $userGroups = $this->User->UserGroup->find('list');
+      $userGroups = $this->User->UserGroup->find('list', array('empty' => '(Please Select)',
+            'fields' => array(
+                'UserGroup.id',
+                'UserGroup.user_group_name',
+            ),
+            'order' => array('UserGroup.user_group_name')
+                )                
+             
+                );	
         $this->set(compact('userGroups'));
     }
 
@@ -177,9 +185,9 @@ class UsersController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->User->delete()) {
-            $this->Session->setFlash(__('The user has been deleted.'));
+            $this->Session->setFlash(__('The user has been deleted.'), 'default', array('class' => 'alert alert-success'));
         } else {
-            $this->Session->setFlash(__('The user could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The user could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
         }
         return $this->redirect(array('action' => 'index'));
     }
@@ -188,11 +196,17 @@ class UsersController extends AppController {
         if ($this->request->is(array('post', 'put'))) {
             $userIds = array();
 
-            foreach ($this->request->data['User']['id'] as $id) {
-                $userIds[] = $id;
+            foreach ($this->request->data['User']['id'] as $ids) {
+                $userIds[] = $ids;
             }
-            $this->User->deleteAll(array('id' => $userIds), false);
-            $this->Session->setFlash(__('The User has been deleted.'));
+			if($this->User->deleteAll(array('id' => $userIds),false)){
+				$this->User->deleteAll(array('id' => $userIds), false);
+				$this->Session->setFlash(__('The User has been deleted.'), 'default', array('class' => 'alert alert-success'));
+			}            
+            else
+			{
+				$this->Session->setFlash(__('The User has been deleted.'), 'default', array('class' => 'alert alert-danger'));
+			}
             return $this->redirect(array('action' => 'index'));
         }
     }
@@ -219,70 +233,6 @@ class UsersController extends AppController {
 		$this->Paginator->settings = $settings;
 		$this->set('users', $this->Paginator->paginate());
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//  if ($this->request->is('post')) {
-//            $users = $this->request->data['User']['User_Group_id'];
-//        } else {
-//            $users = '';
-//        }
-//        $settings = array(
-//            'User' => array(
-//                'conditions' => array(
-//                    'user_group_id like ' => '%' . $users . '%'
-//                ),
-//        ));
-//        $this->Paginator->settings = $settings;
-//        $this->set('users', $this->Paginator->paginate());
-//
-//        if ($this->request->is('post')) {
-//            $users = $this->request->data['User']['Name'];
-//        } else {
-//            $users = '';
-//        }
-//        $settings = array(
-//            'User' => array(
-//                'conditions' => array(
-//                    'user_name like' => '%' . $users . '%'
-//                ),
-//        ));
-//        $this->Paginator->settings = $settings;
-//        $this->set('users', $this->Paginator->paginate());
-//         
-//             if ($this->request->is('post')) {
-//            $users= $this->request->data['User']['UserName'];
-//        } else {
-//            $users = '';
-//        }
-//
-//        $settings = array(
-//            'User' => array(
-//                'conditions' => array(
-//                    'username like' => '%' . $users . '%'
-//                ),
-//        ));
-//        
-//         $this->Paginator->settings = $settings;
-//         $this->set('users', $this->Paginator->paginate());
 	}
 	
 }

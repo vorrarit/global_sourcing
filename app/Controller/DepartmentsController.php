@@ -85,17 +85,16 @@ class DepartmentsController extends AppController {
      * @return void
      */
     public function add() {
-//        $depId = $this->Department->find('first', array('order' => array('Department.id' => 'DESC'), 'fields' => array('id')));
-//        $int = empty($depId['Department']['id'])? null :(int) $depId['Department']['id'];
-//        $int+=1;
-//        $int = substr('0000'.$int, -4, 4);
-//        $this->request->data['Department']['id'] = $int;
         if ($this->request->is('post')) {
+            $currentUser = $this->Session->read('Auth.User');
+            $this->Department->create();
+            $this->request->data['Department']['created_by'] = $currentUser['username'];
+            $this->request->data['Department']['modified_by'] = $currentUser['username'];
             if ($this->Department->save($this->request->data)) {
-                $this->Session->setFlash(__('The department has been saved.'));
+                $this->Session->setFlash(__('The department has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The department could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The department could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         }
         //$divisions = $this->Department->Division->find('list');
@@ -142,17 +141,25 @@ class DepartmentsController extends AppController {
             throw new NotFoundException(__('Invalid department'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            $currentUser = $this->Session->read('Auth.User');
+            $this->request->data['Department']['modified_by'] = $currentUser['username'];
             if ($this->Department->save($this->request->data)) {
-                $this->Session->setFlash(__('The department has been saved.'));
+                $this->Session->setFlash(__('The department has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The department could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The department could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         } else {
             $options = array('conditions' => array('Department.' . $this->Department->primaryKey => $id));
             $this->request->data = $this->Department->find('first', $options);
         }
-        $divisions = $this->Department->Division->find('list');
+        $divisions = $this->Division->find('list', array(
+            'fields' => array
+                (
+                'Division.id',
+                'Division.division_name',
+            )
+        ));
         $this->set(compact('divisions'));
     }
 
@@ -170,9 +177,9 @@ class DepartmentsController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->Department->delete()) {
-            $this->Session->setFlash(__('The department has been deleted.'));
+            $this->Session->setFlash(__('The department has been deleted.'), 'default', array('class' => 'alert alert-success'));
         } else {
-            $this->Session->setFlash(__('The department could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The department could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
         }
         return $this->redirect(array('action' => 'index'));
     }
@@ -185,7 +192,7 @@ class DepartmentsController extends AppController {
                 $departmentIds[] = $id;
             }
             $this->Department->deleteAll(array('id' => $departmentIds), false);
-            $this->Session->setFlash(__('The product has been deleted.'));
+            $this->Session->setFlash(__('The product has been deleted.'), 'default', array('class' => 'alert alert-danger'));
             return $this->redirect(array('action' => 'index'));
         }
     }

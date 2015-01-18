@@ -77,12 +77,15 @@ class CurrenciesController extends AppController {
         $this->request->data['Currency']['id'] = $int;
 
         if ($this->request->is('post')) {
+            $currentUser = $this->Session->read('Auth.User');
             $this->Currency->create();
+            $this->request->data['Currency']['created_by'] = $currentUser['username'];
+            $this->request->data['Currency']['modified_by'] = $currentUser['username'];
             if ($this->Currency->save($this->request->data)) {
-                $this->Session->setFlash(__('The currency has been saved.'));
+                $this->Session->setFlash(__('The currency has been saved.','default',array('class'=>'alert alert-success')));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The currency could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The currency could not be saved. Please, try again.','default',array('class'=>'alert alert-danger')));
             }
         }
     }
@@ -99,11 +102,13 @@ class CurrenciesController extends AppController {
             throw new NotFoundException(__('Invalid currency'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            $currentUser = $this->Session->read('Auth.User');
+            $this->request->data['Currency']['modified_by'] = $currentUser['username'];
             if ($this->Currency->save($this->request->data)) {
-                $this->Session->setFlash(__('The currency has been saved.'));
+                $this->Session->setFlash(__('The currency has been saved.','default',array('class'=>'alert alert-success')));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The currency could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The currency could not be saved. Please, try again.','default',array('class'=>'alert alert-danger')));
             }
         } else {
             $options = array('conditions' => array('Currency.' . $this->Currency->primaryKey => $id));
@@ -125,9 +130,9 @@ class CurrenciesController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->Currency->delete()) {
-            $this->Session->setFlash(__('The currency has been deleted.'));
+            $this->Session->setFlash(__('The currency has been deleted.','default',array('class'=>'alert alert-success')));
         } else {
-            $this->Session->setFlash(__('The currency could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The currency could not be deleted. Please, try again.','default',array('class'=>'alert alert-danger')));
         }
         return $this->redirect(array('action' => 'index'));
     }

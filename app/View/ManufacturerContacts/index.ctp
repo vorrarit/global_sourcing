@@ -1,6 +1,6 @@
 <div class="manufacturerContacts index">
 	<h2><?php echo __('Manufacturer Contacts'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table class ="table table-hover">
 	<thead>
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -20,9 +20,7 @@
 	<?php foreach ($manufacturerContacts as $manufacturerContact): ?>
 	<tr>
 		<td><?php echo h($manufacturerContact['ManufacturerContact']['id']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($manufacturerContact['Manufacturer']['id'], array('controller' => 'manufacturers', 'action' => 'view', $manufacturerContact['Manufacturer']['id'])); ?>
-		</td>
+		<td><?php echo $this->Html->link($manufacturerContact['Manufacturer']['id'], array('controller' => 'manufacturers', 'action' => 'view', $manufacturerContact['Manufacturer']['id'])); ?></td>
 		<td><?php echo h($manufacturerContact['ManufacturerContact']['manufac_contact_name']); ?>&nbsp;</td>
 		<td><?php echo h($manufacturerContact['ManufacturerContact']['manufac_contact_position']); ?>&nbsp;</td>
 		<td><?php echo h($manufacturerContact['ManufacturerContact']['manufac_contact_email']); ?>&nbsp;</td>
@@ -54,11 +52,4 @@
 	?>
 	</div>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Manufacturer Contact'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Manufacturers'), array('controller' => 'manufacturers', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Manufacturer'), array('controller' => 'manufacturers', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+

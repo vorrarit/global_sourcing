@@ -77,12 +77,15 @@ class SupplierTypesController extends AppController {
         $this->request->data['SupplierType']['id'] = $int;
 
         if ($this->request->is('post')) {
+            $currentUser = $this->Session->read('Auth.User');
             $this->SupplierType->create();
+            $this->request->data['SupplierType']['created_by'] = $currentUser['username'];
+            $this->request->data['SupplierType']['modified_by'] = $currentUser['username'];
             if ($this->SupplierType->save($this->request->data)) {
-                $this->Session->setFlash(__('The supplier type has been saved.'));
+                $this->Session->setFlash(__('The supplier type has been saved.','default',array('class'=>'alert alert-success')));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The supplier type could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The supplier type could not be saved. Please, try again.','default',array('class'=>'alert alert-danger')));
             }
         }
     }
@@ -99,11 +102,13 @@ class SupplierTypesController extends AppController {
             throw new NotFoundException(__('Invalid supplier type'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            $currentUser = $this->Session->read('Auth.User');
+            $this->request->data['SupplierType']['modified_by'] = $currentUser['username'];
             if ($this->SupplierType->save($this->request->data)) {
-                $this->Session->setFlash(__('The supplier type has been saved.'));
+                $this->Session->setFlash(__('The supplier type has been saved.','default',array('class'=>'alert alert-success')));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The supplier type could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The supplier type could not be saved. Please, try again.','default',array('class'=>'alert alert-danger')));
             }
         } else {
             $options = array('conditions' => array('SupplierType.' . $this->SupplierType->primaryKey => $id));
@@ -125,9 +130,9 @@ class SupplierTypesController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->SupplierType->delete()) {
-            $this->Session->setFlash(__('The supplier type has been deleted.'));
+            $this->Session->setFlash(__('The supplier type has been deleted.','default',array('class'=>'alert alert-success')));
         } else {
-            $this->Session->setFlash(__('The supplier type could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The supplier type could not be deleted. Please, try again.','default',array('class'=>'alert alert-danger')));
         }
         return $this->redirect(array('action' => 'index'));
     }
