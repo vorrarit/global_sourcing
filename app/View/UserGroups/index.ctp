@@ -7,6 +7,7 @@
     <?php echo $this->Form->input('user_group_name',array('type'=>'text'));?>
     <?php echo $this->Form->button('search',array('class'=>'btn btn-default'));?>
 	<?php echo $this->Form->button('reset',array('type'=>'reset','class'=>'btn btn-default'));?>
+	<?php echo $this->Form->end(); ?>	
 		</div>
 	</div>
 </div>
@@ -18,7 +19,7 @@
 
 	<div class="btn-group pull-right" role="group" aria-label="...">
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>',array('onclick'=>"window.location.href='../UserGroups/add'",'type'=>'button','escape'=>false, 'title'=>__('Add'), 'class'=>'btn btn-default')); ?>
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'class'=>'btn btn-default')); ?>   
+		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'button', 'escape'=>false, 'class'=>'btn btn-default')); ?>   
 	</div>
 	<table class="table table-hover">
 		<thead>
@@ -43,6 +44,7 @@
 <?php endforeach; ?>
 		</tbody>
 	</table>
+	<?php echo $this->Form->end(); ?>		
 	<p>
 	<?php
 	echo $this->Paginator->counter(array(
