@@ -143,7 +143,7 @@ class UserGroupsController extends AppController {
             foreach ($this->request->data['UserGroup']['id'] as $id) {
                 $usergroupIds[] = $id;
             }
-            $this->User->deleteAll(array('id' => $usergroupIds), false);
+            $this->UserGroup->deleteAll(array('id' => $usergroupIds), false);
             $this->Session->setFlash(__('The UserGroup has been deleted.'));
             return $this->redirect(array('action' => 'index'));
         }
