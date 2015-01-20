@@ -22,11 +22,11 @@
 </div>
 
 <div id="embed_div" class="row" style="display: none">
-		<?php echo $this->Form->input('product_name', array('div'=>array('class'=>'col-lg-6 form-group'))); ?>
-		<?php echo $this->Form->input('product_description_eng', array('div'=>array('class'=>'col-lg-12 form-group'))); ?>
-		<?php echo $this->Form->input('product_specification', array('div'=>array('class'=>'col-lg-12 form-group'))); ?>
-		<?php echo $this->Form->input('product_short_description_th', array('div'=>array('class'=>'col-lg-12 form-group'))); ?>
-		<?php echo $this->Form->input('product_short_description_eng', array('div'=>array('class'=>'col-lg-12 form-group'))); ?>
+		<?php echo $this->Form->input('product_name', array('div'=>array('class'=>'col-lg-6 form-group'), 'required'=>false)); ?>
+		<?php echo $this->Form->input('product_description_eng', array('div'=>array('class'=>'col-lg-12 form-group'), 'required'=>false)); ?>
+		<?php echo $this->Form->input('product_specification', array('div'=>array('class'=>'col-lg-12 form-group'), 'required'=>false)); ?>
+		<?php echo $this->Form->input('product_short_description_th', array('div'=>array('class'=>'col-lg-12 form-group'), 'required'=>false)); ?>
+		<?php echo $this->Form->input('product_short_description_eng', array('div'=>array('class'=>'col-lg-12 form-group'), 'required'=>false)); ?>
 		<div class="col-lg-12 form-group">
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-search"></span>&nbsp;' . __('Search'),array('type'=>'submit' , 'class'=>'btn btn-primary btn-form')); ?>
 		</div>
