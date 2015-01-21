@@ -156,8 +156,6 @@ class SuppliersController extends AppController {
         $this->request->data['Supplier']['id'] = $supplier_id;
 
 
-
-
         $this->request->data['Supplier']['supplier_map_name'] = 'supplier_map_' . $supplier_id;
         $this->request->data['Supplier']['supplier_map_path'] = '/img/suppliers';
 
