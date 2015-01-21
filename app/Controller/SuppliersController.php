@@ -29,6 +29,16 @@ class SuppliersController extends AppController {
         if ($this->request->is('post')) {
 
             $supplierName = $this->request->data['Supplier']['supplier_name_eng'];
+            $settings = array(
+                'Supplier' => array(
+                    'conditions' => array(
+                        'supplier_name_eng like' => '%' . $supplierName . '%',
+                    )
+                )
+            );
+
+            $this->Paginator->settings = $settings;
+            $this->set('suppliers', $this->Paginator->paginate());
         } else {
             $supplierName = '';
             $settings = array(
@@ -41,22 +51,12 @@ class SuppliersController extends AppController {
             $this->Paginator->settings = $settings;
             return $this->set('suppliers', $this->Paginator->paginate());
         }
-        $settings = array(
-            'Supplier' => array(
-                'conditions' => array(
-                    'supplier_name_eng like' => '%' . $supplierName . '%',
-                )
-            )
-        );
-
-        $this->Paginator->settings = $settings;
-        $this->set('suppliers', $this->Paginator->paginate());
     }
 
     public function popup() {
-		$this->layout = 'popup_layout';
+        $this->layout = 'popup_layout';
 
-		$this->Supplier->recursive = 0;
+        $this->Supplier->recursive = 0;
         if ($this->request->is('post')) {
 
             $supplierName = $this->request->data['Supplier']['supplier_name_eng'];
@@ -122,9 +122,9 @@ class SuppliersController extends AppController {
         }
         $options = array('conditions' => array('Supplier.' . $this->Supplier->primaryKey => $id));
         $this->set('supplier', $this->Supplier->find('first', $options));
-        
-        
-        
+
+
+
         $supplierContacts = $this->SupplierContact->find('all', array('conditions' => array('SupplierContact.supplier_id' => $id)));
         $this->set('supplierContacts', $supplierContacts);
 
@@ -132,7 +132,6 @@ class SuppliersController extends AppController {
             $supplierContact = $this->SupplierContact->findById($supplierContactId);
             $this->request->data['SupplierContact'] = $supplierContact['SupplierContact'];
         }
-        
     }
 
     /**
@@ -143,9 +142,16 @@ class SuppliersController extends AppController {
     public function add() {
         $find_id = $this->Supplier->find('first', array('order' => array('Supplier.id' => 'desc')));
 
-        $supplier_id = $find_id['Supplier']['id'];
-        $supplier_id +=1;
-        $supplier_id = substr('0000' . $supplier_id, -4, 4);
+        if (empty($find_id)) {
+            $supplier_id = 0;
+            $supplier_id +=1;
+            $supplier_id = substr('0000' . $supplier_id, -4, 4);
+        } else {
+            $supplier_id = $find_id['Supplier']['id'];
+            $supplier_id +=1;
+            $supplier_id = substr('0000' . $supplier_id, -4, 4);
+        }
+
 
         $this->request->data['Supplier']['id'] = $supplier_id;
 
@@ -156,7 +162,7 @@ class SuppliersController extends AppController {
         $this->request->data['Supplier']['supplier_map_path'] = '/img/suppliers';
 
         if ($this->request->is('post')) {
-            $this->request->data['Supplier']['supplier_map_flie_type'] = $this->request->data['Supplier']['map']['type'];
+            $this->request->data['Supplier']['supplier_map_flie_type'] = $this->request->data["'Supplier'"]["'map'"]['type'];
             if ($this->isUploadedFile()) {
                 $ext = pathinfo($map['name'], PATHINFO_EXTENSION);
                 $this->saveUploadFile($map, '/img/suppliers', 'supplier_map_' . $supplier_id . '.' . $ext);
@@ -214,6 +220,7 @@ class SuppliersController extends AppController {
      * @return void
      */
     public function delete($id = null) {
+//        pr($id); die();
         $this->Supplier->id = $id;
         if (!$this->Supplier->exists()) {
             throw new NotFoundException(__('Invalid supplier'));
