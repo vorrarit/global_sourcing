@@ -73,7 +73,7 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'postgres',
-		'password' => 'password',
+		'password' => '123456789',
 		'database' => 'global_sourcing',
 		'schema' => 'public',
 		'prefix' => '',

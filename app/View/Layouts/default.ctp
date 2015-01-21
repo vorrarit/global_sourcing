@@ -57,7 +57,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.html">HP Data Collector : Global Sourcing Module</a>
+				<a class="navbar-brand" href="index">HP Data Collector : Global Sourcing Module</a>
 			</div>
 			<!-- /.navbar-header -->
 

@@ -14,12 +14,16 @@
         echo $this->Form->input('supplier_map_name', array('type' => 'hidden'));
         echo $this->Form->input('supplier_map_path', array('type' => 'hidden'));
         echo $this->Form->input('supplier_map_flie_type', array('type' => 'hidden'));
-        echo $this->Form->input('Map', array('class' => 'btn btn-primary btn-form', 'name' => 'data[Supplier][map]', 'type' => 'file'));
+//        echo $this->Form->input('Map', array('name' => 'data[Supplier][map]', 'type' => 'file'));
         ?>  
-        Remark: File type(JPG,PNG,GIF)
+        <input type="file", name="data['Supplier']['map']"/>
+        Remark: File type (jpg,png,gif)
     </fieldset>
     <br>
     <?php echo $this->Form->button(__('Save'), array('class' => 'btn btn-primary btn-form', 'action' => '/suppliers/add')); ?>
+    <?php echo $this->Form->button(__('Reset'), array('class' => 'btn btn-default', 'type' => 'reset'));?>
+    <a href="/Suppliers/index" button title="Cancal" class="btn btn-default">Cancel</a>
+    
 </div>
 
 
