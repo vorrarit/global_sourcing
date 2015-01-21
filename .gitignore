@@ -3,6 +3,9 @@
 /build
 /dist
 /tags
+myapp_cake_*
+*.log
+*.log.*
 
 # IDE and editor specific files #
 #################################
