@@ -27,44 +27,57 @@
 	echo $this->Form->input('division_id',array(
 			'empty'=>'Please Select',
 			'onchange' => 'division_Changed()',
-			'div'=>array('class'=>'col-lg-6 form-group')
+			'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false
         ));   
 				
 	echo $this->Form->input('department_id', array(
 			'empty'=>'Please Select',
 			'onchange'=>'deparment_Changed()',
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false));
 
 	echo $this->Form->input('klass_id', array(
 			'empty'=>'Please Select',
 			'onchange'=>'klass_Changed()',
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false));
 	
 	echo $this->Form->input('sub_klass_id',array(
 			'empty'=>'Please Select',
-			'div'=>array('class'=>'col-lg-6 form-group')
+			'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false
 		));
 
 	echo $this->Form->input('product_barcode_no', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false));
 	echo $this->Form->input('product_sku_no', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false));
 	echo $this->Form->input('product_description_eng', array(
-			'div'=>array('class'=>'col-lg-12 form-group')));
+			'div'=>array('class'=>'col-lg-12 form-group'), 
+			'required'=>false));
 	echo $this->Form->input('product_specification', array(
-			'div'=>array('class'=>'col-lg-12 form-group')));
+			'div'=>array('class'=>'col-lg-12 form-group'), 
+			'required'=>false));
 	echo $this->Form->input('min_price', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false));
 	echo $this->Form->input('max_price', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false));
 	echo $this->Form->input('manufac_name_eng', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false));
 	echo $this->Form->input('supplier_name_eng', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false));
 	echo $this->Form->input('supplier_type_id', array(
 			'empty'=>'Please Select',
 			'onchange'=>'deparment_Changed()',
-		'div'=>array('class'=>'col-lg-6 form-group')));
+		'div'=>array('class'=>'col-lg-6 form-group'), 
+			'required'=>false));
 ?>
 		<div class="col-lg-12 form-group">
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-search"></span>&nbsp;' . __('Search'),array('type'=>'submit' , 'class'=>'btn btn-primary btn-form')); ?>

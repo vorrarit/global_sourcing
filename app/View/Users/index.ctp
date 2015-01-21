@@ -9,21 +9,20 @@
     <?php echo $this->Form->input('username');?>
     <?php echo $this->Form->button(__('Search'),array('class'=>'btn btn-primary btn-form'));?>
 	<?php echo $this->Form->button(__('Reset'),array('id'=>'btn_reset','class'=>'btn btn-default btn-form'));?>
-			
-			
+	<?php echo $this->Form->end(); ?>
 		</div>
 	</div>
 </div>
 
 <div class="users index">
-<?php echo $this->Form->create('User',array('action'=>'multiSelect'))?>
+<?php echo $this->Form->create('User',array('action'=>'multiSelect')); ?>
 
     <h2><?php echo __('Users'); ?></h2>
 
 
 	<div class="btn-group pull-right" role="group" aria-label="...">
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>',array('onclick'=>"window.location.href='../users/add'",'type'=>'button','escape'=>false, 'title'=>__('Add'), 'class'=>'btn btn-default')); ?>
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'title'=>__('Delete All'), 'class'=>'btn btn-default')); ?>   
+		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'class'=>'btn btn-default')); ?>   
 	</div>
 
     <table class="table table-hover">
