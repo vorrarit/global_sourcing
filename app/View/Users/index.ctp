@@ -7,8 +7,11 @@
 			<!--<?php  echo $this->Form->select('id',$drop,array('style'=>'color:#00f;', 'empty'=> false,));?>-->
     <?php echo $this->Form->input('user_name');?>
     <?php echo $this->Form->input('username');?>
-    <?php echo $this->Form->button(__('Search'),array('class'=>'btn btn-primary btn-form'));?>
-	<?php echo $this->Form->button(__('Reset'),array('id'=>'btn_reset','class'=>'btn btn-default btn-form'));?>
+<!--			<div class="col-lg-2">
+            <button type="submit" class="btn btn-primary col-lg-12"><span class="glyphicon glyphicon-search"></span>&nbsp;Search</button>
+        </div>-->
+    <?php echo $this->Form->button('<span class="glyphicon glyphicon-search"> Search',array('class'=>'btn btn-primary btn-form','label'=>'Search'));?>
+	<?php echo $this->Form->button(__('Clear'),array('id'=>'btn_reset','class'=>'btn btn-default btn-form'));?>
 	<?php echo $this->Form->end(); ?>
 		</div>
 	</div>
@@ -21,7 +24,7 @@
 
 
 	<div class="btn-group pull-right" role="group" aria-label="...">
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>',array('onclick'=>"window.location.href='../users/add'",'type'=>'button','escape'=>false, 'title'=>__('Add'), 'class'=>'btn btn-default')); ?>
+		<?php echo $this->Form->button('<span class="glyphicon glyphicon-plus"></span>',array('onclick'=>"window.location.href='../users/add'",'type'=>'button','escape'=>false, 'title'=>__('Add'), 'class'=>'btn btn-default')); ?>
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'class'=>'btn btn-default')); ?>   
 	</div>
 
@@ -50,13 +53,15 @@
                 <td class="actions">
 
 			<?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $user['User']['id']), array('escape'=>false, 'title'=>__('Edit'))); ?>
-			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $user['User']['id']), array('escape'=>false, 'title'=>__('Delete')), __('Are you sure you want to delete # %s?', $user['User']['id'])); ?>
+			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $user['User']['id']), array('inline'=>false,'escape'=>false, 'title'=>__('Delete')), __('Are you sure you want to delete # %s?' ,$user['User']['id'])); ?>
                 </td>
             </tr>
 <?php endforeach; ?>
         </tbody>
     </table>
+	
 	<?php echo $this->Form->end(); ?>
+	<?php echo $this->fetch('postLink'); ?>
 
     <p>
 	<?php

@@ -6,6 +6,8 @@
 myapp_cake_*
 *.log
 *.log.*
+database.php
+core.php
 
 # IDE and editor specific files #
 #################################

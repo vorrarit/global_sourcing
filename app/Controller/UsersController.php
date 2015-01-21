@@ -184,11 +184,16 @@ class UsersController extends AppController {
             throw new NotFoundException(__('Invalid user'));
         }
         $this->request->allowMethod('post', 'delete');
-        if ($this->User->delete()) {
-            $this->Session->setFlash(__('The user has been deleted.'), 'default', array('class' => 'alert alert-success'));
-        } else {
-            $this->Session->setFlash(__('The user could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+//		debug($id);die;
+		if($id == '0001'){
+			$this->Session->setFlash(__('The user could not be deleted. '), 'default', array('class' => 'alert alert-danger'));
+		}else{
+			if ($this->User->delete()) {
+				$this->Session->setFlash(__('The user has been deleted.'), 'default', array('class' => 'alert alert-success'));
+			} else {
+				$this->Session->setFlash(__('The user could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
         }
+		}
         return $this->redirect(array('action' => 'index'));
     }
 
@@ -197,7 +202,9 @@ class UsersController extends AppController {
             $userIds = array();
 
             foreach ($this->request->data['User']['id'] as $ids) {
-                $userIds[] = $ids;
+				if($ids!='0001'){
+					$userIds[] = $ids;
+				}
             }
 			if($this->User->deleteAll(array('id' => $userIds),false)){
 				$this->User->deleteAll(array('id' => $userIds), false);

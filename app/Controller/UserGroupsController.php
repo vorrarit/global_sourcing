@@ -17,7 +17,7 @@ class UserGroupsController extends AppController {
 	public $components = array('Paginator', 'Session');
 
     public function beforeFilter() {
-        $this->Auth->allow('login', 'logout', 'index', 'add', 'edit');
+        $this->Auth->allow('login', 'logout');
         parent::beforeFilter();
     }
 /**
@@ -119,11 +119,17 @@ class UserGroupsController extends AppController {
 			throw new NotFoundException(__('Invalid user group'));
 		}
 		$this->request->allowMethod('post', 'delete');
+		if($id='02'){
+			$this->Session->setFlash(__('The user group could not be deleted.'), 'default', array('class' => 'alert alert-danger'));
+			
+		}else{
 		if ($this->UserGroup->delete()) {
-			$this->Session->setFlash(__('The user group has been deleted.'));
+			$this->Session->setFlash(__('The user group has been deleted.'), 'default', array('class' => 'alert alert-success'));
+		
 		} else {
 			$this->Session->setFlash(__('The user group could not be deleted. Please, try again.'));
-		}
+				$this->Session->setFlash(__('The user group could not be deleted.'), 'default', array('class' => 'alert alert-danger'));
+		}}
 		return $this->redirect(array('action' => 'index'));
 	}
 
@@ -139,12 +145,15 @@ class UserGroupsController extends AppController {
 	  public function multiSelect() {
         if ($this->request->is(array('post', 'put'))) {
             $usergroupIds = array();
-
+				
             foreach ($this->request->data['UserGroup']['id'] as $id) {
-                $usergroupIds[] = $id;
+				
+                if($id!=02){
+				$usergroupIds[] = $id;
+				}
             }
             $this->UserGroup->deleteAll(array('id' => $usergroupIds), false);
-            $this->Session->setFlash(__('The UserGroup has been deleted.'));
+            	$this->Session->setFlash(__('The user group has been deleted.'), 'default', array('class' => 'alert alert-success'));
             return $this->redirect(array('action' => 'index'));
         }
     }

@@ -42,7 +42,7 @@
 					<td><?php echo h($division['Division']['division_name']); ?>&nbsp;</td>         
 					<td class="actions">
 						<?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $division['Division']['id']), array('escape' => false, 'title' => __('Edit'))); ?>
-						<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $division['Division']['id']), array('escape' => false, 'title' => __('Delete')), __('Are you sure you want to delete # %s?', $division['Division']['id'])); ?>
+						<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $division['Division']['id']), array('inline'=>false, 'escape' => false, 'title' => __('Delete')), __('Are you sure you want to delete # %s?', $division['Division']['id'])); ?>
 
 					</td>
 				</tr>
@@ -62,6 +62,9 @@
 		echo $this->Paginator->next(__('next') . ' >', array('tag' => 'li'), null, array('tag' => 'li', 'disabledTag' => 'a', 'class' => 'next disabled'));
 		?>
     </div>
+	
+	<?php echo $this->Form->end(); ?>
+	<?php echo $this->fetch('postLink'); ?>
 </div>
 
 <script type="text/javascript">
