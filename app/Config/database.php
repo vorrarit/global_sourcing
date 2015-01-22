@@ -73,11 +73,11 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'postgres',
-		'password' => '123456789',
+		'password' => '123456',
 		'database' => 'global_sourcing',
 		'schema' => 'public',
 		'prefix' => '',
-		//'encoding' => 'utf8',
+		'encoding' => 'utf8',
 	);
 
 	public $test = array(

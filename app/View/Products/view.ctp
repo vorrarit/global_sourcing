@@ -11,19 +11,53 @@
 
             <div class="photos">
 				<h2>Photos</h2>
-				<?php
-				if (!empty($product['Photo'])) {
-					echo  '<a href= "'.$product['Photo'][0]['photo_path']. '/' . $product['Photo'][0]['photo_name'].'"><img width="240"  src=' . $product['Photo'][0]['photo_path'].'/'.
-							$product['Photo'][0]['photo_name'] . '></a><br>';
+				<div class="connected-carousels" >
+                <div class="stage">
+                    <div class="carousel carousel-stage" >
+                        <ul>
+							<?php
+								if (!empty($product['Photo'])) {
+									for ($i=0; $i<count($product['Photo']); $i++) {
+										echo  '<li><a href= "'.$product['Photo'][$i]['photo_path'].'/'.$product['Photo'][$i]['photo_name'].'"><img width="300" height="300" src=' . $product['Photo'][$i]['photo_path'].'/'.$product['Photo'][$i]['photo_name'] . '></a></li>';
+									}
+								}
+							?>   
+                        </ul>
+                    </div>
+                    <p></p>
+                    <a href="#" class="prev prev-stage"><span>&lsaquo;</span></a>
+                    <a href="#" class="next next-stage"><span>&rsaquo;</span></a>
+                </div>
 
-					for ($i=1; $i<count($product['Photo']); $i++) {
-						echo  '<a href= "'.$product['Photo'][$i]['photo_path'].'/'.$product['Photo'][$i]['photo_name'].'"><img width="80" src=' . $product['Photo'][$i]['photo_path'].'/'.
-							$product['Photo'][$i]['photo_name'] . '></a>';
-						if($i%-3==0){
-							echo  '<br>' ;
-						}
-					}
-				}
+                <div class="navigation">
+                    <a href="#" class="prev prev-navigation">&lsaquo;</a>
+                    <a href="#" class="next next-navigation">&rsaquo;</a>
+                    <div class="carousel carousel-navigation">
+                        <ul>
+                            <?php
+								if (!empty($product['Photo'])) {
+									for ($i=0; $i<count($product['Photo']); $i++) {
+										echo  '<li><a href= "'.$product['Photo'][$i]['photo_path'].'/'.$product['Photo'][$i]['photo_name'].'"><img width="50" height="50" src=' . $product['Photo'][$i]['photo_path'].'/'.$product['Photo'][$i]['photo_name'] . '></a></li>';
+									}
+								}
+							?>   
+                        </ul>
+                    </div>
+                </div>
+            </div>
+				
+				<?php
+//				if (!empty($product['Photo'])) {
+//					echo  '<a href= "'.$product['Photo'][0]['photo_path']. '/' . $product['Photo'][0]['photo_name'].'"><img width="240"  src='."/img/Products/pics/3.jpg".'></a><br>';
+//
+//					for ($i=1; $i<count($product['Photo']); $i++) {
+//						echo  '<a href= "'.$product['Photo'][$i]['photo_path'].'/'.$product['Photo'][$i]['photo_name'].'"><img width="80" src=' . $product['Photo'][$i]['photo_path'].'/'.
+//							$product['Photo'][$i]['photo_name'] . '></a>';
+//						if($i%-3==0){
+//							echo  '<br>' ;
+//						}
+//					}
+//				}
 				?>
             </div>
             <p></p>
@@ -60,7 +94,7 @@
             </div>
 
 		</td>
-		<td>
+		<td valign="top">
             <div class="products view">
                 <h2><?php echo __('Product'); ?></h2>
                 <dl>
@@ -135,20 +169,15 @@
                     </dd>
                     <dt><?php echo __('Retail Price'); ?></dt>
                     <dd>
-			<?php echo h($product['Product']['retail_price'].'  '.
-                              $product['Currency']['currency_name'].' / '.
-                              $product['Unit']['unit_name']); ?>
-                        &nbsp;
-                    </dd>
-                    <dt><?php echo __('Currency'); ?></dt>
-                    <dd>
-			<?php echo $this->Html->link($product['Currency']['currency_name'], array('controller' => 'currencies', 'action' => 'view', $product['Currency']['id'])); ?>
-                        &nbsp;
-                    </dd>
-                    <dt><?php echo __('Unit'); ?></dt>
-                    <dd>
-			<?php echo $this->Html->link($product['Unit']['unit_name'], array('controller' => 'units', 'action' => 'view', $product['Unit']['id'])); ?>
-                        &nbsp;
+			<?php echo h($product['Product']['retail_price'].'  ');
+						if(!empty( $product['Currency']['currency_name'] && $product['Unit']['unit_name'])){
+							echo $product['Currency']['currency_name'].' / '.$product['Unit']['unit_name']; 
+							
+						}
+						else if(!empty( $product['Currency']['currency_name'])){
+							echo $product['Currency']['currency_name'] ;
+						}
+			?> &nbsp;
                     </dd>
                     <dt><?php echo __('Manufacturer'); ?></dt>
                     <dd>
@@ -177,11 +206,17 @@
                     </dd>
                     <dt><?php echo __('Supplier'); ?></dt>
                     <dd>
-		<?php if(!empty($supplierProduct['Supplier']['supplier_name_th'])
-                      || (!empty($supplierProduct['Supplier']['supplier_name_eng'])))
-                {echo h($supplierProduct['Supplier']['supplier_name_th'].'/');
-                echo h($supplierProduct['Supplier']['supplier_name_eng']);}
-                ?>
+			<?php if(!empty($supplierProduct['Supplier']['supplier_name_th']) && (!empty($supplierProduct['Supplier']['supplier_name_eng']))){
+						echo h($supplierProduct['Supplier']['supplier_name_th'].' / '.$supplierProduct['Supplier']['supplier_name_eng']);
+				  }
+				  else if (!empty($supplierProduct['Supplier']['supplier_name_th'])){
+						echo h($supplierProduct['Supplier']['supplier_name_th']) ;
+				  }
+				  else if (!empty($supplierProduct['Supplier']['supplier_name_eng'])){
+						echo h($supplierProduct['Supplier']['supplier_name_eng']) ;
+				  }
+					
+            ?>
                         &nbsp;
                     </dd>
                     <dt><?php echo __('Supplier Type'); ?></dt>

@@ -1,11 +1,11 @@
 <?php
 foreach ($products as $product) {
-                echo h($product['Product']['id']) . ',' ;
-                echo h($product['Product']['product_name']) .',';
-                echo h($product['Product']['product_description_th']).','  ; 
-                echo h($product['Product']['product_description_eng']). ',' ;
-                echo h($product['Product']['product_specification']). ',' ;
-                echo h($product['Product']['retail_price']) ."\r\n";
+                echo __($product['Product']['id']) . ',' ;
+                echo __($product['Product']['product_name']) .',';
+                echo __($product['Product']['product_description_th']).','  ; 
+                echo __($product['Product']['product_description_eng']). ',' ;
+                echo __($product['Product']['product_specification']). ',' ;
+                echo __($product['Product']['retail_price']) ."\r\n";
                 }
                 
  ?>

@@ -49,10 +49,13 @@ class ProductsController extends AppController {
             if (!empty($data['Product']['text_search'])) {
                 $settings['Product']['conditions'][] = array('or' => array());
                 $settings['Product']['conditions']['or']['lower(Product.product_barcode_no) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
-                $settings['Product']['conditions']['or']['lower(Product.product_description_eng) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+                $settings['Product']['conditions']['or']['lower(Product.product_description_th) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
                 $settings['Product']['conditions']['or']['lower(Product.product_sku_no) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
                 $settings['Product']['conditions']['or']['lower(Product.product_specification) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
                 $settings['Product']['conditions']['or']['lower(Manufacturer.manufac_name_eng) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+                $settings['Product']['conditions']['or']['lower(Product.product_description_eng) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+				$settings['Product']['conditions']['or']['lower(Product.product_description_th) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+				$settings['Product']['conditions']['or']['lower(Product.product_description_eng) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
             }
             if (!empty($data['Product']['division_id'])) {
                 $settings['Product']['conditions']['Division.id'] = $data['Product']['division_id'];
@@ -69,11 +72,15 @@ class ProductsController extends AppController {
             if (!empty($data['Product']['product_barcode_no'])) {
                 $settings['Product']['conditions']['lower(Product.product_barcode_no) like'] = '%' . strtolower($data['Product']['product_barcode_no']) . '%';
             }
-            if (!empty($data['Product']['product_description_eng'])) {
-                $settings['Product']['conditions']['lower(Product.product_description_eng) like'] = '%' . strtolower($data['Product']['product_description_eng']) . '%';
+            if (!empty($data['Product']['product_description'])) {
+				$settings['Product']['conditions'][] = array('or' => array());
+                $settings['Product']['conditions']['or']['lower(Product.product_description_th) like'] = '%' . strtolower($data['Product']['product_description']) . '%';
+				$settings['Product']['conditions']['or']['lower(Product.product_description_eng) like'] = '%' . strtolower($data['Product']['product_description']) . '%';
             }
+			
+			
             if (!empty($data['Product']['product_sku_no'])) {
-                $settings['Product']['conditions']['lower(Supplier.product_sku_no) like'] = '%' . strtolower($data['Product']['product_sku_no']) . '%';
+                $settings['Product']['conditions']['lower(Product.product_sku_no) like'] = '%' . strtolower($data['Product']['product_sku_no']) . '%';
             }
             if (!empty($data['Product']['product_specification'])) {
                 $settings['Product']['conditions']['lower(Product.product_specification) like'] = '%' . strtolower($data['Product']['product_specification']) . '%';
@@ -81,8 +88,10 @@ class ProductsController extends AppController {
             if (!empty($data['Product']['manufac_name_eng'])) {
                 $settings['Product']['conditions']['lower(Manufacturer.manufac_name_eng) like'] = '%' . strtolower($data['Product']['manufac_name_eng']) . '%';
             }
-            if (!empty($data['Product']['supplier_name_eng'])) {
-                $settings['SupplierProduct']['conditions']['lower(SupplierProduct.supplier_name_eng) like'] = '%' . strtolower($data['Product']['supplier_name_eng']) . '%';
+            if (!empty($data['Product']['supplier_name'])) {
+				$settings['SupplierProduct']['conditions'][] = array('or' => array());
+                $settings['SupplierProduct']['conditions']['or']['lower(SupplierProduct.supplier_name_th) like'] = '%' . strtolower($data['Product']['supplier_name']) . '%';
+				$settings['SupplierProduct']['conditions']['or']['lower(SupplierProduct.supplier_name_eng) like'] = '%' . strtolower($data['Product']['supplier_name']) . '%';
             }
             if (!empty($data['Product']['supplier_type_id'])) {
                 $settings['SupplierProduct']['conditions']['SupplierProduct.supplier_type_id'] = $data['Product']['supplier_type_id'];
