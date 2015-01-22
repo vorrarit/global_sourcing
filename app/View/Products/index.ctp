@@ -112,7 +112,7 @@
 						}
 				echo "<br>" ;
 				echo $this->Html->link(__('View'), array('action' => 'view', $product['Product']['id']))."<br>"."<br>";
-                echo $this->Form->checkbox('Product.id'.$product['Product']['id'],array('value' => $product['Product']['id']));
+                echo $this->Form->checkbox('Product.id'.$product['Product']['id'],array('value' => $product['Product']['id'],'hiddenField'=> false));
                 echo "</td>";
                 if ($columnIndex == 3) {
                     echo "</tr>";
