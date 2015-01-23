@@ -1,23 +1,24 @@
 <div class="subKlasses form">
 <?php echo $this->Form->create('SubKlass',array('type'=>'post')); ?>
     <fieldset>
-        <legend><?php echo __('Add Sub Klass'); ?></legend>
+        <legend><?php echo __('Add Sub Class'); ?></legend>
 	<?php
         echo $this->Form->input('id',array('type'=>'text','readonly'=>true));	
 		echo $this->Form->input('division_id',array(
                     'onchange'=>'division_Changed()',
-                    'empty'=>'Please Select'));
+                    'empty'=>'Please Select','required'=>true));
 		echo $this->Form->input('department_id',array(
                     'onchange'=>'department_Changed()',
-                    'empty'=>'Please Select'));
+                    'empty'=>'Please Select','required'=>true));
 		echo $this->Form->input('klass_id',array(
-//                    'onchange'=>'division_Changed()',
-                    'empty'=>'Please Select'));
-		echo $this->Form->input('sub_klass_name');
+                    'empty'=>'Please Select',
+                    'label' => 'Class','required'=>true));
+		echo $this->Form->input('sub_klass_name',array('label'=>'Sub Class Name','required'=>true));
 	?>
     </fieldset>
     <?php echo $this->Form->button(__('Submit'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>
-    <?php echo $this->Form->button(__('Cancel'),array('onclick'=>"window.location.href='../SubKlasses/index'",'type'=>'button','class'=>'btn btn-default btn-form')); ?>
+    <?php echo $this->Form->button(__('Reset'),array('type'=>'reset','class'=>'btn btn-default btn-form'));?>
+	<?php echo $this->Form->button(__('Cancel'),array('onclick'=>"window.location.href='../SubKlasses/index'",'type'=>'button','class'=>'btn btn-default btn-form')); ?>
    <?php echo $this->Form->end(); ?>
 </div>
 <script type="text/javascript">

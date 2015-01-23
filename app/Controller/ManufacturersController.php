@@ -67,31 +67,44 @@ class ManufacturersController extends AppController {
      */
     public function add() {
 
+
         $count = $this->Manufacturer->find('first', array('order' => array('Manufacturer.id' => 'desc')));
-        $Manufac = ($count['Manufacturer']['id'] * 1);
-        $Manufac += 1;
-        $Manufac = substr('000000' . $Manufac, -6, 6);
-        $this->request->data['Manufacturer']['id'] = $Manufac;
-
-
-
+        if (empty($count)) {
+            $Manufac = 1;
+            $Manufac = substr('000000' . $Manufac, -6, 6);
+            $this->request->data['Manufacturer']['id'] = $Manufac;
+        } else {
+            $Manufac = ($count['Manufacturer']['id'] * 1);
+            $Manufac += 1;
+            $Manufac = substr('000000' . $Manufac, -6, 6);
+            $this->request->data['Manufacturer']['id'] = $Manufac;
+        }
         if ($this->request->is('post')) {
-            $id = $this->Manufacturer->find('first', array('fields'=>array('Manufacturer.id'),'order' => array('Manufacturer.id'=>'desc')));
+            $map = $this->request->data['Manufacturer']['input'];
+//            $createdUser = $this->Session->read('Auth.User');
+            //debug();die;
+            $id = $this->Manufacturer->find('first', array('fields' => array('Manufacturer.id'), 'order' => array('Manufacturer.id' => 'desc')));
+//               debug($map);die;
             $picID = $id['Manufacturer']['id'];
             $picID +=1;
             $picID = substr('000000' . $picID, -6, 6);
 
-            $map = $this->request->data['Manufacturer']['map'];
-            $ext = pathinfo($map['name'], PATHINFO_EXTENSION);
+            $this->request->data['Manufacturer']['id'] = $picID;
+            $this->request->data['Manufacturer']['manufac_map_name'] = $map['name'];
+            $this->request->data['Manufacturer']['manufac_map_path'] = '/img/pic';
+            $this->request->data['Manufacturer']['manufac_map_file_type'] = $map['type'];
+//             pr($this->request->data);
+//            die();
+
             if ($this->isUploadedFile($map)) {
-                $this->request->data['Manufacturer']['manufac_map_name'] = $this->request->data['Manufacturer']['map']['name'];
-                $this->request->data['Manufacturer']['manufac_map_path'] = '/img/pic';
-                $this->request->data['Manufacturer']['manufac_map_file_type'] = $this->request->data['Manufacturer']['map']['type'];
 
-
-                $this->saveUploadFile($map, '/img/pic', 'manufac_photo_' . '00000' . $picID . '.' . $ext);
+                $ext = pathinfo($map['name'], PATHINFO_EXTENSION);
+                $this->saveUploadFile($map, 'img/pic', 'manufac_photo_' . '00000' . $picID . '.' . $ext);
+                //  debug($map);die;    
             }
             $this->Manufacturer->create();
+            //pr($this->request->data);
+            //die();
             if ($this->Manufacturer->save($this->request->data)) {
                 $this->Session->setFlash(__('The manufacturer has been saved.'), 'default', array('class' => 'alert alert-sucess'));
                 return $this->redirect(array('action' => 'edit', $Manufac));

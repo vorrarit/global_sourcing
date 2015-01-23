@@ -10,6 +10,8 @@ App::uses('AppController', 'Controller');
  * @property SessionComponent $Session
  */
 class ManufacturerContactsController extends AppController {
+    
+    public $uses = array('ManufacturerContact', 'Manufacturer');
 
     /**
      * Components
@@ -68,6 +70,7 @@ class ManufacturerContactsController extends AppController {
                 }
 
                 $this->request->data['ManufacturerContact']['id'] = $ManufacturerContactId;
+//            pr($this->request->data); die();
 
                 if ($this->ManufacturerContact->save($this->request->data)) {
                     $this->Session->setFlash(__('The manufacturer contact has been saved.'));
@@ -109,6 +112,7 @@ class ManufacturerContactsController extends AppController {
             $this->request->data = $this->ManufacturerContact->find('first', $options);
         }
         $manufacturers = $this->ManufacturerContact->Manufacturer->find('list');
+        
         $this->set(compact('manufacturers'));
     }
 
@@ -125,7 +129,7 @@ class ManufacturerContactsController extends AppController {
             throw new NotFoundException(__('Invalid manufacturer contact'));
         }
 
-        $manufacturerContact = $this->ManufacturerContact->find('first', array('conditions' => array('Manufacturer.id' => $id)));
+        $manufacturerContact = $this->ManufacturerContact->find('first', array('conditions' => array('ManufacturerContact.id' => $id)));
 
         $this->request->allowMethod('post', 'delete');
         if ($this->ManufacturerContact->delete()) {
@@ -133,7 +137,7 @@ class ManufacturerContactsController extends AppController {
         } else {
             $this->Session->setFlash(__('The manufacturer contact could not be deleted. Please, try again.'));
         }
-        return $this->redirect(array('action' => 'index'));
+        return $this->redirect(array('controller'=>'Manufacturers', 'action' => 'edit', $manufacturerContact['ManufacturerContact']['manufacturer_id']));
     }
 
 }

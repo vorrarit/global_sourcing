@@ -77,7 +77,7 @@ class DATABASE_CONFIG {
 		'database' => 'global_sourcing',
 		'schema' => 'public',
 		'prefix' => '',
-		//'encoding' => 'utf8',
+		'encoding' => 'utf8',
 	);
 
 	public $test = array(

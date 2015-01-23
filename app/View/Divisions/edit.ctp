@@ -8,6 +8,8 @@
 ?>
     </fieldset>
     <?php echo $this->Form->button(__('Submit'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>
-    <?php echo $this->Form->end(); ?>
+   	<?php echo $this->Form->button(__('Reset'),array('type'=>'reset','class'=>'btn btn-default btn-form'));?>
+    <?php echo $this->Form->button(__('Cancel'),array('onclick'=>"window.location.href='/Divisions/index'",'type'=>'button','class'=>'btn btn-default btn-form')); ?>
+	<?php echo $this->Form->end(); ?>
 </div>
 

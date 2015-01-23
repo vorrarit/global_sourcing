@@ -85,16 +85,17 @@ class DepartmentsController extends AppController {
      * @return void
      */
     public function add() {
-        if ($this->request->is('post')) {
-            $currentUser = $this->Session->read('Auth.User');
-            $this->Department->create();
-            $this->request->data['Department']['created_by'] = $currentUser['username'];
-            $this->request->data['Department']['modified_by'] = $currentUser['username'];
-            if ($this->Department->save($this->request->data)) {
-                $this->Session->setFlash(__('The department has been saved.'), 'default', array('class' => 'alert alert-success'));
-                return $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The department could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+        if ((!empty($this->request->data['Department']['id'])) && (!empty($this->request->data['Department']['depart_name']))) {
+            if ($this->request->is('post')) {
+                $currentUser = $this->Session->read('Auth.User');
+                $this->Department->create();
+                $this->request->data['Department']['created_by'] = $currentUser['username'];
+                if ($this->Department->save($this->request->data)) {
+                    $this->Session->setFlash(__('The department has been saved.'), 'default', array('class' => 'alert alert-success'));
+                    return $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash(__('The department could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+                }
             }
         }
         //$divisions = $this->Department->Division->find('list');
