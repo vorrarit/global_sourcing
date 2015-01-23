@@ -127,7 +127,7 @@ class UsersController extends AppController {
 					$this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
 				}
 			}else{
-				$this->Session->setFlash(__('This Username cant be used becuase it has same username already.'), 'default', array('class' => 'alert alert-danger'));
+				$this->Session->setFlash(__('This Username could be used REASON:This username has been used already'), 'default', array('class' => 'alert alert-danger'));
 			}
 			
         }
