@@ -88,7 +88,8 @@ echo '</div>';
 </div>
 
 <div class="row">
-	<button type="button" class="btn btn-default btn-form" onclick="popupNotifySupplier_click()">Notify Suppliers</button>
+	<button type="button" class="btn btn-default btn-form" onclick="popupNotifySupplier_click()">Notify Suppliers</button>&nbsp;&nbsp;
+        <?php echo $this->Form->button(__('Complete'), array('onclick'=>'saveCompleteClick()','type'=>'button','class'=>'btn btn-primary btn-form')) ; ?> &nbsp;
 </div>
 
 <script>

@@ -29,15 +29,6 @@ class ProductsController extends AppController {
         $this->set(compact('divisions', 'departments', 'klasses', 'subKlasses', 'supplierTypes'));
         $this->Product->find('all');
         $this->Product->recursive = 1;
-//        $paginator = $this->Paginator->paginate();
-//        $count = count($id_product);
-//        $photo_id = array() ;
-//        for($i=0 ; $i<$count ; $i++){
-//        $photo_id[] = $id_product[$i]['Product']['id'] ;
-//        }
-//        $this->Product->find->('all',array('conditions'=>array($photo_id=>$paginator)));
-      
-        
 
         if (!empty($this->request->data)) {
             $data = $this->request->data;
@@ -112,6 +103,13 @@ class ProductsController extends AppController {
      * @return void
      */
     public function xedni() {
+        $divisions = $this->Product->Division->find('list', array('fields' => array('id', 'division_name')));
+        $departments = $this->Product->Department->find('list', array('fields' => array('id', 'department_name')));
+        $klasses = $this->Product->Klass->find('list', array('fields' => array('id', 'klass_name')));
+        $subKlasses = $this->Product->SubKlass->find('list', array('fields' => array('id', 'sub_klass_name')));
+        $supplierTypes = $this->SupplierType->find('list', array('fields' => array('id', 'supplier_type_name')));
+        $this->set(compact('divisions', 'departments', 'klasses', 'subKlasses', 'supplierTypes'));
+        
         $condition = array();
         if (!empty($this->request->data)) {
             $data = $this->request->data;
@@ -119,14 +117,20 @@ class ProductsController extends AppController {
             $settings = array('Product' => array(
                     'conditions' => array(),
                     'order' => array('Product.id' => 'asc')));
-            if (!empty($data['Product']['text_search']) && empty($data['Product']['product_name']) && empty($data['Product']['product_description_eng']) && empty($data['Product']['product_short_description_th']) && empty($data['Product']['product_short_description_eng']) && empty($data['Product']['product_specification'])) {
+            
+            if (!empty($data['Product']['text_search'])&& empty($data['Product']['division_id']) && empty($data['Product']['department_id']) &&
+                 empty($data['Product']['klass_id'])&& empty($data['Product']['sub_klass_id']) && empty($data['Product']['department_id']) &&
+                 empty($data['Product']['product_description_eng'])&& empty($data['Product']['product_sku_no']) && empty($data['Product']['product_specification']) &&
+                 empty($data['Product']['manufac_name_eng'])&& empty($data['Product']['supplier_name_eng']) && empty($data['Product']['supplier_type_id']) &&
+                 empty($data['Product']['min_price'])&& empty($data['Product']['max_price']) && empty($data['Product']['department_id']) )
+                {
                 $settings['Product']['conditions'][] = array('or' => array());
                 $settings['Product']['conditions']['or']['lower(Product.product_name) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
                 $settings['Product']['conditions']['or']['lower(Product.product_description_eng) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
                 $settings['Product']['conditions']['or']['lower(Product.product_short_description_th) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
                 $settings['Product']['conditions']['or']['lower(Product.product_short_description_eng) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
                 $settings['Product']['conditions']['or']['lower(Product.product_specification) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
-            }
+                }
 
             if (!empty($data['Product']['product_name'])) {
                 $settings['Product']['conditions']['lower(Product.product_name) like'] = '%' . strtolower($data['Product']['product_name']) . '%';
@@ -146,7 +150,6 @@ class ProductsController extends AppController {
             $this->Paginator->settings = $settings;
             $this->set('products', $this->Paginator->paginate('Product'));
         } else {
-//            $this->set('products', $this->Paginator->paginate('Product'));
             $this->set('products', $this->Paginator->paginate('Product'));
             $sppProduc = $this->SupplierProduct->find('list', array('fields' => array('product_id', 'supplier_id')));
             $this->set('SppProduct', $sppProduc);
@@ -197,6 +200,8 @@ class ProductsController extends AppController {
      */
     public function add() {
         if ($this->request->is('post')) {
+            
+                
             if (empty($this->request->data['Product']['product_sku_no'])) {
                 if (!empty($this->request->data['Product']['product_barcode_no'])) {
                     $this->request->data['Product']['product_sku_no'] = $this->request->data['Product']['product_barcode_no'];
@@ -205,10 +210,11 @@ class ProductsController extends AppController {
                     $this->request->data['Product']['product_sku_no'] = $this->request->data['Product']['id'];
                 }
             }
+            
             $this->Product->create();
             if ($this->Product->save($this->request->data)) {
+                
                 $this->Session->setFlash(__('Save Draft Finished.'),'default',array('class'=>'alert alert-success'));
-//                return $this->redirect(array('action' => 'index'));
 				return $this->redirect(array('action' => 'edit', $this->Product->id));
             } else {
                 $this->Session->setFlash(__('The product could not be saved. Please, try again.'),'default',array('class'=>'alert alert-danger'));
@@ -276,7 +282,15 @@ class ProductsController extends AppController {
         if ($this->request->is(array('post', 'put'))) {
             if ($this->Product->save($this->request->data)) {
                 $this->Session->setFlash(__('The product has been saved.'),'default',array('class'=>'alert alert-success'));
-                return $this->redirect(array('action' => 'index'));
+                
+                if(($this->request->data['Product']['checkNext']) == "Draft"){
+                    return $this->redirect(array('action' => 'xedni'));
+                }
+                else if(($this->request->data['Product']['checkNext']) == "Next"){
+                    return $this->redirect(array('action' => '../SupplierProducts/add'));
+                }
+                
+                
             } else {
                 $this->Session->setFlash(__('The product could not be saved. Please, try again.'),'default',array('class'=>'alert alert-danger'));
             }
@@ -329,11 +343,14 @@ class ProductsController extends AppController {
         if (!$this->Product->exists()) {
             throw new NotFoundException(__('Invalid product'));
         }
-        if ($this->Product->delete()) {
-            $this->Session->setFlash(__('The product has been deleted.'),'default',array('class'=>'alert alert-success'));
-        } else {
-            $this->Session->setFlash(__('The product could not be deleted. Please, try again.'),'default',array('class'=>'alert alert-danger'));
-        }
+        $this->Product->delete($id);
+        $this->SupplierProduct->deleteAll(array('SupplierProduct.product_id'=>$id), false);
+        $this->Video->deleteAll(array('Video.product_id'=>$id), false);
+        $this->Photo->deleteAll(array('Photo.product_id'=>$id), false);
+        $this->FileDocument->deleteAll(array('FileDocument.product_id'=>$id), false);
+        
+        $this->Session->setFlash(__('The product has been deleted.'), 'default', array('class' => 'alert alert-success'));
+
         return $this->redirect(array('action' => 'xedni'));
     }
 
@@ -372,12 +389,10 @@ class ProductsController extends AppController {
     }
 
     public function multiExport() {
-        if ($this->request->is(array('post', 'put'))) {
             $productIds = array();
             $this->Paginator->settings = $productIds;
             $this->set('products', $this->Paginator->paginate());
             $this->layout = 'csv';
-        }
     }
 	
     function loadDepartments($dvID) {

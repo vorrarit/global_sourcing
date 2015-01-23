@@ -1,7 +1,7 @@
 <p></p>
 
 <div class="form">
-<?php echo $this->Form->postbutton('Export', array('action' => 'mswordExport', $product['Product']['id']), array('class'=>'btn btn-default btn-form')); ?>
+    <?php echo $this->Form->postbutton('Export', array('action' => 'mswordExport', $product['Product']['id']), array('class'=>'btn btn-default btn-form')); ?>
 </div>
 
 <p></p>
@@ -24,6 +24,9 @@
 						}
 					}
 				}
+                                else{
+                                    ?><h5>&nbsp;&nbsp;&nbsp;- ไม่พบรูปภาพ</h5><?php
+                                }
 				?>
             </div>
             <p></p>
@@ -45,17 +48,24 @@
 						}
 					}
 				}
+                                else{
+                                    ?><h5>&nbsp;&nbsp;&nbsp;- ไม่พบวิดีโอ</h5><?php
+                                }
 				?>
 
 			</div>
             <p></p>
             <div class="docs">
 				<h2>Documents</h2>
-                <?php	
+                <?php               if(!empty($product['FileDocument'])){
 					for ($i=0; $i<count($product['FileDocument']); $i++) {
 						echo  '<a href= "'.$product['FileDocument'][$i]['file_doc_path'].'/'.$product['FileDocument'][$i]['file_doc_name'].'">' . $product['FileDocument'][$i]['file_doc_name'] . '</a>';
 						echo  '<br>' ; 
 					}
+                                    }
+                                    else{
+                                    ?><h5>&nbsp;&nbsp;&nbsp;- ไม่พบไฟล์เอกสาร</h5><?php
+                                }
 				?>
             </div>
 

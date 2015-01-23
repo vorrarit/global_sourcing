@@ -1,35 +1,79 @@
 <div class="row">
-	<h1 class="page-header"><?php echo __('Search Products'); ?></h1>
+    <h1 class="page-header"><?php echo __('Search Products'); ?></h1>
 </div>
 
 <?php echo $this->Form->create('Product',array('action'=>'xedni')); ?>
 <div class="products form row">
-	<div class="col-lg-10">
+    <div class="col-lg-10">
 		<?php echo $this->Form->input('text_search', array('label'=>false)); ?>
-	</div>
-	<div class="col-lg-2">
-		<div class="btn-group">
-			<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>&nbsp;Search</button>
-			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				<span class="caret"></span>
-				<span class="sr-only">Toggle Dropdown</span>
-			</button>
-			<ul class="dropdown-menu" role="menu">
-				<li><a href="javascript:void(null)" onclick="$('#embed_div').toggle()">Advance Search</a></li>
-			</ul>
-		</div>
-	</div>
+    </div>
+    <div class="col-lg-2">
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>&nbsp;Search</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="javascript:void(null)" onclick="$('#embed_div').toggle()">Advance Search</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <div id="embed_div" class="row" style="display: none">
-		<?php echo $this->Form->input('product_name', array('div'=>array('class'=>'col-lg-6 form-group'))); ?>
-		<?php echo $this->Form->input('product_description_eng', array('div'=>array('class'=>'col-lg-12 form-group'))); ?>
-		<?php echo $this->Form->input('product_specification', array('div'=>array('class'=>'col-lg-12 form-group'))); ?>
-		<?php echo $this->Form->input('product_short_description_th', array('div'=>array('class'=>'col-lg-12 form-group'))); ?>
-		<?php echo $this->Form->input('product_short_description_eng', array('div'=>array('class'=>'col-lg-12 form-group'))); ?>
-		<div class="col-lg-12 form-group">
+<?php 
+	echo $this->Form->input('division_id',array(
+			'empty'=>'Please Select',
+			'onchange' => 'division_Changed()',
+                        'required'=>false,
+			'div'=>array('class'=>'col-lg-6 form-group')
+        ));   
+				
+	echo $this->Form->input('department_id', array(
+			'empty'=>'Please Select',
+			'onchange'=>'deparment_Changed()',
+                        'required'=>false,
+			'div'=>array('class'=>'col-lg-6 form-group')));
+
+	echo $this->Form->input('klass_id', array(
+			'empty'=>'Please Select',
+			'onchange'=>'klass_Changed()',
+                        'required'=>false,
+			'div'=>array('class'=>'col-lg-6 form-group')));
+	
+	echo $this->Form->input('sub_klass_id',array(
+			'empty'=>'Please Select',
+                        'required'=>false,
+			'div'=>array('class'=>'col-lg-6 form-group')
+		));
+
+	echo $this->Form->input('product_barcode_no', array(
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
+	echo $this->Form->input('product_sku_no', array(
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
+	echo $this->Form->input('product_description_eng', array(
+			'div'=>array('class'=>'col-lg-12 form-group'),'required'=>false));
+	echo $this->Form->input('product_specification', array(
+			'div'=>array('class'=>'col-lg-12 form-group'),'required'=>false));
+	echo $this->Form->input('min_price', array(
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
+	echo $this->Form->input('max_price', array(
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
+	echo $this->Form->input('manufac_name_eng', array(
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
+	echo $this->Form->input('supplier_name_eng', array(
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
+	echo $this->Form->input('supplier_type_id', array(
+			'empty'=>'Please Select',
+			'onchange'=>'deparment_Changed()',
+                        'required'=>false,
+		'div'=>array('class'=>'col-lg-6 form-group')));?>
+    
+    <div class="col-lg-12 form-group">
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-search"></span>&nbsp;' . __('Search'),array('type'=>'submit' , 'class'=>'btn btn-primary btn-form')); ?>
-		</div>
+		<?php echo $this->Form->button(__('Reset'), array('type'=>'reset', 'class'=>'btn btn-default btn-form')); ?>
+    </div>
 </div>
 <?php echo $this->Form->end();?>
 
@@ -37,8 +81,9 @@
 <div class="products index row">
     <?php echo $this->Form->create('Product',array('action'=>'multiSelect'))?>
 	<div class="btn-group pull-right" role="group" aria-label="...">
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>',array('onclick'=>"window.location.href='../Products/add'",'type'=>'button' , 'escape'=>false, 'title'=>__('Add') , 'class'=>'btn btn-default')); ?>
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'class'=>'btn btn-default')); ?>   
+            <?php echo $this->Form->button('<span class="glyphicon glyphicon-export"></span>',array('type'=>'button', 'escape'=>false, 'class'=>'btn btn-default' , 'onclick'=>"window.location.href='/Products/multiExport'")); ?>   
+            <?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>',array('onclick'=>"window.location.href='../Products/add'",'type'=>'button' , 'escape'=>false, 'title'=>__('Add') , 'class'=>'btn btn-default')); ?>	
+            <?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'class'=>'btn btn-default')); ?>   
 	</div>
 	
 	<h2><?php echo __('Products'); ?></h2>
@@ -63,17 +108,19 @@
 	<?php foreach ($products as $product): ?>
             <tr>
                 <td><?php echo $this->Form->checkbox('Product.id.'. $product['Product']['id'],array('value'=> $product['Product']['id'])); ?></td>
-                <td><?php echo h($product['Product']['id']); ?>&nbsp;</td>
+                <td><?php echo $this->Html->link($product['Product']['id'],
+                array('controller' => 'products', 'action' => 'view', $product['Product']['id'])); ?>&nbsp;</td>
                 <td><?php echo (empty($product['Photo'])? '&nbsp;': '<img src="' . $product['Photo'][0]['photo_path'] . '/' . $product['Photo'][0]['photo_name'] . '" width=120 height=120>'); ?></td>
                 <td><?php echo h($product['Product']['product_description_th']); ?>&nbsp;</td>
                 <td><?php echo h($product['Product']['product_description_eng']); ?>&nbsp;</td>
                 <td><?php echo h($product['Product']['product_specification']); ?>&nbsp;</td>
-                <td><?php echo h($product['Product']['retail_price']); ?>&nbsp;</td>
+                <td><?php echo h($product['Product']['retail_price'].' '.$product['Currency']['currency_name']); ?>&nbsp;</td>
                 <td><?php echo h($product['Manufacturer']['manufac_name_eng']); ?>&nbsp;</td>
                 <td><?php echo h(@$Spp[$SppProduct[$product['Product']['id']]]); ?>&nbsp;</td>
                 <td><?php echo h($product['Product']['product_status']); ?>&nbsp;</td>
                 <td class="actions">
-					<?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $product['Product']['id']), array('escape'=>false, 'title'=>__('Edit'))); ?>
+                    <?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('action' => 'view', $product['Product']['id']), array('escape'=>false, 'title'=>__('View'))); ?>
+                    <?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $product['Product']['id']), array('escape'=>false, 'title'=>__('Edit'))); ?>
                     <a href="/Products/eteled/<?php echo $product['Product']['id']; ?>" class="glyphicon glyphicon-trash"></a>
                 </td>
             </tr>
@@ -119,4 +166,50 @@
         $('#ProductProductShortDescriptionTh').val('');
         $('#ProductProductShortDescriptionEng').val('');
     }
+    function division_Changed() {
+		var dvID = document.getElementById('ProductDivisionId').value;
+
+		$.post('/Products/loadDepartments/' + dvID + '.json', function (data) {
+			var ddlDepartments = document.forms[0].elements['data[Product][department_id]'];
+			var ddlKlasses = document.forms[0].elements['data[Product][klass_id]'];
+			var ddlSubKlasses = document.forms[0].elements['data[Product][sub_klass_id]'];
+
+			ddlDepartments.selectedIndex = 0;
+			ddlDepartments.options.length = 1;
+			ddlKlasses.options.length = 1;
+			ddlSubKlasses.options.length = 1;
+
+			ddlDepartments.options.length = data.result.Departments.length + 1;
+			for (i = 0; i < data.result.Departments.length; i++) {
+				ddlDepartments.options[i + 1].text = data.result.Departments[i].Department.department_name;
+				ddlDepartments.options[i + 1].value = data.result.Departments[i].Department.id;
+			}
+		});
+	}
+
+	function deparment_Changed() {
+		var deptID = document.getElementById('ProductDepartmentId').value;
+
+		$.post('/Products/loadKlasses/' + deptID + '.json', function (data) {
+			var ddlKlasses = document.forms[0].elements['data[Product][klass_id]'];
+			ddlKlasses.options.length = data.result.Klasses.length + 1;
+
+			for (i = 0; i < data.result.Klasses.length; i++) {
+				ddlKlasses.options[i + 1].text = data.result.Klasses[i].Klass.klass_name;
+				ddlKlasses.options[i + 1].value = data.result.Klasses[i].Klass.id;
+			}
+		});
+	}
+	function klass_Changed() {
+		var klsID = document.getElementById('ProductKlassId').value;
+
+		$.post('/Products/loadSubKlass/' + klsID + '.json', function (data) {
+			var ddlSubKlasses = document.forms[0].elements['data[Product][sub_klass_id]'];
+			ddlSubKlasses.options.length = data.result.SubKlasses.length + 1;
+			for (i = 0; i < data.result.SubKlasses.length; i++) {
+				ddlSubKlasses.options[i + 1].text = data.result.SubKlasses[i].SubKlass.sub_klass_name;
+				ddlSubKlasses.options[i + 1].value = data.result.SubKlasses[i].SubKlass.id;
+			}
+		});
+	}
 </script>

@@ -21,56 +21,59 @@
 	</div>
 </div>
 		
-<div id="embed_div" class="row" style="display:none;">
-
+<div id="embed_div" class="row" style="display: none">
 <?php 
 	echo $this->Form->input('division_id',array(
 			'empty'=>'Please Select',
 			'onchange' => 'division_Changed()',
+                        'required'=>false,
 			'div'=>array('class'=>'col-lg-6 form-group')
         ));   
 				
 	echo $this->Form->input('department_id', array(
 			'empty'=>'Please Select',
 			'onchange'=>'deparment_Changed()',
+                        'required'=>false,
 			'div'=>array('class'=>'col-lg-6 form-group')));
 
 	echo $this->Form->input('klass_id', array(
 			'empty'=>'Please Select',
 			'onchange'=>'klass_Changed()',
+                        'required'=>false,
 			'div'=>array('class'=>'col-lg-6 form-group')));
 	
 	echo $this->Form->input('sub_klass_id',array(
 			'empty'=>'Please Select',
+                        'required'=>false,
 			'div'=>array('class'=>'col-lg-6 form-group')
 		));
 
 	echo $this->Form->input('product_barcode_no', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
 	echo $this->Form->input('product_sku_no', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
 	echo $this->Form->input('product_description_eng', array(
-			'div'=>array('class'=>'col-lg-12 form-group')));
+			'div'=>array('class'=>'col-lg-12 form-group'),'required'=>false));
 	echo $this->Form->input('product_specification', array(
-			'div'=>array('class'=>'col-lg-12 form-group')));
+			'div'=>array('class'=>'col-lg-12 form-group'),'required'=>false));
 	echo $this->Form->input('min_price', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
 	echo $this->Form->input('max_price', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
 	echo $this->Form->input('manufac_name_eng', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
 	echo $this->Form->input('supplier_name_eng', array(
-			'div'=>array('class'=>'col-lg-6 form-group')));
+			'div'=>array('class'=>'col-lg-6 form-group'),'required'=>false));
 	echo $this->Form->input('supplier_type_id', array(
 			'empty'=>'Please Select',
 			'onchange'=>'deparment_Changed()',
-		'div'=>array('class'=>'col-lg-6 form-group')));
-?>
-		<div class="col-lg-12 form-group">
+                        'required'=>false,
+		'div'=>array('class'=>'col-lg-6 form-group')));?>
+    
+    <div class="col-lg-12 form-group">
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-search"></span>&nbsp;' . __('Search'),array('type'=>'submit' , 'class'=>'btn btn-primary btn-form')); ?>
 		<?php echo $this->Form->button(__('Reset'), array('type'=>'reset', 'class'=>'btn btn-default btn-form')); ?>
-		</div>
-
+    </div>
 </div>
 <?php echo $this->Form->end(); ?>
 
@@ -94,7 +97,9 @@
                 if (!empty($product['Photo'])) {
                     echo "<img width=\"180\" src=\"" . $product['Photo'][0]['photo_path'] . '/' . $product['Photo'][0]['photo_name'] . "\"><br>";
                 }
-                echo h($product['Product']['id']) . "<br>";
+                
+                echo $this->Html->link($product['Product']['id'],
+                array('controller' => 'products', 'action' => 'view', $product['Product']['id'])) . "<br>";
                 echo h($product['Product']['product_name']) . "<br>";
                 echo h($product['Product']['retail_price']) . "<br>";
                 echo $this->Html->link(__('View'), array('action' => 'view', $product['Product']['id']))."<br>"."<br>";

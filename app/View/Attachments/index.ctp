@@ -29,6 +29,23 @@
 	<p></p></br>
 	<p></p>
 
+        <div class="row">
+		<div class="col-lg-12">
+            <div id="videos">
+                <?php echo $this->Form->input('Video : ',array('name'=>'data[Product][video][]','type'=>'file'));?>
+            </div>
+		</div>
+		<div class="col-lg-12">
+			<button type="button" onclick="btnVideos_click()" class="btn btn-default btn-sm">Add More</button>&nbsp;&nbsp;
+			Remake : File type(MP4, AVI, FLV),Size(200px X 180px), File size less than 50 MB
+		</div>
+	</div>
+        
+	
+	
+	<p></p></br>
+	<p></p>
+	
 	<div class="row">
 		<div class="col-lg-12">
             <div id="file_doc">
@@ -38,21 +55,6 @@
 		<div class="col-lg-12">
 			<button type="button" onclick="btnFile_Doc_click()" class="btn btn-default btn-sm">Add More</button>&nbsp;&nbsp;
 			Remake : File type(JPG, PDF), File size less than 10 MB
-		</div>
-	</div>
-	
-	<p></p></br>
-	<p></p>
-	
-	<div class="row">
-		<div class="col-lg-12">
-            <div id="videos">
-                <?php echo $this->Form->input('Video : ',array('name'=>'data[Product][video][]','type'=>'file'));?>
-            </div>
-		</div>
-		<div class="col-lg-12">
-			<button type="button" onclick="btnVideos_click()" class="btn btn-default btn-sm">Add More</button>&nbsp;&nbsp;
-			Remake : File type(MP4, AVI, FLV),Size(200px X 180px), File size less than 50 MB
 		</div>
 	</div>
 	

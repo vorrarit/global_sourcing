@@ -65,7 +65,7 @@
 		echo $this->Form->input('product_specification', array('type'=>'textarea', 'div'=>array('class'=>'col-lg-12 form-group')));
 		
 		echo $this->Form->input('retail_price', array('div'=>array('class'=>'col-lg-6 form-group')));
-		echo $this->Form->input('currency_id', array('div'=>array('class'=>'col-lg-6 form-group')));
+		echo $this->Form->input('currency_id', array('div'=>array('class'=>'col-lg-6 form-group'),'empty'=>false , 'default'=> 1));
 		
 		echo $this->Form->input('unit_id', array('div'=>array('class'=>'col-lg-6 form-group')));
 		echo $this->Form->input('manufacturer_id', array('div'=>array('class'=>'col-lg-6 form-group')));
@@ -75,9 +75,12 @@
 		echo $this->Form->input('product_status',array('type'=>'hidden','id'=>'prst'));
 		
 		echo '<div class="col-lg-12">';
-		echo $this->Form->button(__('Save Draft'),array('onclick'=>'saveDraftClick()','class'=>'btn btn-default btn-form')) . '&nbsp;';
-		echo $this->Form->button(__('Complete'), array('onclick'=>'saveCompleteClick()','type'=>'button','class'=>'btn btn-primary btn-form')) . '&nbsp;';
-		echo $this->Form->button(__('Cancel'), array('onclick'=>"window.location.href='/Products/index'",'type'=>'button','class'=>'btn btn-default btn-form'));
+                
+                echo $this->Form->input(__('checkNext'),array('type'=>'hidden','id'=>'checkNext','value'=>''));
+                
+		echo $this->Form->button(__('Save Draft'),array('id'=>'btnSaveDraft','class'=>'btn btn-default btn-form')) . '&nbsp;';
+		echo $this->Form->button(__('Next'), array('type'=>'button','class'=>'btn btn-primary btn-form','name'=>'btnNext','id'=>'btnNext')) . '&nbsp;';
+		echo $this->Form->button(__('Cancel'), array('onclick'=>"window.location.href='/Products/xedni'",'type'=>'button','class'=>'btn btn-default btn-form'));
 		echo '</div>';
         ?>
 	</fieldset>
@@ -109,8 +112,19 @@
         $('#ProductEditForm').submit();
     }
 	
-	function saveCompleteClick() {
+    function saveCompleteClick() {
         $('#prst').val('SAVE');
         $('#ProductEditForm').submit();		
-	}
+    }
+    
+    $('#btnSaveDraft, #btnNext').click(function () {
+        if (this.id == 'btnSaveDraft') {
+            $('#checkNext').val("Draft");
+        }
+        else if (this.id == 'btnNext') {
+            $('#checkNext').val("Next");
+        }
+        saveDraftClick();
+        }
+    );
 </script>

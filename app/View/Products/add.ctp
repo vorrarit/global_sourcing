@@ -1,4 +1,5 @@
 <div class="row">
+    
 	<h1 class="page-header"><?php echo __('Add Product'); ?></h1>
 </div>
 
@@ -34,7 +35,7 @@
 			));
 		
 		
-        echo $this->Form->input('klass_id', array(
+                echo $this->Form->input('klass_id', array(
                     'empty'=>'Please Select',
                     'onchange'=>'klass_Changed()',
                     'label'=> 'Class Name', 'div'=>array('class'=>'col-lg-6 form-group')));
@@ -68,7 +69,7 @@
 		echo $this->Form->input('product_specification', array('type'=>'textarea', 'div'=>array('class'=>'col-lg-12 form-group')));
 
 		echo $this->Form->input('retail_price', array('div'=>array('class'=>'col-lg-6 form-group')));
-		echo $this->Form->input('currency_id', array('div'=>array('class'=>'col-lg-6 form-group')));
+		echo $this->Form->input('currency_id', array('div'=>array('class'=>'col-lg-6 form-group'),'empty'=>false , 'default'=> 1));
 		echo $this->Form->input('unit_id', array('div'=>array('class'=>'col-lg-6 form-group')));
 		echo $this->Form->input('manufacturer_id', array('div'=>array('class'=>'col-lg-6 form-group')));
 		echo $this->Form->input('created_by',array('type'=>'hidden'));
@@ -76,9 +77,9 @@
 		echo $this->Form->input('product_status',array('type'=>'hidden','id'=>'prst'));
 		
 		echo '<div class="col-lg-12">';
-        echo $this->Form->button(__('Save Draft'),array('onclick'=>'saveDraftClick()','class'=>'btn btn-default btn-form')) . '&nbsp;';
-        echo $this->Form->button(__('Next'), array('type'=>'button','class'=>'btn btn-primary btn-form disabled')) . '&nbsp;';
-        echo $this->Form->button(__('Cancel'), array('onclick'=>"window.location.href='../Products/index'",'type'=>'button','class'=>'btn btn-default btn-form')) . '&nbsp;';
+                echo $this->Form->button(__('Save Draft'),array('onclick'=>'saveDraftClick()','class'=>'btn btn-default btn-form')) . '&nbsp;';
+                echo $this->Form->button(__('Next'), array('type'=>'button','class'=>'btn btn-primary btn-form disabled')) . '&nbsp;';
+                echo $this->Form->button(__('Cancel'), array('onclick'=>"window.location.href='../Products/index'",'type'=>'button','class'=>'btn btn-default btn-form')) . '&nbsp;';
 		echo '</div>';
 
                 ?>
