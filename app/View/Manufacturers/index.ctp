@@ -1,30 +1,46 @@
-<div class="manufacturer form">
-    <h2><?php echo __('Search Manufacturers'); ?></h2>
 
-        <?php echo $this->Form->create('search'); ?>
-	<?php echo $this->Form->input('manufacturer_name');?>
-        <?php echo $this->Form->button('Search',array('class'=>'btn btn-primary btn-form')); ?>
-        <?php echo $this->Form->button('Reset',array('onclick' => 'clearClick()','class'=>'btn btn-default btn-form')); ?>
-        <?php echo $this->Form->end(); ?>
- 
-    	<h3><?php echo __('Manufacturers');?></h3>
-        
-    <table class ="table table-hover">
-        
-        <?php echo $this->Form->create('Manufacturer',array('action'=>'multiSelect'))?>
-        <div class="btn-group pull-right" role="group" aria-label="...">
-            <a href="/manufacturers/add" button title="Add" class="btn btn-default" align = "right"><span class="glyphicon glyphicon-pencil"></span></a>
-            <?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'class'=>'btn btn-default')); ?>
+<div class="search">
+
+    <h2><div class="col-lg-12">
+            <h1 class="page-header"><?php echo __('Search Manufacturers'); ?></h1>
         </div>
-        
-         <thead>
-       
+        &nbsp;
+        <?php echo $this->Form->create('search'); ?>
+        <div class="col-lg-12">
+            <div class="col-lg-8">
+	<?php echo $this->Form->input('manufacturer_name', array('label'=>false));?>
+            </div>
+            <div class="col-lg-2">
+        <?php echo $this->Form->button('<span class="glyphicon glyphicon-search"></span> Search',array('class'=>'btn btn-primary btn-form')); ?>
+            </div>
+            <div class="col-lg-2">
+        <?php echo $this->Form->button('Clear',array('onclick' => 'clearClick()','class'=>'btn btn-default btn-form')); ?>
+            </div>
+            <?php echo $this->Form->end(); ?>
+        </div>
+</div>
+&nbsp;
+
+<div class="manufacturer form">
+
+<?php echo $this->Form->create('Manufacturer',array('action'=>'multiSelect'))?>
+
+    <h3><?php echo __('Manufacturers');?></h3>
+
+
+    <div class="btn-group pull-right" role="group" aria-label="...">
+        <a href="/manufacturers/add" button title="Add" class="btn btn-default" align = "right"><span class="glyphicon glyphicon-plus"></span></a>
+            <?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit', 'escape'=>false, 'class'=>'btn btn-default')); ?>
+    </div>
+
+
+    <table class ="table table-hover">
+
+        <thead>
             <tr>
                 <th><?php echo $this->Form->checkbox('check_all', array('id' => 'chkCheckAll')); ?></th>
                 <th><?php echo $this->Paginator->sort('id','Manufacturer ID'); ?></th>
-                <th><?php echo $this->Paginator->sort('manufac_name_th','Manufacturer Name Th'); ?></th>
-                <th><?php echo $this->Paginator->sort('manufac_name_eng','Manufacturer Name Eng'); ?></th>
-                <th><?php echo $this->Paginator->sort('manufac_phone_number','Manufacturer Phone Number'); ?></th>
+                <th><?php echo $this->Paginator->sort('manufac_name_th','Manufacturer Name Thai'); ?></th>
                 <th><?php echo __('Actions'); ?></th>
             </tr>
         </thead>
@@ -36,18 +52,19 @@
         <!--                <th><?php echo $this->Paginator->sort('id'); ?></th>-->
                 <td><?php echo h($manufacturer['Manufacturer']['id']); ?>&nbsp;</td>
                 <td><?php echo h($manufacturer['Manufacturer']['manufac_name_th']); ?>&nbsp;</td>
-                <td><?php echo h($manufacturer['Manufacturer']['manufac_name_eng']); ?>&nbsp;</td>
-                <td><?php echo h($manufacturer['Manufacturer']['manufac_phone_number']); ?>&nbsp;</td>
 
 
                 <td class="actions">
 			<?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $manufacturer['Manufacturer']['id']), array('escape'=>false, 'title'=>__('Edit'))); ?>
-			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $manufacturer['Manufacturer']['id']), array('escape'=>false, 'title'=>__('Delete')), __('Are you sure you want to delete # %s?', $manufacturer['Manufacturer']['id'])); ?>
+			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $manufacturer['Manufacturer']['id']), array('inline' => FALSE ,'escape'=>false, 'title'=>__('Delete')), __('Are you sure you want to delete # %s?', $manufacturer['Manufacturer']['id'])); ?>
                 </td>
             </tr>
 <?php endforeach; ?>
+
         </tbody>
     </table>
+        <?php echo $this->Form->end();?>
+            <?php echo $this->fetch('postLink'); ?>
     <p>
 	<?php
 	echo $this->Paginator->counter(array(
@@ -87,5 +104,5 @@
         $('#searchIndexForm').submit();
     }
 
-</script>   
 
+</script>
