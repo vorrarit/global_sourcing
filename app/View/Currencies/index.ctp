@@ -8,8 +8,8 @@
     <fieldset>
 	<?php echo $this->Form->input('text_search'); ?>
     </fieldset>
-    <?php echo $this->Form->button(__('Search'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>&nbsp;
-    <?php echo $this->Form->button(__('Clear'),array('type'=>'reset','class'=>'btn btn-primary btn-form')); ?>
+    <?php echo $this->Form->button('<span class="glyphicon glyphicon-search"> '.__('Search'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>&nbsp;
+    <?php echo $this->Form->button(__('Clear'),array('type'=>'reset','class'=>'btn btn-default btn-form')); ?>
     <?php echo $this->Form->end(); ?>
 </div>
 
@@ -41,13 +41,15 @@
                 <td><?php echo h($currency['Currency']['currency_name']); ?>&nbsp;</td>
                 <td class="actions">
                         <?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $currency['Currency']['id']), array('escape'=>false, 'title'=>__('Edit'))); ?>
-			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $currency['Currency']['id']), array('escape'=>false, 'title'=>__('Delete')), __('Are you sure you want to delete # %s?', $currency['Currency']['id'])); ?>
+			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $currency['Currency']['id']), array('inline'=>false,'escape'=>false, 'title'=>__('Delete')), __('Are you sure you want to delete # %s?', $currency['Currency']['id'])); ?>
 
                 </td>
             </tr>
 <?php endforeach; ?>
         </tbody>
     </table>
+	<?php echo $this->Form->end(); ?>
+	<?php echo $this->fetch('postLink'); ?>
     <p>
 	<?php
 	echo $this->Paginator->counter(array(

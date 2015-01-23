@@ -4,16 +4,24 @@
             <h1 class="page-header"><?php echo __('Search Supplier Types'); ?></h1>
         </div>
     </div>
+    &nbsp;
 <?php echo $this->Form->create('SupplierTypes',array('action'=>'index')); ?>
-    <fieldset>
-
-	<?php echo $this->Form->input('text_search'); ?>
-
-    </fieldset>
-    <?php echo $this->Form->button(__('Search'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>
-    <?php echo $this->Form->button(__('Clear'),array('type'=>'reset','class'=>'btn btn-primary btn-form')); ?>
-    <?php echo $this->Form->end(); ?>
+    <div class="col-lg-12">
+        <div class="col-lg-8">
+            <fieldset>
+	<?php echo $this->Form->input('text_search', array('label'=>false)); ?>
+            </fieldset>
+        </div>
+        <div class="col-lg-2">
+            <button type="submit" class="btn btn-primary col-lg-12"><span class="glyphicon glyphicon-search"></span>&nbsp;Search</button>
+        </div>
+        <div class="col-lg-2">   
+            <?php echo $this->Form->button(__('Clear'),array('onclick'=>"window.location.href='../SupplierTypes/index'",'type'=>'button','class'=>'btn btn-default btn-form')); ?>    
+        </div>
+        <?php echo $this->Form->end(); ?>
+    </div>
 </div>
+&nbsp;
 <div class="supplierTypes index">
 
          <?php echo $this->Form->create('SupplierTypes',array('action'=>'multiSelect'))?>
@@ -21,7 +29,7 @@
     <h2><?php echo __('Supplier Types'); ?></h2>
 
     <div class="btn-group pull-right" role="group" aria-label="...">
-		<?php echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', array('onclick'=>"window.location.href='../SupplierTypes/add'",'type'=>'button','escape'=>false, 'title'=>__('Add'),'class'=>'btn btn-default')); ?>
+		<?php echo $this->Form->button('<span class="glyphicon glyphicon-plus"></span>', array('onclick'=>"window.location.href='../SupplierTypes/add'",'type'=>'button','escape'=>false, 'title'=>__('Add'),'class'=>'btn btn-default')); ?>
 		<?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>',array('type'=>'submit','escape'=>false, 'class'=>'btn btn-default')); ?>   
     </div>
 
@@ -42,13 +50,15 @@
                 <td><?php echo h($supplierType['SupplierType']['supplier_type_name']); ?>&nbsp;</td>
                 <td class="actions">
                         <?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $supplierType['SupplierType']['id']), array('escape'=>false, 'title'=>__('Edit'))); ?>
-			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $supplierType['SupplierType']['id']), array('escape'=>false, 'title'=>__('Delete')), __('Are you sure you want to delete # %s?', $supplierType['SupplierType']['id'])); ?>
+			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $supplierType['SupplierType']['id']), array('inline'=>false, 'escape'=>false, 'title'=>__('Delete')), __('Are you sure you want to delete # %s?', $supplierType['SupplierType']['id'])); ?>
 
                 </td>
             </tr>
 <?php endforeach; ?>
         </tbody>
     </table>
+    <?php echo $this->Form->end(); ?>
+    <?php echo $this->fetch('postLink'); ?>
     <p>
 	<?php
 	echo $this->Paginator->counter(array(
@@ -62,8 +72,9 @@
 		echo $this->Paginator->next(__('next') . ' >', array('tag' => 'li'), null, array('tag' => 'li', 'disabledTag' => 'a', 'class' => 'next disabled'));
 	?>
     </div>
-    <script type="text/javascript">
+</div>
+<script type="text/javascript">
         $("#chkCheckAll").click(function () {
-            $('input:checkbox').not(this).prop('checked', this.checked);
-        });
-    </script>
+    $('input:checkbox').not(this).prop('checked', this.checked);
+    });
+</script>
