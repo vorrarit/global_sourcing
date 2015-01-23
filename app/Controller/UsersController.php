@@ -109,18 +109,27 @@ class UsersController extends AppController {
 		} else {
 			$idusr = '0001';
 		}
-        $this->request->data['User']['id'] = $idusr;
-
-        if ($this->request->is('post')) {
-            $this->User->create();
-            if ($this->User->save($this->request->data)) {
-                $currentUser = $this->Session->read('Auth.User');
-                $this->request->data['Users']['created_by'] = $currentUser['username'];
-                $this->Session->setFlash(__('The user has been saved.'), 'default', array('class' => 'alert alert-success'));
-                return $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
-            }
+		$this->request->data['User']['id'] = $idusr;
+        
+        
+		if ($this->request->is('post')) {
+			
+			$useradd =  $this->request->data['User']['username'];
+			$chkuseradd = $this->User->find('first',array('conditions' => array('User.username'=> trim($useradd))));
+			if(empty($chkuseradd)){
+				$this->User->create();
+				if ($this->User->save($this->request->data)) {
+					$currentUser = $this->Session->read('Auth.User');
+					$this->request->data['Users']['created_by'] = $currentUser['username'];
+					$this->Session->setFlash(__('The user has been saved.'), 'default', array('class' => 'alert alert-success'));
+					return $this->redirect(array('action' => 'index'));
+				}else {
+					$this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+				}
+			}else{
+				$this->Session->setFlash(__('This Username cant be used becuase it has same username already.'), 'default', array('class' => 'alert alert-danger'));
+			}
+			
         }
 
         $userGroups = $this->User->UserGroup->find('list', array('empty' => '(Please Select)',

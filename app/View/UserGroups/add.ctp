@@ -11,7 +11,7 @@
 	?>
 	</fieldset> 
 <?php echo $this->Form->button(__('Save'), array('class'=>'btn btn-primary btn-form')); ?>&nbsp;
-<?php echo $this->Form->button(__('Reset'), array('type'=>'reset', 'class'=>'btn btn-default btn-form')); ?>
+<?php echo $this->Form->button(__('Reset'), array('type'=>'reset', 'class'=>'btn btn-default btn-form')); ?>&nbsp;
 <?php echo $this->Form->button(__('Cancel'),array('onclick'=>"window.location.href='../UserGroups/index'",'type'=>'button','class'=>'btn btn-default btn-form')); ?>
 <?php echo $this->Form->end(); ?>
 </div>

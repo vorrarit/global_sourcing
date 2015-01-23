@@ -17,7 +17,7 @@
 		echo $this->Form->input('password',array('required'=>true));
 	?>
 <?php echo $this->Form->button(__('Submit'), array('class'=>'btn btn-primary btn-form')); ?>&nbsp;
-<?php echo $this->Form->button(__('Reset'), array('type'=>'reset', 'class'=>'btn btn-default btn-form')); ?>
+<?php echo $this->Form->button(__('Reset'), array('type'=>'reset', 'class'=>'btn btn-default btn-form')); ?>&nbsp;
 <?php echo $this->Form->button(__('Cancel'),array('onclick'=>"window.location.href='../Users/index'",'type'=>'button','class'=>'btn btn-default btn-form')); ?>
 
 	</fieldset>
