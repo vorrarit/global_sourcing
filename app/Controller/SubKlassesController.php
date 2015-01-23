@@ -55,21 +55,29 @@ class SubKlassesController extends AppController {
         if (!empty($this->request->data)) {
             $data = $this->request->data;
 
-            $settings = array('subKlasses' => array(
+            $settings = array('SubKlass' => array(
                     'conditions' => array(),
-                    'order' => array('subKlasses.id' => 'asc')
+                    'order' => array('SubKlass.id' => 'asc')
             ));
 
-            if (!empty($data['subKlasses']['text_search'])) {
+            if (!empty($data['SubKlass']['text_search'])) {
                 $settings['SubKlass']['conditions'][] = array('or' => array());
-                $settings['SubKlass']['conditions']['or']['lower(SubKlass.klass_id) like'] = '%' . strtolower($data['subKlasses']['text_search']) . '%';
-                $settings['SubKlass']['conditions']['or']['lower(SubKlass.sub_klass_name) like'] = '%' . strtolower($data['subKlasses']['text_search']) . '%';
+                $settings['SubKlass']['conditions']['or']['lower(SubKlass.division_id) like'] = '%' . strtolower($data['SubKlass']['text_search']) . '%';
+                $settings['SubKlass']['conditions']['or']['lower(SubKlass.department_id) like'] = '%' . strtolower($data['SubKlass']['text_search']) . '%';
+                $settings['SubKlass']['conditions']['or']['lower(SubKlass.klass_id) like'] = '%' . strtolower($data['SubKlass']['text_search']) . '%';
+                $settings['SubKlass']['conditions']['or']['lower(SubKlass.sub_klass_name) like'] = '%' . strtolower($data['SubKlass']['text_search']) . '%';
             }
-            if (!empty($data['subKlasses']['klass_id'])) {
-                $settings['SubKlass']['conditions']['lower(SubKlass.klass_id) like'] = '%' . strtolower($data['subKlasses']['klass_id']) . '%';
+            if (!empty($data['SubKlass']['division_id'])) {
+                $settings['SubKlass']['conditions']['lower(SubKlass.division_id) like'] = '%' . strtolower($data['SubKlass']['division_id']) . '%';
             }
-            if (!empty($data['subKlasses']['sub_klass_name'])) {
-                $settings['SubKlass']['conditions']['lower(SubKlass.sub_klass_name) like'] = '%' . strtolower($data['subKlasses']['sub_klass_name']) . '%';
+            if (!empty($data['SubKlass']['department_id'])) {
+                $settings['SubKlass']['conditions']['lower(SubKlass.department_id) like'] = '%' . strtolower($data['SubKlass']['department_id']) . '%';
+            }
+            if (!empty($data['SubKlass']['klass_id'])) {
+                $settings['SubKlass']['conditions']['lower(SubKlass.klass_id) like'] = '%' . strtolower($data['SubKlass']['klass_id']) . '%';
+            }
+            if (!empty($data['SubKlass']['sub_klass_name'])) {
+                $settings['SubKlass']['conditions']['lower(SubKlass.sub_klass_name) like'] = '%' . strtolower($data['SubKlass']['sub_klass_name']) . '%';
             }
             $this->Paginator->settings = $settings;
             $this->set('subKlasses', $this->Paginator->paginate());
@@ -105,10 +113,10 @@ class SubKlassesController extends AppController {
             $this->request->data['SubKlass']['created_by'] = $currentUser['username'];
             $this->request->data['SubKlass']['modified_by'] = $currentUser['username'];
             if ($this->SubKlass->save($this->request->data)) {
-                $this->Session->setFlash(__('The sub klass has been saved.', 'default', array('class' => 'alert alert-success')));
+                $this->Session->setFlash(__('The sub klass has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The sub klass could not be saved. Please, try again.', 'default', array('class' => 'alert alert-danger')));
+                $this->Session->setFlash(__('The sub klass could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         }
         $divisions = $this->Division->find('list', array(
@@ -139,7 +147,7 @@ class SubKlassesController extends AppController {
         $this->autoRender = false;
 
         $getOldID = $this->SubKlass->find('first', array('conditions' => array(
-                "SubKlass.department_id" => $klsID), 'fields' => array('id'), 'order' => array('SubKlass.id' => 'desc')
+                "SubKlass.klass_id" => $klsID), 'fields' => array('id'), 'order' => array('SubKlass.id' => 'desc')
                 )
         );
         $newID = empty($getOldID['SubKlass']['id']) ? $klsID . '01' : (int) $getOldID['SubKlass']['id'] + 1;
@@ -179,10 +187,10 @@ class SubKlassesController extends AppController {
             $currentUser = $this->Session->read('Auth.User');
             $this->request->data['SubKlass']['modified_by'] = $currentUser['username'];
             if ($this->SubKlass->save($this->request->data)) {
-                $this->Session->setFlash(__('The sub klass has been saved.', 'default', array('class' => 'alert alert-success')));
+                $this->Session->setFlash(__('The sub klass has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The sub klass could not be saved. Please, try again.', 'default', array('class' => 'alert alert-danger')));
+                $this->Session->setFlash(__('The sub klass could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         } else {
             $options = array('conditions' => array('SubKlass.' . $this->SubKlass->primaryKey => $id));
@@ -227,9 +235,9 @@ class SubKlassesController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->SubKlass->delete()) {
-            $this->Session->setFlash(__('The sub klass has been deleted.', 'default', array('class' => 'alert alert-success')));
+            $this->Session->setFlash(__('The sub klass has been deleted.'), 'default', array('class' => 'alert alert-success'));
         } else {
-            $this->Session->setFlash(__('The sub klass could not be deleted. Please, try again.', 'default', array('class' => 'alert alert-danger')));
+            $this->Session->setFlash(__('The sub klass could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
         }
         return $this->redirect(array('action' => 'index'));
     }

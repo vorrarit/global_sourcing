@@ -10,8 +10,8 @@
 	<?php echo $this->Form->input('text_search'); ?>
 
     </fieldset>
-    <?php echo $this->Form->button(__('Search'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>
-    <?php echo $this->Form->button(__('Clear'),array('type'=>'reset','class'=>'btn btn-primary btn-form')); ?>
+    <?php echo $this->Form->button('<span class="glyphicon glyphicon-search"> '.__('Search'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>
+    <?php echo $this->Form->button(__('Clear'),array('type'=>'reset','class'=>'btn btn-default btn-form')); ?>
     <?php echo $this->Form->end(); ?>
 </div>
 <div class="units index">
@@ -42,13 +42,15 @@
                 <td><?php echo h($unit['Unit']['unit_name']); ?>&nbsp;</td>
                 <td class="actions">
                         <?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('action' => 'edit', $unit['Unit']['id']), array('escape'=>false, 'title'=>__('Edit'))); ?>
-			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $unit['Unit']['id']), array('escape'=>false, 'title'=>__('Delete')), __('Are you sure you want to delete # %s?', $unit['Unit']['id'])); ?>
+			<?php echo $this->Form->postLink('<span class="glyphicon glyphicon-trash"></span>', array('action' => 'delete', $unit['Unit']['id']), array('inline'=>false,'escape'=>false, 'title'=>__('Delete')), __('Are you sure you want to delete # %s?', $unit['Unit']['id'])); ?>
 
                 </td>
             </tr>
 <?php endforeach; ?>
         </tbody>
     </table>
+	<?php echo $this->Form->end(); ?>
+	<?php echo $this->fetch('postLink'); ?>
     <p>
 	<?php
 	echo $this->Paginator->counter(array(

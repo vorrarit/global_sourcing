@@ -71,10 +71,13 @@ class DivisionsController extends AppController {
      */
     public function add() {
         //$count = $this->Division->find('count');
+		$int='01';
         $divId = $this->Division->find('first', array('order' => array('Division.id' => 'DESC'), 'fields' => array('id')));
-        $int = (int) $divId['Division']['id'];
-        $int+=1;
-        $int = substr('00' . $int, -2, 2);
+        if(!empty($divId)){
+			$int = (int) $divId['Division']['id'];
+			$int+=1;
+			$int = substr('00' . $int, -2, 2);
+		}
         $this->request->data['Division']['id'] = $int;
 
         if (!empty($this->request->data['Division']['division_name'])) {

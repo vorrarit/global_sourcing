@@ -96,16 +96,20 @@ class KlassesController extends AppController {
      * @return void
      */
     public function add() {
-        if ($this->request->is('post')) {
-            $currentUser = $this->Session->read('Auth.User');
-            $this->Klass->create();
-            $this->request->data['Klass']['created_by'] = $currentUser['username'];
-            $this->request->data['Klass']['modified_by'] = $currentUser['username'];
-            if ($this->Klass->save($this->request->data)) {
-                $this->Session->setFlash(__('The klass has been saved.'), 'default', array('class' => 'alert alert-success'));
-                return $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The klass could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+        if ((!empty($this->request->data['Klass']['id'])) &&
+                (!empty($this->request->data['Klass']['klass_name'])) &&
+                (!empty($this->request->data['Klass']['department_id']))) {
+            if ($this->request->is('post')) {
+                $currentUser = $this->Session->read('Auth.User');
+                $this->Klass->create();
+                $this->request->data['Klass']['created_by'] = $currentUser['username'];
+                $this->request->data['Klass']['modified_by'] = $currentUser['username'];
+                if ($this->Klass->save($this->request->data)) {
+                    $this->Session->setFlash(__('The klass has been saved.'), 'default', array('class' => 'alert alert-success'));
+                    return $this->redirect(array('action' => 'index'));
+                } else {
+                    $this->Session->setFlash(__('The klass could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+                }
             }
         }
         $divisions = $this->Division->find('list', array(
