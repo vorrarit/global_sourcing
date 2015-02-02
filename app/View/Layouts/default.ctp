@@ -51,7 +51,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<div id="wrapper">
 
 		<!-- Navigation -->
-		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+		<nav class="navbar navbar-topmix navbar-static-top" role="navigation" style="margin-bottom: 0">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>
@@ -59,7 +59,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.html">HP Data Collector : Global Sourcing Module</a>
+				<img class="navbar-brand" src="/img/logohp.png">
+				<a class="navbar-brand" href="index.html" style="padding-top: 15px; color: #ffffff">Global Sourcing Module</a>
 			</div>
 			<!-- /.navbar-header -->
 
@@ -261,7 +262,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 				
 				<!-- /.dropdown -->
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<a class="glyph-icon dropdown-toggle" data-toggle="dropdown" href="#">
 						<?php
 							$currentUser = $this->Session->read('Auth.User');
 							if (!empty($currentUser)) {

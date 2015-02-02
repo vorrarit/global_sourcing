@@ -16,7 +16,7 @@
 						if ($currentUser['UserGroup']['m001'] == 'Y') {
 						?>
 						<li>
-							<a href="/Products/index"><i class="fa fa-dashboard fa-fw"></i>Search Products</a>
+							<a href="/Products/index"><i class="fa fa-search fa-fw"></i>Search Products</a>
 						</li>
 						<?php
 						}
@@ -25,10 +25,10 @@
 						if ($currentUser['UserGroup']['m002'] == 'Y') {
 						?>
 						<li>
-							<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Product Register<span class="fa arrow"></span></a>
+							<a href="#"><i class="fa fa-file-text fa-fw"></i> Product Register<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li>
-									<a href="/Products/xedni">Products</a>
+									<a href="/Products/xedni">Product Register</a>
 								</li>
 							</ul>
 							<!-- /.nav-second-level -->
@@ -40,7 +40,7 @@
 						if ($currentUser['UserGroup']['m003'] == 'Y') {
 						?>
 						<li>
-							<a href="#"><i class="fa fa-wrench fa-fw"></i> Data Management<span class="fa arrow"></span></a>
+							<a href="#"><i class="fa fa-database fa-fw"></i> Data Management<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li>
 									<a href="/Divisions/index">Division</a>

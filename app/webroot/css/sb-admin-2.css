@@ -92,6 +92,8 @@ body {
 
 .sidebar .sidebar-search {
     padding: 15px;
+    -webkit-border-radius: 0px 0px 10px 10px;
+    background-color: RGB(0,148,214);
 }
 
 .sidebar ul li {
