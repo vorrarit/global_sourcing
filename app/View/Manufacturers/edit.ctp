@@ -12,7 +12,8 @@
 
 	?>
     </fieldset>
-<?php echo $this->Form->button('Edit', array ('class' => 'btn btn-primary btn-form')); ?>
+<?php echo $this->Form->button('Submit', array ('class' => 'btn btn-primary btn-form')); ?>
+     <?php echo $this->Form->button('Reset',array('type' => 'reset','class'=>'btn btn-default btn-form')); ?>
     <?php echo $this->Form->end() ; ?>
 </div>
 

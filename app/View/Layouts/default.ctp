@@ -33,8 +33,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	echo $this->Html->css('sb-admin-2');
 	echo $this->Html->css('font-awesome.min');
 	echo $this->Html->css('bootstrap-fileupload');
-
+	echo $this->Html->css('jcarousel.connected-carousels');
 	echo $this->Html->script('jquery-2.1.1.min');
+	echo $this->Html->script('jquery.jcarousel.min.js');
+	echo $this->Html->script('jcarousel.connected-carousels');
 	echo $this->Html->script('bootstrap.min');
 	echo $this->Html->script('metisMenu.min');
 	echo $this->Html->script('sb-admin-2');

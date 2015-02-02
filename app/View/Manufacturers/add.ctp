@@ -9,22 +9,22 @@
             <?php
                 
                 echo $this->Form->input('id', array('type' => 'text','readonly'=>true ,'label'=>'Manufacturer ID'));
-		echo $this->Form->input('manufac_name_th',array('label'=> 'Manufacturer Name Th','required' => true));
-		echo $this->Form->input('manufac_name_eng' ,array('label'=> 'Manufacturer Name Eng'));
-		echo $this->Form->input('manufac_tax',array('label'=> 'Manufacturer Tax'));
-		echo $this->Form->input('manufac_contact_address',array('label'=> 'Manufacturer Contact Address'));
-		echo $this->Form->input('manufac_phone_number',array('label'=> 'Manufacturer Phone Number'));   
-                echo $this->Form->input('manufac_map_name',array('type' => 'hidden'));
-		echo $this->Form->input('manufac_map_path',array('type' => 'hidden'));
+		echo $this->Form->input('manufac_name_th',array('label'=> 'Manufacturer Name Th','required'=>true));
+		echo $this->Form->input('manufac_name_eng' ,array('label'=> 'Manufacturer Name Eng','required'=>true));
+		echo $this->Form->input('manufac_tax',array('label'=> 'Manufacturer Tax','required'=>true));
+		echo $this->Form->input('manufac_contact_address',array('label'=> 'Manufacturer Contact Address','required'=>true));
+		echo $this->Form->input('manufac_phone_number',array('label'=> 'Manufacturer Phone Number','required'=>true));   
+                echo $this->Form->input('manufac_map_name',array('type' => 'hidden' ));
+		echo $this->Form->input('manufac_map_path',array('type' => 'hidden',));
 		echo $this->Form->input('manufac_map_file_type',array('type' => 'hidden')); 
-                ?>
-       
-            <input type="file" name="data[Manufacturer][input]"/>
+//                echo $this->Form->input('map',array ('name'=>'data[Manufacturer][map]','type'=>'file'));
+//                echo ('Remark : File type (jpg,png,gif)');
+                ?> 
+                <input type="file" name="data['Manufacturer']['map'],'class' => 'btn btn-primary btn-form'"  />
                 <?php echo 'Remark : File type (jpg,png,gif)'; ?>
-   
-            
+
     </fieldset>
-        <?php echo $this->Form->button('Save', array ('class' => 'btn btn-primary btn-form')); ?>
+        <?php echo $this->Form->button('Submit', array ('class' => 'btn btn-primary btn-form')); ?>
      <?php echo $this->Form->button('Reset',array('type' => 'reset','class'=>'btn btn-default btn-form')); ?>
     <a href="/manufacturers/index" button title="Cancel" class="btn btn-default">Cancel</a>
     <?php echo $this->Form->end(); ?>

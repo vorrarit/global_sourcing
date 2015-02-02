@@ -30,7 +30,8 @@
 		echo $this->Form->input('supplier_contact_number');
 	?>
 	</fieldset>
-<?php echo $this->Form->submit(__('Add'), array('class' => 'btn btn-primary')); ?>
+<?php echo $this->Form->submit(__('Add'), array('class' => 'btn btn-primary','div'=>false)); ?>
+    <?php echo $this->Form->button(__('Clear'), array('class' => 'btn btn-primary','type'=>'reset')); ?>
 <?php echo $this->Form->end(); ?>
 </div>
 

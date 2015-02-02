@@ -122,9 +122,9 @@ class SuppliersController extends AppController {
         }
         $options = array('conditions' => array('Supplier.' . $this->Supplier->primaryKey => $id));
         $this->set('supplier', $this->Supplier->find('first', $options));
-        
-        
-        
+
+
+
         $supplierContacts = $this->SupplierContact->find('all', array('conditions' => array('SupplierContact.supplier_id' => $id)));
         $this->set('supplierContacts', $supplierContacts);
 
@@ -143,13 +143,18 @@ class SuppliersController extends AppController {
     public function add() {
         $find_id = $this->Supplier->find('first', array('order' => array('Supplier.id' => 'desc')));
 
-        $supplier_id = $find_id['Supplier']['id'];
-        $supplier_id +=1;
-        $supplier_id = substr('0000' . $supplier_id, -4, 4);
+        if (empty($find_id)) {
+            $supplier_id = 0;
+            $supplier_id +=1;
+            $supplier_id = substr('0000' . $supplier_id, -4, 4);
+        } else {
+            $supplier_id = $find_id['Supplier']['id'];
+            $supplier_id +=1;
+            $supplier_id = substr('0000' . $supplier_id, -4, 4);
+        }
+
 
         $this->request->data['Supplier']['id'] = $supplier_id;
-
-
 
 
         $this->request->data['Supplier']['supplier_map_name'] = 'supplier_map_' . $supplier_id;
