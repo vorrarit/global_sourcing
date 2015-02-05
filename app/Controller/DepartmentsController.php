@@ -85,7 +85,7 @@ class DepartmentsController extends AppController {
      * @return void
      */
     public function add() {
-        if ((!empty($this->request->data['Department']['id'])) && (!empty($this->request->data['Department']['depart_name']))) {
+        if ((!empty($this->request->data['Department']['id'])) && (!empty($this->request->data['Department']['department_name']))) {
             if ($this->request->is('post')) {
                 $currentUser = $this->Session->read('Auth.User');
                 $this->Department->create();

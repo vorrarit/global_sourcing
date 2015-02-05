@@ -11,7 +11,7 @@
 
     </fieldset>
     <?php echo $this->Form->button('<span class="glyphicon glyphicon-search"> '.__('Search'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>
-    <?php echo $this->Form->button(__('Clear'),array('type'=>'reset','class'=>'btn btn-default btn-form')); ?>
+    <?php echo $this->Form->button(__('Clear'),array('onclick'=>"window.location.href='../Units/index'",'type'=>'button','class'=>'btn btn-default btn-form')); ?>
     <?php echo $this->Form->end(); ?>
 </div>
 <div class="units index">

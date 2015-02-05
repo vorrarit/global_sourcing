@@ -29,6 +29,16 @@ class SuppliersController extends AppController {
         if ($this->request->is('post')) {
 
             $supplierName = $this->request->data['Supplier']['supplier_name_eng'];
+            $settings = array(
+                'Supplier' => array(
+                    'conditions' => array(
+                        'supplier_name_eng like' => '%' . $supplierName . '%',
+                    )
+                )
+            );
+
+            $this->Paginator->settings = $settings;
+            $this->set('suppliers', $this->Paginator->paginate());
         } else {
             $supplierName = '';
             $settings = array(
@@ -41,22 +51,12 @@ class SuppliersController extends AppController {
             $this->Paginator->settings = $settings;
             return $this->set('suppliers', $this->Paginator->paginate());
         }
-        $settings = array(
-            'Supplier' => array(
-                'conditions' => array(
-                    'supplier_name_eng like' => '%' . $supplierName . '%',
-                )
-            )
-        );
-
-        $this->Paginator->settings = $settings;
-        $this->set('suppliers', $this->Paginator->paginate());
     }
 
     public function popup() {
-		$this->layout = 'popup_layout';
+        $this->layout = 'popup_layout';
 
-		$this->Supplier->recursive = 0;
+        $this->Supplier->recursive = 0;
         if ($this->request->is('post')) {
 
             $supplierName = $this->request->data['Supplier']['supplier_name_eng'];
@@ -132,7 +132,6 @@ class SuppliersController extends AppController {
             $supplierContact = $this->SupplierContact->findById($supplierContactId);
             $this->request->data['SupplierContact'] = $supplierContact['SupplierContact'];
         }
-        
     }
 
     /**
@@ -161,7 +160,7 @@ class SuppliersController extends AppController {
         $this->request->data['Supplier']['supplier_map_path'] = '/img/suppliers';
 
         if ($this->request->is('post')) {
-            $this->request->data['Supplier']['supplier_map_flie_type'] = $this->request->data['Supplier']['map']['type'];
+            $this->request->data['Supplier']['supplier_map_flie_type'] = $this->request->data["'Supplier'"]["'map'"]['type'];
             if ($this->isUploadedFile()) {
                 $ext = pathinfo($map['name'], PATHINFO_EXTENSION);
                 $this->saveUploadFile($map, '/img/suppliers', 'supplier_map_' . $supplier_id . '.' . $ext);
@@ -170,10 +169,10 @@ class SuppliersController extends AppController {
             $this->Supplier->create();
 
             if ($this->Supplier->save($this->request->data)) {
-                $this->Session->setFlash(__('The supplier has been saved.'), 'default', array('class' => 'alert alert-danger'));
+                $this->Session->setFlash(__('The supplier has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'edit', $supplier_id));
             } else {
-                $this->Session->setFlash(__('The supplier could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The supplier could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         }
     }
@@ -194,7 +193,7 @@ class SuppliersController extends AppController {
                 $this->Session->setFlash(__('The supplier has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The supplier could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The supplier could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         } else {
             $options = array('conditions' => array('Supplier.' . $this->Supplier->primaryKey => $id));
@@ -211,13 +210,8 @@ class SuppliersController extends AppController {
         }
     }
 
-    /**
-     * delete method
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
+    
+    
     public function delete($id = null) {
         $this->Supplier->id = $id;
         if (!$this->Supplier->exists()) {
@@ -225,9 +219,9 @@ class SuppliersController extends AppController {
         }
         $this->request->allowMethod('post', 'delete');
         if ($this->Supplier->delete()) {
-            $this->Session->setFlash(__('The supplier has been deleted.'));
+            $this->Session->setFlash(__('The supplier has been deleted.'), 'default', array('class' => 'alert alert-success'));
         } else {
-            $this->Session->setFlash(__('The supplier could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The supplier could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
         }
         return $this->redirect(array('action' => 'index'));
     }
@@ -235,12 +229,12 @@ class SuppliersController extends AppController {
     public function multiSelect() {
         if ($this->request->is(array('post', 'put'))) {
             $SupplierIds = array();
-//            pr($this->request->data['Supplier']['id']); die();
             foreach ($this->request->data['Supplier']['id'] as $id) {
                 $SupplierIds[] = $id;
+//                pr($id);
             }
             $this->Supplier->deleteAll(array('id' => $SupplierIds), false);
-            $this->Session->setFlash(__('The supplier has been deleted.'));
+            $this->Session->setFlash(__('The supplier has been deleted.'), 'default', array('class' => 'alert alert-success'));
             return $this->redirect(array('action' => 'index'));
         }
     }

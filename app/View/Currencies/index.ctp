@@ -9,7 +9,7 @@
 	<?php echo $this->Form->input('text_search'); ?>
     </fieldset>
     <?php echo $this->Form->button('<span class="glyphicon glyphicon-search"> '.__('Search'),array('type'=>'submit','class'=>'btn btn-primary btn-form')); ?>&nbsp;
-    <?php echo $this->Form->button(__('Clear'),array('type'=>'reset','class'=>'btn btn-default btn-form')); ?>
+   <?php echo $this->Form->button(__('Clear'),array('id'=>'btn_reset','class'=>'btn btn-default btn-form'));?>
     <?php echo $this->Form->end(); ?>
 </div>
 
@@ -67,4 +67,8 @@
         $("#chkCheckAll").click(function () {
             $('input:checkbox').not(this).prop('checked', this.checked);
         });
+        
+	$("#btn_reset").click(function () {		
+            $("#CurrencyTextSearch").val('');
+	});
     </script>

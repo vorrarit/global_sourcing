@@ -2,12 +2,13 @@
 
 class AttachmentsController extends AppController {
 
-    public $uses = array('Photo', 'Video', 'FileDocument');
+    public $uses = array('Photo', 'Video', 'FileDocument' , 'Product');
 
     public function index($productId=null) {
 
         if ($this->request->is('post')) {
-
+            debug($_FILES);
+            pr($this->request->data);die();
 			$productId = $this->request->data['Product']['id'];
 			
 			//-----------------------Add Photos----------------------//   

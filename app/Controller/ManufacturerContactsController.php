@@ -73,17 +73,17 @@ class ManufacturerContactsController extends AppController {
 //            pr($this->request->data); die();
 
                 if ($this->ManufacturerContact->save($this->request->data)) {
-                    $this->Session->setFlash(__('The manufacturer contact has been saved.'));
+                    $this->Session->setFlash(__('The manufacturer contact has been saved.'), 'default', array('class' => 'alert alert-success'));
                     return $this->redirect(array('controller' => 'Manufacturers', 'action' => 'edit', $this->request->data['ManufacturerContact']['manufacturer_id']));
                 } else {
-                    $this->Session->setFlash(__('The manufacturer contact could not be saved. Please, try again.'));
+                    $this->Session->setFlash(__('The manufacturer contact could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
                 }
             } else {
                 if ($this->ManufacturerContact->save($this->request->data)) {
                     $this->Session->setFlash(__('The manufacturer contact has been saved.'));
                     return $this->redirect(array('controller' => 'Manufacturers', 'action' => 'edit', $this->request->data['ManufacturerContact']['manufacturer_id']));
                 } else {
-                    $this->Session->setFlash(__('The manufacturer contact could not be saved. Please, try again.'));
+                    $this->Session->setFlash(__('The manufacturer contact could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
                 }
             }
         }
@@ -102,10 +102,10 @@ class ManufacturerContactsController extends AppController {
         }
         if ($this->request->is(array('post', 'put'))) {
             if ($this->ManufacturerContact->save($this->request->data)) {
-                $this->Session->setFlash(__('The manufacturer contact has been saved.'));
+                $this->Session->setFlash(__('The manufacturer contact has been saved.'), 'default', array('class' => 'alert alert-success'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The manufacturer contact could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('The manufacturer contact could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
             }
         } else {
             $options = array('conditions' => array('ManufacturerContact.' . $this->ManufacturerContact->primaryKey => $id));
@@ -133,9 +133,9 @@ class ManufacturerContactsController extends AppController {
 
         $this->request->allowMethod('post', 'delete');
         if ($this->ManufacturerContact->delete()) {
-            $this->Session->setFlash(__('The manufacturer contact has been deleted.'));
+            $this->Session->setFlash(__('The manufacturer contact has been deleted.'), 'default', array('class' => 'alert alert-success'));
         } else {
-            $this->Session->setFlash(__('The manufacturer contact could not be deleted. Please, try again.'));
+            $this->Session->setFlash(__('The manufacturer contact could not be deleted. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
         }
         return $this->redirect(array('controller'=>'Manufacturers', 'action' => 'edit', $manufacturerContact['ManufacturerContact']['manufacturer_id']));
     }

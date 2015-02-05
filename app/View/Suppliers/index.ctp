@@ -7,17 +7,17 @@
     </div>
     &nbsp;
     <?php echo $this->Form->create('Supplier'); ?>
-        <div class="col-lg-12">
+    <div class="col-lg-12">
         <div class="col-lg-8">
             <fieldset>
-	<?php echo $this->Form->input('supplier_name_eng', array('label'=>false)); ?>
+                <?php echo $this->Form->input('supplier_name_eng', array('label' => false)); ?>
             </fieldset>
         </div>
         <div class="col-lg-2">
             <button type="submit" class="btn btn-primary col-lg-12"><span class="glyphicon glyphicon-search"></span>&nbsp;Search</button>
         </div>
         <div class="col-lg-2">   
-            <?php echo $this->Form->button(__('Clear'),array('onclick'=>"window.location.href='../Suppliers/index'",'type'=>'button','class'=>'btn btn-default btn-form')); ?>    
+            <?php echo $this->Form->button(__('Clear'), array('onclick' => "window.location.href='../Suppliers/index'", 'type' => 'button', 'class' => 'btn btn-default btn-form')); ?>
         </div>
         <?php echo $this->Form->end(); ?>
     </div>
@@ -26,37 +26,27 @@
 <div class="suppliers index">
 
     <?php echo $this->Form->create('Supplier', array('action' => 'multiSelect')); ?>
-
-
-
-
-
-    <h2><?php echo __('Suppliers'); ?></h2>
+    &nbsp;
     <table class="table table-hover" cellpadding="0" cellspacing="0">
         <thead>
-
             <tr>
                 <th><?php echo $this->Form->checkbox('check_all', array('id' => 'chkCheckAll')); ?></th>
                 <th><?php echo $this->Paginator->sort('Supplier_id'); ?></th>
                 <th><?php echo $this->Paginator->sort('supplier_name'); ?></th>
 
                 <th>
-
-                    <a href="../suppliers/add" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="../suppliers/add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
                     <?php echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>', array('type' => 'submit', 'class' => 'btn btn-default')); ?>
                 </th>
             </tr>
         </thead>
         <tbody>
-
-
-
-
             <?php foreach ($suppliers as $supplier): ?>
                 <tr>
                     <td><?php
                         echo $this->Form->checkbox('Supplier.id.' . $supplier['Supplier']['id'], array('class' => 'check', 'value' => $supplier['Supplier']['id']));
-                        ?></td>
+                        ?>
+                    </td>
                     <td><?php echo h($supplier['Supplier']['id']); ?>&nbsp;</td>
                     <td><?php echo h($supplier['Supplier']['supplier_name_eng']); ?>&nbsp;</td>
                     <td class="actions">
@@ -68,7 +58,6 @@
                     </td>
                 </tr>
             <?php endforeach; ?>
-
         </tbody>
     </table>
     <?php
