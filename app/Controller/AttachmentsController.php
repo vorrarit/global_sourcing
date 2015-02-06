@@ -2,16 +2,14 @@
 
 class AttachmentsController extends AppController {
 
-    public $uses = array('Photo', 'Video', 'FileDocument' , 'Product');
+    public $uses = array('Photo', 'Video', 'FileDocument', 'Product');
 
-    public function index($productId=null) {
+    public function index($productId = null) {
 
         if ($this->request->is('post')) {
-            debug($_FILES);
-            pr($this->request->data);die();
-			$productId = $this->request->data['Product']['id'];
-			
-			//-----------------------Add Photos----------------------//   
+            $productId = $this->request->data['Product']['id'];
+
+            //-----------------------Add Photos----------------------//   
             $photos = $this->request->data['Product']['photo'];
             for ($i = 0; $i < count($photos); $i++) {
                 $photo = $photos[$i];
@@ -33,7 +31,6 @@ class AttachmentsController extends AppController {
                 }
             }
             //-----------------------End Photos------------------------//
-
             //-----------------------Add Videos-----------------------//
             $videos = $this->request->data['Product']['video'];
             for ($i = 0; $i < count($videos); $i++) {
@@ -65,23 +62,22 @@ class AttachmentsController extends AppController {
 
                     $this->FileDocument->create();
                     $ext = pathinfo($doc['name'], PATHINFO_EXTENSION);
-                    $doc['FileDocument']['file_doc_name'] = 'product_FileDocument_' .$productId . '_' . $id . '.' . $ext;
+                    $doc['FileDocument']['file_doc_name'] = 'product_FileDocument_' . $productId . '_' . $id . '.' . $ext;
                     $doc['FileDocument']['file_doc_path'] = '/img/Products/docs';
                     $doc['FileDocument']['file_doc_type'] = $doc['type'];
                     $doc['FileDocument']['product_id'] = $productId;
                     $this->FileDocument->save($doc);
-                    $this->saveUploadFile($doc, 'img/Products/docs', 'product_FileDocument_' .$productId . '_' . $id . '.' . $ext);
+                    $this->saveUploadFile($doc, 'img/Products/docs', 'product_FileDocument_' . $productId . '_' . $id . '.' . $ext);
                 }
             }
 
-            $this->Session->setFlash(__('The Attachments has been saved.'),'default',array('class'=> 'alert alert-success'));
+            $this->Session->setFlash(__('The Attachments has been saved.'), 'default', array('class' => 'alert alert-success'));
 
-			return $this->redirect(array('action' => 'index', $productId));
-
+            return $this->redirect(array('action' => 'index', $productId));
         }
 
-		$this->request->data['Product']['id'] = $productId;
-	}
+        $this->request->data['Product']['id'] = $productId;
+    }
 
     public function isUploadedFilePhoto($field) {
         $map = array(

@@ -17,7 +17,7 @@ class ProductsController extends AppController {
      * @var array
      * 
      */
-    public $uses = array('Product', 'Department', 'Division', 'Klass', 'SubKlass', 'Currency', 'Unit', 'Manufacturer', 'Supplier', 'SupplierProduct', 'SupplierType');
+    public $uses = array('Product', 'Department', 'Division', 'Klass', 'SubKlass', 'Currency', 'Unit', 'Manufacturer', 'Supplier', 'SupplierProduct', 'SupplierType','Video','Photo','FileDocument');
     public $components = array('RequestHandler', 'Paginator', 'Session');
 
     public function index() {
@@ -29,6 +29,15 @@ class ProductsController extends AppController {
         $this->set(compact('divisions', 'departments', 'klasses', 'subKlasses', 'supplierTypes'));
         $this->Product->find('all');
         $this->Product->recursive = 1;
+//        $paginator = $this->Paginator->paginate();
+//        $count = count($id_product);
+//        $photo_id = array() ;
+//        for($i=0 ; $i<$count ; $i++){
+//        $photo_id[] = $id_product[$i]['Product']['id'] ;
+//        }
+//        $this->Product->find->('all',array('conditions'=>array($photo_id=>$paginator)));
+      
+        
 
         if (!empty($this->request->data)) {
             $data = $this->request->data;
@@ -39,11 +48,13 @@ class ProductsController extends AppController {
             ));
             if (!empty($data['Product']['text_search'])) {
                 $settings['Product']['conditions'][] = array('or' => array());
-                $settings['Product']['conditions']['or']['lower(Product.product_barcode_no) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
-                $settings['Product']['conditions']['or']['lower(Product.product_description_eng) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
-                $settings['Product']['conditions']['or']['lower(Product.product_sku_no) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
-                $settings['Product']['conditions']['or']['lower(Product.product_specification) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
-                $settings['Product']['conditions']['or']['lower(Manufacturer.manufac_name_eng) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+		$settings['Product']['conditions']['or']['lower(Product.product_barcode_no) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+		$settings['Product']['conditions']['or']['lower(Product.product_name) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+		$settings['Product']['conditions']['or']['lower(Product.product_sku_no) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+		$settings['Product']['conditions']['or']['lower(Product.product_specification) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+		$settings['Product']['conditions']['or']['lower(Manufacturer.manufac_name_eng) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+		$settings['Product']['conditions']['or']['lower(Product.product_description_eng) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
+		$settings['Product']['conditions']['or']['lower(Product.product_description_th) like'] = '%' . strtolower($data['Product']['text_search']) . '%';
             }
             if (!empty($data['Product']['division_id'])) {
                 $settings['Product']['conditions']['Division.id'] = $data['Product']['division_id'];
@@ -60,11 +71,15 @@ class ProductsController extends AppController {
             if (!empty($data['Product']['product_barcode_no'])) {
                 $settings['Product']['conditions']['lower(Product.product_barcode_no) like'] = '%' . strtolower($data['Product']['product_barcode_no']) . '%';
             }
-            if (!empty($data['Product']['product_description_eng'])) {
-                $settings['Product']['conditions']['lower(Product.product_description_eng) like'] = '%' . strtolower($data['Product']['product_description_eng']) . '%';
+            if (!empty($data['Product']['product_description'])) {
+				$settings['Product']['conditions'][] = array('or' => array());
+                $settings['Product']['conditions']['or']['lower(Product.product_description_th) like'] = '%' . strtolower($data['Product']['product_description']) . '%';
+				$settings['Product']['conditions']['or']['lower(Product.product_description_eng) like'] = '%' . strtolower($data['Product']['product_description']) . '%';
             }
+			
+			
             if (!empty($data['Product']['product_sku_no'])) {
-                $settings['Product']['conditions']['lower(Supplier.product_sku_no) like'] = '%' . strtolower($data['Product']['product_sku_no']) . '%';
+                $settings['Product']['conditions']['lower(Product.product_sku_no) like'] = '%' . strtolower($data['Product']['product_sku_no']) . '%';
             }
             if (!empty($data['Product']['product_specification'])) {
                 $settings['Product']['conditions']['lower(Product.product_specification) like'] = '%' . strtolower($data['Product']['product_specification']) . '%';
@@ -72,8 +87,10 @@ class ProductsController extends AppController {
             if (!empty($data['Product']['manufac_name_eng'])) {
                 $settings['Product']['conditions']['lower(Manufacturer.manufac_name_eng) like'] = '%' . strtolower($data['Product']['manufac_name_eng']) . '%';
             }
-            if (!empty($data['Product']['supplier_name_eng'])) {
-                $settings['SupplierProduct']['conditions']['lower(SupplierProduct.supplier_name_eng) like'] = '%' . strtolower($data['Product']['supplier_name_eng']) . '%';
+            if (!empty($data['Product']['supplier_name'])) {
+				$settings['SupplierProduct']['conditions'][] = array('or' => array());
+                $settings['SupplierProduct']['conditions']['or']['lower(SupplierProduct.supplier_name_th) like'] = '%' . strtolower($data['Product']['supplier_name']) . '%';
+				$settings['SupplierProduct']['conditions']['or']['lower(SupplierProduct.supplier_name_eng) like'] = '%' . strtolower($data['Product']['supplier_name']) . '%';
             }
             if (!empty($data['Product']['supplier_type_id'])) {
                 $settings['SupplierProduct']['conditions']['SupplierProduct.supplier_type_id'] = $data['Product']['supplier_type_id'];
@@ -343,11 +360,16 @@ class ProductsController extends AppController {
         if (!$this->Product->exists()) {
             throw new NotFoundException(__('Invalid product'));
         }
-        $this->Product->delete($id);
+
         $this->SupplierProduct->deleteAll(array('SupplierProduct.product_id'=>$id), false);
+
         $this->Video->deleteAll(array('Video.product_id'=>$id), false);
+
         $this->Photo->deleteAll(array('Photo.product_id'=>$id), false);
+
         $this->FileDocument->deleteAll(array('FileDocument.product_id'=>$id), false);
+        
+        $this->Product->delete($id);
         
         $this->Session->setFlash(__('The product has been deleted.'), 'default', array('class' => 'alert alert-success'));
 

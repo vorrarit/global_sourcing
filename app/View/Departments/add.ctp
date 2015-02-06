@@ -5,7 +5,7 @@
         <?php
                 echo $this->Form->input('id',array('type'=>'text','readonly'=>true));		
 		echo $this->Form->input('division_id',array(
-                  'empty'=>'Please Select'));
+                  'empty'=>'Please Select','required'=>true));
                 echo $this->Form->input('department_name',array('required'=>true));
 	?>
     </fieldset>

@@ -67,11 +67,10 @@ class SupplierContactsController extends AppController {
                 $this->request->data['SupplierContact']['id'] = $supplierContactId;
                 
                 if ($this->SupplierContact->save($this->request->data)) {
-                    $this->Session->setFlash(__('The supplier contact has been saved.'));
-                    
+                    $this->Session->setFlash(__('The supplier contact has been saved.'), 'default', array('class' => 'alert alert-success'));                 
                     return $this->redirect(array('controller' => 'Suppliers', 'action' => 'edit', $this->request->data['SupplierContact']['supplier_id']));
                 } else {
-                    $this->Session->setFlash(__('The supplier contact could not be saved. Please, try again.'));
+                    $this->Session->setFlash(__('The supplier contact could not be saved. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
                 }
             } else {
 
