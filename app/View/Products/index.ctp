@@ -103,7 +103,7 @@
                 echo h($product['Product']['id']) . "<br>";
                 echo h($product['Product']['product_name']) . "<br>";
                 echo h($product['Product']['retail_price'].'  ');
-						if(!empty( $product['Currency']['currency_name'] && $product['Unit']['unit_name'])){
+						if(!empty( $product['Currency']['currency_name']) && !empty($product['Unit']['unit_name'])){
 							echo $product['Currency']['currency_name'].' / '.$product['Unit']['unit_name']; 
 							
 						}

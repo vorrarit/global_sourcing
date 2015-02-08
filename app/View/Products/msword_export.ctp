@@ -75,7 +75,7 @@
 						<?php echo h($product['Product']['product_specification']); ?>
                     <dt><?php echo __('Retail Price'); ?></dt>
 						<?php echo h($product['Product']['retail_price'].'  ');
-						if(!empty( $product['Currency']['currency_name'] && $product['Unit']['unit_name'])){
+						if(!empty( $product['Currency']['currency_name']) && !empty($product['Unit']['unit_name'])){
 							echo h($product['Currency']['currency_name'].' / '.$product['Unit']['unit_name']); 
 						}
 						else if(!empty( $product['Currency']['currency_name'])){

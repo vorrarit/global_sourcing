@@ -86,10 +86,11 @@ class AttachmentsController extends AppController {
             'image/png' => '.png'
         );
         if ((isset($field['error']) && $field['error'] == 0) ||
-                (!empty($field['tmp_name']) && $field['tmp_name'] != 'none')
-        ) {
+                (!empty($field['tmp_name']) && $field['tmp_name'] != 'none')) {
             if (array_key_exists($field['type'], $map)) {
-                return is_uploaded_file($field['tmp_name']);
+                if($field['size']<=10485760){
+                   return is_uploaded_file($field['tmp_name']);
+                }
             }
         }
         return false;
@@ -102,11 +103,10 @@ class AttachmentsController extends AppController {
             'video/flv' => '.flv'
         );
         if ((isset($field['error']) && $field['error'] == 0) ||
-                (!empty($field['tmp_name']) && $field['tmp_name'] != 'none')
-        ) {
-//            if (array_key_exists($field['type'], $map)) {
-            return is_uploaded_file($field['tmp_name']);
-//            }
+                (!empty($field['tmp_name']) && $field['tmp_name'] != 'none')) {
+              if($field['size']<=10485760){
+                    return is_uploaded_file($field['tmp_name']);
+              }
         }
         return false;
     }
